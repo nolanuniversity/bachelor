@@ -99,6 +99,18 @@ input,select,textarea{color-scheme:light only}
 .hero-visual{position:relative;width:100%;max-width:520px;margin-left:auto}
 .hero-image-frame{position:relative;width:100%;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid rgba(197,160,40,.4);box-shadow:0 30px 70px -25px rgba(0,0,0,.7);background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy-light) 100%)}
 .hero-image-frame img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* HERO SLIDER */
+.hero-slides{position:absolute;inset:0;z-index:1}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;pointer-events:none}
+.hero-slide.active{opacity:1;pointer-events:auto}
+.hero-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-slider-dots{position:absolute;top:14px;right:14px;display:flex;gap:6px;z-index:5;padding:7px 12px;background:rgba(10,28,58,.75);border-radius:50px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(197,160,40,.4);flex-wrap:nowrap}
+.hero-slider-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer;border:none;padding:0;transition:all .3s ease;flex-shrink:0}
+.hero-slider-dot:hover{background:rgba(255,255,255,.6)}
+.hero-slider-dot.active{background:var(--gold);width:22px;border-radius:20px;box-shadow:0 0 8px var(--gold)}
+@media(max-width:600px){.hero-slider-dots{top:10px;right:10px;padding:6px 10px;gap:5px}.hero-slider-dot{width:7px;height:7px}.hero-slider-dot.active{width:18px}}
+
 .img-placeholder-badge{position:absolute;top:14px;left:14px;background:rgba(10,28,58,.85);border:1px solid rgba(197,160,40,.5);color:var(--gold-light);font-size:10.5px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:50px;text-transform:uppercase;z-index:3;backdrop-filter:blur(6px)}
 .hero-badge-floating{position:absolute;bottom:20px;left:20px;right:20px;background:linear-gradient(135deg, rgba(6,18,37,.96), rgba(10,28,58,.96));border:1px solid rgba(197,160,40,.5);border-radius:14px;padding:16px 18px;color:#fff;z-index:3;backdrop-filter:blur(10px)}
 .hero-badge-floating .hbf-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:6px}
@@ -205,9 +217,7 @@ input,select,textarea{color-scheme:light only}
 .outcome-box.bad .outcome-quote{color:#999}
 .outcome-box.good .outcome-quote{color:var(--navy);font-weight:600}
 
-/* ==========================================
-   TUITION & FEES SECTION
-   ========================================== */
+/* TUITION */
 .fee-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;border-radius:20px;padding:48px 44px;margin-bottom:36px;box-shadow:var(--shadow-xl);position:relative;overflow:hidden}
 .fee-hero::before{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(197,160,40,.15) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
 .fee-hero-main{position:relative;z-index:2}
@@ -291,7 +301,7 @@ input,select,textarea{color-scheme:light only}
 .st-tier-btn{background:var(--navy);color:#fff;padding:12px 22px;border-radius:8px;font-size:13.5px;font-weight:700;text-align:center;transition:var(--transition);border:none;cursor:pointer;width:100%}
 .st-tier-btn:hover{background:var(--navy-light);transform:translateY(-2px);box-shadow:0 8px 16px rgba(10,28,58,.2)}
 
-/* ELIGIBILITY CHECKER */
+/* ELIGIBILITY */
 .eligibility-wrapper{background:#fff;border-radius:var(--radius);padding:44px 40px;box-shadow:var(--shadow-xl);border:2px solid var(--gold);margin-top:50px;max-width:900px;margin-left:auto;margin-right:auto;position:relative}
 .eligibility-wrapper::before{content:'ELIGIBILITY CHECK';position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy-dark);padding:6px 20px;border-radius:50px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
 .eligibility-wrapper h3{font-size:clamp(1.3rem,2.6vw,1.7rem);color:var(--navy);text-align:center;margin-bottom:10px;font-family:'Playfair Display',serif}
@@ -584,7 +594,7 @@ input,select,textarea{color-scheme:light only}
       <span><i class="fas fa-star"></i> Flagship Degree · Founding Cohort 2026</span>
     </div>
     <div class="top-bar-right">
-      <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Nolan Institute</a>
+      <a href="https://nigbt.nolanuniversity.org/"><i class="fas fa-arrow-left"></i> Back to Nolan Institute</a>
     </div>
   </div>
 </div>
@@ -592,7 +602,7 @@ input,select,textarea{color-scheme:light only}
 <!-- HEADER -->
 <header class="main-header" id="mainHeader">
   <div class="container">
-    <a href="index.html" class="logo">
+    <a href="https://nigbt.nolanuniversity.org/" class="logo">
       <span class="logo-name">NOLAN INSTITUTE</span>
       <span class="logo-tag">Learn. Innovate. Lead.</span>
     </a>
@@ -632,7 +642,7 @@ input,select,textarea{color-scheme:light only}
   <div class="container">
     <div class="flag-hero-grid">
       <div class="flag-hero-inner">
-        <span class="flag-badge"><i class="fas fa-crown"></i> Flagship Programme · Founding Cohort 2026</span>
+        <span class="flag-badge"><i class="fas fa-crown"></i> Application Now Open · Starting Now Or 2027</span>
         <h1>Bachelor of <span class="gold">Global Business</span><br>&amp; Technology</h1>
         <p class="flag-sub">A 3-year online degree for a new generation of business professionals who understand both business fundamentals and emerging technologies — and can apply them to real-world problems in a global environment.</p>
 
@@ -650,12 +660,14 @@ input,select,textarea{color-scheme:light only}
 
       <div class="hero-visual">
         <div class="hero-image-frame">
-          <span class="img-placeholder-badge"><i class="fas fa-image"></i> Replace with your image</span>
-          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1000&q=80" alt="Bachelor of Global Business & Technology students">
-          <div class="hero-badge-floating">
-            <div class="hbf-label">Founding Cohort 2026</div>
-            <div class="hbf-title">Business · Technology · Leadership</div>
-            <div class="hbf-sub">Learn. Innovate. Lead.</div>
+          <div class="hero-slides" id="heroSlides">
+            <div class="hero-slide active"><img src="897ea44a-8320-4064-aa6c-34149aff0152.png" alt="Bachelor of Global Business & Technology"></div>
+            <div class="hero-slide"><img src="c1f1d920-2606-486f-bb79-2ddae6121603.png" alt="Bachelor of Global Business & Technology"></div>
+            <div class="hero-slide"><img src="f7c82edd-17bf-4c8d-9f56-2b2e688a18ac.png" alt="Bachelor of Global Business & Technology"></div>
+            <div class="hero-slide"><img src="6be57b2e-c456-4d0e-98d2-a1dbaf671e46.png" alt="Bachelor of Global Business & Technology"></div>
+            <div class="hero-slide"><img src="8d627792-b117-43ac-a134-9e4ee81f4a29.png" alt="Bachelor of Global Business & Technology"></div>
+          </div>
+          <div class="hero-slider-dots" id="heroSliderDots"></div>
           </div>
         </div>
       </div>
@@ -1486,7 +1498,7 @@ input,select,textarea{color-scheme:light only}
   <div class="container">
     <div class="apply-head">
       <span class="section-tag">Central Application</span>
-      <h2>Apply to the Founding Cohort 2026</h2>
+      <h2>Apply to Starting Now or 2027</h2>
       <p>Complete your application for the Bachelor of Global Business &amp; Technology directly below. Six short steps. Takes about 10 minutes.</p>
     </div>
 
@@ -2238,7 +2250,46 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
 
   updateUI();
 })();
+/* ==============================
+   HERO SLIDER
+   ============================== */
+(function heroSlider(){
+  const slides = document.querySelectorAll('#heroSlides .hero-slide');
+  const dotsContainer = document.getElementById('heroSliderDots');
+  if(!slides.length || !dotsContainer) return;
 
+  const ROTATE_MS = 4500;
+  let current = 0;
+  let timer;
+
+  /* Build dots */
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.className = 'hero-slider-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    dot.addEventListener('click', () => { showSlide(i); resetTimer(); });
+    dotsContainer.appendChild(dot);
+  });
+  const dots = dotsContainer.querySelectorAll('.hero-slider-dot');
+
+  function showSlide(i){
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+    current = i;
+  }
+  function next(){ showSlide((current + 1) % slides.length); }
+  function resetTimer(){ clearInterval(timer); timer = setInterval(next, ROTATE_MS); }
+
+  /* Pause on hover of the frame */
+  const frame = slides[0].closest('.hero-image-frame');
+  if(frame){
+    frame.addEventListener('mouseenter', () => clearInterval(timer));
+    frame.addEventListener('mouseleave', resetTimer);
+  }
+
+  resetTimer();
+})();
 console.log('Nolan Institute — Bachelor of Global Business & Technology · Full flagship page loaded.');
 </script>
 </body>
