@@ -513,6 +513,24 @@ input,select,textarea{color-scheme:light only}
 .apply-toast.error{background:var(--error)}
 .apply-toast i{color:#fff;font-size:15px;flex-shrink:0}
 
+/* FILE UPLOAD */
+.upload-drop{position:relative;border:2px dashed var(--gray-mid);border-radius:12px;padding:22px 20px;text-align:center;cursor:pointer;transition:var(--transition);background:var(--off-white)}
+.upload-drop:hover{border-color:var(--gold);background:#fff}
+.upload-drop.dragover{border-color:var(--gold);background:var(--gold-10);transform:scale(1.01)}
+.upload-drop.has-file{border-style:solid;border-color:var(--gold);background:#fff;text-align:left;padding:14px 16px}
+.upload-drop input[type="file"]{display:none}
+.upload-empty{display:flex;flex-direction:column;align-items:center;gap:4px;pointer-events:none}
+.upload-empty i{font-size:26px;color:var(--gold-dark);margin-bottom:4px}
+.upload-text{font-size:13.5px;font-weight:600;color:var(--navy)}
+.upload-hint{font-size:11.5px;color:var(--gray-dark)}
+.upload-filled{display:flex;align-items:center;gap:14px}
+.upload-filled > i{font-size:26px;color:var(--gold-dark);flex-shrink:0;width:28px;text-align:center}
+.upload-meta{flex:1;min-width:0}
+.upload-name{font-size:13.5px;font-weight:700;color:var(--navy);word-break:break-all;line-height:1.4}
+.upload-size{font-size:11.5px;color:var(--gray-dark);margin-top:2px}
+.upload-remove{background:transparent;border:none;color:var(--gray-dark);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition);flex-shrink:0}
+.upload-remove:hover{background:var(--gray-light);color:var(--error)}
+
 /* FINAL CTA */
 .final-cta{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 60%,var(--navy-light) 100%);color:#fff;text-align:center;padding:80px 0;position:relative;overflow:hidden}
 .final-cta::before{content:'';position:absolute;top:-50%;left:-20%;width:700px;height:700px;background:radial-gradient(circle,rgba(197,160,40,.16) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
@@ -575,6 +593,11 @@ input,select,textarea{color-scheme:light only}
   .hero-visual{max-width:100%}
   .scholarship-hero h2 .big{font-size:1.15em}
   .apply-nav .btn{flex:1;min-width:130px}
+  .apply-progress{gap:4px}
+  .apply-step{min-width:52px}
+  .apply-step-circle{width:30px;height:30px;font-size:11.5px}
+  .apply-step-label{font-size:9px}
+  .apply-progress::before{top:15px}
 }
 @media(max-width:400px){
   .container{padding:0 12px}
@@ -1499,20 +1522,22 @@ input,select,textarea{color-scheme:light only}
     <div class="apply-head">
       <span class="section-tag">Central Application</span>
       <h2>Apply to Starting Now or 2027</h2>
-      <p>Complete your application for the Bachelor of Global Business &amp; Technology directly below. Six short steps. Takes about 10 minutes.</p>
+      <p>Complete your application for the Bachelor of Global Business &amp; Technology directly below. Seven short steps. Takes about 10 minutes.</p>
     </div>
 
     <div class="apply-progress" id="applyProgress">
       <div class="apply-step active" data-apply-step="1"><div class="apply-step-circle">1</div><div class="apply-step-label">Personal</div></div>
-      <div class="apply-step" data-apply-step="2"><div class="apply-step-circle">2</div><div class="apply-step-label">Academic</div></div>
-      <div class="apply-step" data-apply-step="3"><div class="apply-step-circle">3</div><div class="apply-step-label">Scholarship</div></div>
-      <div class="apply-step" data-apply-step="4"><div class="apply-step-circle">4</div><div class="apply-step-label">Essays</div></div>
-      <div class="apply-step" data-apply-step="5"><div class="apply-step-circle">5</div><div class="apply-step-label">Documents</div></div>
-      <div class="apply-step" data-apply-step="6"><div class="apply-step-circle">6</div><div class="apply-step-label">Review</div></div>
+      <div class="apply-step" data-apply-step="2"><div class="apply-step-circle">2</div><div class="apply-step-label">Payment</div></div>
+      <div class="apply-step" data-apply-step="3"><div class="apply-step-circle">3</div><div class="apply-step-label">Academic</div></div>
+      <div class="apply-step" data-apply-step="4"><div class="apply-step-circle">4</div><div class="apply-step-label">Scholarship</div></div>
+      <div class="apply-step" data-apply-step="5"><div class="apply-step-circle">5</div><div class="apply-step-label">Essays</div></div>
+      <div class="apply-step" data-apply-step="6"><div class="apply-step-circle">6</div><div class="apply-step-label">Documents</div></div>
+      <div class="apply-step" data-apply-step="7"><div class="apply-step-circle">7</div><div class="apply-step-label">Review</div></div>
     </div>
 
-    <form class="apply-form" id="applyForm" novalidate>
+    <form class="apply-form" id="applyForm" novalidate enctype="multipart/form-data">
 
+      <!-- STEP 1 · PERSONAL -->
       <div class="apply-section-form active" data-apply-form="1">
         <h3>Personal Information</h3>
         <p class="as-sub">Tell us a little about yourself. All fields marked * are required.</p>
@@ -1549,7 +1574,98 @@ input,select,textarea{color-scheme:light only}
         </div>
       </div>
 
+      <!-- STEP 2 · PAYMENT -->
       <div class="apply-section-form" data-apply-form="2">
+        <h3>Application Fee &amp; Payment</h3>
+        <p class="as-sub">A non-refundable application fee applies to all applications. Choose how you would like to handle it.</p>
+
+        <div class="apply-fee-panel">
+          <h4><i class="fas fa-credit-card"></i> Application Fee</h4>
+          <p>Standard fee: <strong>K250</strong> (Local / African applicants) or <strong>US$25</strong> (International applicants).</p>
+          <p><strong>Reduced fee:</strong> K100 / US$10 — for applicants requesting scholarship consideration.</p>
+          <p><strong>Fee waiver:</strong> available where financial need is critical.</p>
+          <p><i class="fas fa-info-circle" style="color:var(--gold-dark);margin-right:6px;"></i>
+            Your final fee is confirmed after your scholarship assessment in the next steps. If you are granted a reduced or waived fee, any excess already paid will be credited or refunded.</p>
+        </div>
+
+        <div class="apply-form-group">
+          <label>When would you like to pay? <span class="req">*</span></label>
+          <div class="apply-radio-grid" id="apPaymentTiming">
+            <button type="button" class="apply-radio" data-value="now">
+              <span class="ar-check"></span>
+              <div class="ar-content">
+                <div class="ar-title">Pay now</div>
+                <div class="ar-desc">Complete the application fee now using mobile money, card, or bank transfer.</div>
+              </div>
+            </button>
+            <button type="button" class="apply-radio" data-value="later">
+              <span class="ar-check"></span>
+              <div class="ar-content">
+                <div class="ar-title">Pay later</div>
+                <div class="ar-desc">We'll email you a payment link once your scholarship decision is confirmed.</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div id="apPaymentDetails" style="display:none;">
+          <div class="apply-form-group">
+            <label>Payment Method <span class="req">*</span></label>
+            <div class="apply-radio-grid" id="apPaymentMethod">
+              <button type="button" class="apply-radio" data-value="mobile">
+                <span class="ar-check"></span>
+                <div class="ar-content"><div class="ar-title">Mobile Money</div><div class="ar-desc">Airtel Money · MTN · Zamtel Kwacha</div></div>
+              </button>
+              <button type="button" class="apply-radio" data-value="card">
+                <span class="ar-check"></span>
+                <div class="ar-content"><div class="ar-title">Debit / Credit Card</div><div class="ar-desc">Visa · Mastercard</div></div>
+              </button>
+              <button type="button" class="apply-radio" data-value="bank">
+                <span class="ar-check"></span>
+                <div class="ar-content"><div class="ar-title">Bank Transfer</div><div class="ar-desc">Local and international transfers</div></div>
+              </button>
+            </div>
+          </div>
+
+          <div class="apply-form-grid" id="apMobileFields" style="display:none;">
+            <div class="apply-form-group"><label>Mobile Money Number <span class="req">*</span></label><input type="tel" id="apMomoNumber" placeholder="e.g. 0977 000 000"></div>
+            <div class="apply-form-group">
+              <label>Network Provider <span class="req">*</span></label>
+              <select id="apMomoProvider">
+                <option value="">Select Provider</option>
+                <option>Airtel Money</option>
+                <option>MTN Mobile Money</option>
+                <option>Zamtel Kwacha</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="apply-form-grid" id="apCardFields" style="display:none;">
+            <div class="apply-form-group full"><label>Name on Card <span class="req">*</span></label><input type="text" id="apCardName" autocomplete="cc-name"></div>
+            <div class="apply-form-group full"><label>Card Number <span class="req">*</span></label><input type="text" id="apCardNumber" inputmode="numeric" maxlength="23" placeholder="0000 0000 0000 0000" autocomplete="cc-number"></div>
+            <div class="apply-form-group"><label>Expiry (MM/YY) <span class="req">*</span></label><input type="text" id="apCardExpiry" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp"></div>
+            <div class="apply-form-group"><label>CVV <span class="req">*</span></label><input type="text" id="apCardCvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc"></div>
+          </div>
+
+          <div id="apBankFields" style="display:none;">
+            <div class="scholarship-flag" style="margin-bottom:0;">
+              <i class="fas fa-university"></i>
+              <div class="sf-text">
+                <strong>Bank transfer details</strong>
+                <p>Our bank details will be emailed to you as soon as you submit your application. Your application is processed once the transfer is confirmed.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="apply-checks" style="margin-top:24px;">
+          <label><input type="checkbox" id="apFeeAgree"> I understand the application fee is non-refundable, and that my application is only processed once payment is received or a fee waiver is granted.</label>
+        </div>
+      </div>
+
+      <!-- STEP 3 · ACADEMIC -->
+      <div class="apply-section-form" data-apply-form="3">
         <h3>Academic Background</h3>
         <p class="as-sub">Tell us about your education so far.</p>
 
@@ -1575,7 +1691,8 @@ input,select,textarea{color-scheme:light only}
         </div>
       </div>
 
-      <div class="apply-section-form" data-apply-form="3">
+      <!-- STEP 4 · SCHOLARSHIP -->
+      <div class="apply-section-form" data-apply-form="4">
         <h3>Scholarship Assessment</h3>
         <p class="as-sub">All applicants are considered for scholarships ranging from 70% to 100% of tuition. Answer honestly — this helps us place you correctly.</p>
 
@@ -1628,7 +1745,8 @@ input,select,textarea{color-scheme:light only}
         </div>
       </div>
 
-      <div class="apply-section-form" data-apply-form="4">
+      <!-- STEP 5 · ESSAYS -->
+      <div class="apply-section-form" data-apply-form="5">
         <h3>Short Essays</h3>
         <p class="as-sub">Help us understand you and your ambition. Keep it honest and specific.</p>
 
@@ -1645,28 +1763,83 @@ input,select,textarea{color-scheme:light only}
         </div>
       </div>
 
-      <div class="apply-section-form" data-apply-form="5">
+      <!-- STEP 6 · DOCUMENTS -->
+      <div class="apply-section-form" data-apply-form="6">
         <h3>Supporting Documents</h3>
-        <p class="as-sub">Upload your documents. PDF preferred.</p>
+        <p class="as-sub">
+          Upload your documents. PDF preferred. Files are validated before being accepted to protect your
+          device's memory — if a file is too large, you'll be prompted to compress it or email it to
+          <strong>admissions@nolaninstitute.org</strong>.
+        </p>
 
         <div class="apply-form-group">
           <label>Resume / CV <span class="req">*</span></label>
-          <input type="file" id="apResume" accept=".pdf,.doc,.docx">
+          <div class="upload-drop" data-upload-for="apResume">
+            <input type="file" id="apResume"
+                   accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+            <div class="upload-empty">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <div class="upload-text">Tap to browse or drag &amp; drop</div>
+              <div class="upload-hint">PDF or DOC · max 5MB</div>
+            </div>
+            <div class="upload-filled" style="display:none;">
+              <i class="fas fa-file-alt"></i>
+              <div class="upload-meta">
+                <div class="upload-name"></div>
+                <div class="upload-size"></div>
+              </div>
+              <button type="button" class="upload-remove" aria-label="Remove file"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
           <div class="apply-helper">PDF or DOC · max 5MB</div>
         </div>
+
         <div class="apply-form-group">
           <label>Academic Record (Transcript, Certificate, or Results Slip) <span class="req">*</span></label>
-          <input type="file" id="apTranscript" accept=".pdf">
+          <div class="upload-drop" data-upload-for="apTranscript">
+            <input type="file" id="apTranscript" accept=".pdf,application/pdf">
+            <div class="upload-empty">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <div class="upload-text">Tap to browse or drag &amp; drop</div>
+              <div class="upload-hint">PDF · max 10MB</div>
+            </div>
+            <div class="upload-filled" style="display:none;">
+              <i class="fas fa-file-pdf"></i>
+              <div class="upload-meta">
+                <div class="upload-name"></div>
+                <div class="upload-size"></div>
+              </div>
+              <button type="button" class="upload-remove" aria-label="Remove file"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
           <div class="apply-helper">PDF · max 10MB</div>
         </div>
+
         <div class="apply-form-group">
           <label>Supporting Document for Scholarship (Optional)</label>
-          <input type="file" id="apScholarshipDoc" accept=".pdf,.jpg,.png">
+          <div class="upload-drop" data-upload-for="apScholarshipDoc">
+            <input type="file" id="apScholarshipDoc"
+                   accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+            <div class="upload-empty">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <div class="upload-text">Tap to browse or drag &amp; drop</div>
+              <div class="upload-hint">PDF, JPG or PNG · max 5MB</div>
+            </div>
+            <div class="upload-filled" style="display:none;">
+              <i class="fas fa-file-image"></i>
+              <div class="upload-meta">
+                <div class="upload-name"></div>
+                <div class="upload-size"></div>
+              </div>
+              <button type="button" class="upload-remove" aria-label="Remove file"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
           <div class="apply-helper">Optional — any document supporting your scholarship case (financial statement, recommendation, achievement record).</div>
         </div>
       </div>
 
-      <div class="apply-section-form" data-apply-form="6">
+      <!-- STEP 7 · REVIEW -->
+      <div class="apply-section-form" data-apply-form="7">
         <h3>Review &amp; Submit</h3>
         <p class="as-sub">Check everything is correct before submitting.</p>
 
@@ -1763,6 +1936,23 @@ input,select,textarea{color-scheme:light only}
 <div class="apply-toast" id="applyToast"><i class="fas fa-check-circle"></i><span id="applyToastMsg"></span></div>
 
 <script>
+/* =============================================================
+   PAGE ENTRY FIX
+   Prevent the browser from auto-restoring a scroll position that
+   lands on the Central Application. On first load we want the
+   hero section visible.
+   ============================================================= */
+(function pageEntryFix(){
+  if ('scrollRestoration' in history) {
+    try { history.scrollRestoration = 'manual'; } catch(e) {}
+  }
+  window.addEventListener('load', function(){
+    if (!window.location.hash || window.location.hash === '#apply' || window.location.hash === '') {
+      window.scrollTo(0, 0);
+    }
+  });
+})();
+
 const $ = s => document.querySelector(s);
 const $$ = s => document.querySelectorAll(s);
 const USD_RATE = 20;
@@ -2049,7 +2239,13 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
   const sections = document.querySelectorAll('.apply-section-form');
   const totalSections = sections.length;
   let current = 1;
-  const state = { scholarshipInterest: null, financialNeed: null, leadership: null };
+  const state = {
+    paymentTiming: null,
+    paymentMethod: null,
+    scholarshipInterest: null,
+    financialNeed: null,
+    leadership: null
+  };
 
   const prevBtn = document.getElementById('apPrev');
   const nextBtn = document.getElementById('apNext');
@@ -2061,10 +2257,16 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
     toastMsg.textContent = msg;
     toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : '');
     clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 3000);
+    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 4000);
   }
 
-  function updateUI(){
+  /* ---------------------------------------------------------
+     updateUI(scroll)
+     — scroll === false  → do not scroll (used on page load)
+     — scroll === true   → scroll to top of the application
+                            (used only when the user navigates)
+     --------------------------------------------------------- */
+  function updateUI(scroll){
     sections.forEach((s, i) => s.classList.toggle('active', i + 1 === current));
     document.querySelectorAll('.apply-step').forEach((s, i) => {
       s.classList.toggle('active', i + 1 === current);
@@ -2079,7 +2281,29 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
       nextBtn.style.display = 'inline-flex';
       submitBtn.style.display = 'none';
     }
-    window.scrollTo({ top: document.getElementById('apply').offsetTop - 20, behavior: 'smooth' });
+    if(scroll){
+      const applyTop = document.getElementById('apply').offsetTop - 20;
+      window.scrollTo({ top: applyTop, behavior: 'smooth' });
+    }
+  }
+
+  /* ---------- Payment UI ---------- */
+  function updatePaymentUI(){
+    const details = document.getElementById('apPaymentDetails');
+    const payNow = state.paymentTiming === 'now';
+    if(details) details.style.display = payNow ? 'block' : 'none';
+
+    const m = state.paymentMethod;
+    const showMobile = payNow && m === 'mobile';
+    const showCard   = payNow && m === 'card';
+    const showBank   = payNow && m === 'bank';
+
+    const mf = document.getElementById('apMobileFields');
+    const cf = document.getElementById('apCardFields');
+    const bf = document.getElementById('apBankFields');
+    if(mf) mf.style.display = showMobile ? 'grid' : 'none';
+    if(cf) cf.style.display = showCard ? 'grid' : 'none';
+    if(bf) bf.style.display = showBank ? 'block' : 'none';
   }
 
   document.querySelectorAll('.apply-radio-grid').forEach(function(group){
@@ -2092,10 +2316,38 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
         if(groupId === 'apScholarshipInterest') state.scholarshipInterest = value;
         if(groupId === 'apFinancialNeed') state.financialNeed = value;
         if(groupId === 'apLeadership') state.leadership = value;
+        if(groupId === 'apPaymentTiming'){ state.paymentTiming = value; updatePaymentUI(); }
+        if(groupId === 'apPaymentMethod'){ state.paymentMethod = value; updatePaymentUI(); }
       });
     });
   });
 
+  /* ---------- Input formatting ---------- */
+  (function paymentInputFormatting(){
+    const cardNum = document.getElementById('apCardNumber');
+    if(cardNum){
+      cardNum.addEventListener('input', function(){
+        const v = this.value.replace(/\D/g, '').slice(0, 19);
+        this.value = v.replace(/(.{4})/g, '$1 ').trim();
+      });
+    }
+    const expiry = document.getElementById('apCardExpiry');
+    if(expiry){
+      expiry.addEventListener('input', function(){
+        let v = this.value.replace(/\D/g, '').slice(0, 4);
+        if(v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
+        this.value = v;
+      });
+    }
+    const cvv = document.getElementById('apCardCvv');
+    if(cvv){
+      cvv.addEventListener('input', function(){
+        this.value = this.value.replace(/\D/g, '').slice(0, 4);
+      });
+    }
+  })();
+
+  /* ---------- Validation ---------- */
   function validate(n){
     if(n === 1){
       const req = ['apFirstName','apLastName','apEmail','apPhone','apDob','apCountry'];
@@ -2111,7 +2363,49 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
         return false;
       }
     }
+
     if(n === 2){
+      if(!state.paymentTiming){
+        showToast('Please choose when you would like to pay the application fee.', 'error');
+        return false;
+      }
+      const agree = document.getElementById('apFeeAgree');
+      if(agree && !agree.checked){
+        showToast('Please confirm you understand the application fee terms.', 'error');
+        return false;
+      }
+      if(state.paymentTiming === 'now'){
+        if(!state.paymentMethod){
+          showToast('Please select a payment method.', 'error');
+          return false;
+        }
+        if(state.paymentMethod === 'mobile'){
+          const num = document.getElementById('apMomoNumber');
+          const prov = document.getElementById('apMomoProvider');
+          if(!num.value.trim()){ num.classList.add('err'); showToast('Please enter your mobile money number.', 'error'); return false; }
+          num.classList.remove('err');
+          if(!prov.value){ prov.classList.add('err'); showToast('Please select your network provider.', 'error'); return false; }
+          prov.classList.remove('err');
+        }
+        if(state.paymentMethod === 'card'){
+          const cn = document.getElementById('apCardName');
+          const numEl = document.getElementById('apCardNumber');
+          const exp = document.getElementById('apCardExpiry');
+          const cv = document.getElementById('apCardCvv');
+          const digits = numEl.value.replace(/\s+/g, '');
+          if(!cn.value.trim()){ cn.classList.add('err'); showToast('Please enter the name on your card.', 'error'); return false; }
+          cn.classList.remove('err');
+          if(!/^\d{13,19}$/.test(digits)){ numEl.classList.add('err'); showToast('Please enter a valid card number.', 'error'); return false; }
+          numEl.classList.remove('err');
+          if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(exp.value.trim())){ exp.classList.add('err'); showToast('Please enter a valid expiry date (MM/YY).', 'error'); return false; }
+          exp.classList.remove('err');
+          if(!/^\d{3,4}$/.test(cv.value.trim())){ cv.classList.add('err'); showToast('Please enter a valid CVV.', 'error'); return false; }
+          cv.classList.remove('err');
+        }
+      }
+    }
+
+    if(n === 3){
       const req = ['apSchool','apDegree','apYear'];
       for(const id of req){
         const el = document.getElementById(id);
@@ -2119,12 +2413,14 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
         el.classList.remove('err');
       }
     }
-    if(n === 3){
+
+    if(n === 4){
       if(!state.scholarshipInterest){ showToast('Please indicate whether you\'d like scholarship consideration.', 'error'); return false; }
       if(!state.financialNeed){ showToast('Please answer the financial need question.', 'error'); return false; }
       if(!state.leadership){ showToast('Please answer the leadership question.', 'error'); return false; }
     }
-    if(n === 4){
+
+    if(n === 5){
       const e1 = document.getElementById('apEssay1').value.trim();
       const e2 = document.getElementById('apEssay2').value.trim();
       if(e1.split(/\s+/).filter(Boolean).length < 150){
@@ -2140,7 +2436,8 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
       }
       document.getElementById('apEssay2').classList.remove('err');
     }
-    if(n === 5){
+
+    if(n === 6){
       const r = document.getElementById('apResume');
       const t = document.getElementById('apTranscript');
       if(!r.files.length){ showToast('Please upload your CV.', 'error'); return false; }
@@ -2152,6 +2449,7 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
   function updateFeePanel(){
     const reduced = document.getElementById('applyFeeReduced');
     const waived = document.getElementById('applyFeeWaived');
+    if(!reduced || !waived) return;
     reduced.style.display = 'none';
     waived.style.display = 'none';
     if(state.scholarshipInterest === 'yes'){
@@ -2160,8 +2458,10 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
     }
   }
 
+  /* ---------- Review ---------- */
   function renderReview(){
     updateFeePanel();
+
     const fn = document.getElementById('apFirstName').value;
     const ln = document.getElementById('apLastName').value;
     const em = document.getElementById('apEmail').value;
@@ -2185,6 +2485,31 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
       critical: 'Without near-full scholarship, I cannot attend'
     }[state.financialNeed] || '—';
 
+    const timingLabel = state.paymentTiming === 'now'
+      ? 'Pay now'
+      : (state.paymentTiming === 'later' ? 'Pay later (after scholarship decision)' : '—');
+
+    let methodLabel = '—';
+    let methodDetail = '';
+    if(state.paymentTiming === 'now'){
+      if(state.paymentMethod === 'mobile'){
+        methodLabel = 'Mobile Money';
+        const prov = document.getElementById('apMomoProvider');
+        const num = document.getElementById('apMomoNumber');
+        methodDetail = (prov && prov.value ? prov.value : '') + (num && num.value ? ' · ' + num.value : '');
+      } else if(state.paymentMethod === 'card'){
+        methodLabel = 'Debit / Credit Card';
+        const digits = (document.getElementById('apCardNumber').value || '').replace(/\s+/g, '');
+        methodDetail = digits ? 'Card ending ' + digits.slice(-4) : '';
+      } else if(state.paymentMethod === 'bank'){
+        methodLabel = 'Bank Transfer';
+        methodDetail = 'Bank details emailed after submission';
+      }
+    }
+
+    const resumeName = (document.getElementById('apResume').files[0] || {}).name || '—';
+    const transName  = (document.getElementById('apTranscript').files[0] || {}).name || '—';
+
     document.getElementById('applyReview').innerHTML = `
       <div class="apply-review">
         <h4><i class="fas fa-graduation-cap"></i> Programme</h4>
@@ -2201,10 +2526,21 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
         <div class="apply-review-item"><span class="arl">Country:</span><span class="arv">${country}</span></div>
       </div>
       <div class="apply-review">
+        <h4><i class="fas fa-credit-card"></i> Application Fee &amp; Payment</h4>
+        <div class="apply-review-item"><span class="arl">Payment Timing:</span><span class="arv">${timingLabel}</span></div>
+        <div class="apply-review-item"><span class="arl">Method:</span><span class="arv">${methodLabel}</span></div>
+        ${methodDetail ? `<div class="apply-review-item"><span class="arl">Details:</span><span class="arv">${methodDetail}</span></div>` : ''}
+      </div>
+      <div class="apply-review">
         <h4><i class="fas fa-book"></i> Academic Background</h4>
         <div class="apply-review-item"><span class="arl">Institution:</span><span class="arv">${school}</span></div>
         <div class="apply-review-item"><span class="arl">Qualification:</span><span class="arv">${degree}</span></div>
         <div class="apply-review-item"><span class="arl">Year:</span><span class="arv">${year}</span></div>
+      </div>
+      <div class="apply-review">
+        <h4><i class="fas fa-paperclip"></i> Documents</h4>
+        <div class="apply-review-item"><span class="arl">Resume / CV:</span><span class="arv">${resumeName}</span></div>
+        <div class="apply-review-item"><span class="arl">Academic Record:</span><span class="arv">${transName}</span></div>
       </div>
       <div class="apply-review">
         <h4><i class="fas fa-percent"></i> Scholarship Assessment</h4>
@@ -2217,18 +2553,18 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
 
   nextBtn.addEventListener('click', function(){
     if(!validate(current)) return;
-    if(current < totalSections){ current++; updateUI(); }
+    if(current < totalSections){ current++; updateUI(true); }
   });
-  prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(); } });
+  prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(true); } });
 
   document.querySelectorAll('.apply-step').forEach(function(step){
     step.addEventListener('click', function(){
       const target = parseInt(this.dataset.applyStep, 10);
-      if(target < current){ current = target; updateUI(); }
+      if(target < current){ current = target; updateUI(true); }
       else if(target > current){
         for(let i = current; i < target; i++){ if(!validate(i)) return; }
         current = target;
-        updateUI();
+        updateUI(true);
       }
     });
   });
@@ -2248,8 +2584,180 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
     }, 1600);
   });
 
-  updateUI();
+  /* Initial render — no auto-scroll, so the hero stays visible on load. */
+  updateUI(false);
+  updatePaymentUI();
 })();
+
+/* ==============================
+   FILE UPLOAD VALIDATION
+   Prevents "low memory" errors by checking size/type
+   before the browser reads the file.
+   ============================== */
+(function fileUploads(){
+  const LIMITS = {
+    apResume: {
+      max: 5 * 1024 * 1024,
+      exts: ['.pdf','.doc','.docx'],
+      mimes: ['application/pdf','application/msword',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+      label: 'Resume / CV'
+    },
+    apTranscript: {
+      max: 10 * 1024 * 1024,
+      exts: ['.pdf'],
+      mimes: ['application/pdf'],
+      label: 'Academic Record'
+    },
+    apScholarshipDoc: {
+      max: 5 * 1024 * 1024,
+      exts: ['.pdf','.jpg','.jpeg','.png'],
+      mimes: ['application/pdf','image/jpeg','image/png'],
+      label: 'Scholarship Document',
+      optional: true
+    }
+  };
+
+  function fmtSize(bytes){
+    if(bytes < 1024) return bytes + ' B';
+    if(bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+  }
+  function getExt(name){
+    const i = name.lastIndexOf('.');
+    return i >= 0 ? name.slice(i).toLowerCase() : '';
+  }
+  function iconFor(name){
+    const ext = getExt(name);
+    if(ext === '.pdf') return 'fas fa-file-pdf';
+    if(ext === '.doc' || ext === '.docx') return 'fas fa-file-word';
+    if(['.jpg','.jpeg','.png'].includes(ext)) return 'fas fa-file-image';
+    return 'fas fa-file-alt';
+  }
+
+  function showToast(msg, type){
+    const toast = document.getElementById('applyToast');
+    const msgEl = document.getElementById('applyToastMsg');
+    if(!toast || !msgEl) return;
+    msgEl.textContent = msg;
+    toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : '');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 4500);
+  }
+
+  document.querySelectorAll('.upload-drop').forEach(function(drop){
+    const inputId = drop.dataset.uploadFor;
+    const input = document.getElementById(inputId);
+    if(!input) return;
+
+    const limits = LIMITS[inputId] || { max: 5 * 1024 * 1024, exts: [], mimes: [], label: 'File' };
+    const emptyView  = drop.querySelector('.upload-empty');
+    const filledView = drop.querySelector('.upload-filled');
+    const nameEl     = drop.querySelector('.upload-name');
+    const sizeEl     = drop.querySelector('.upload-size');
+    const iconEl     = filledView ? filledView.querySelector('i') : null;
+    const removeBtn  = drop.querySelector('.upload-remove');
+
+    function render(){
+      const f = input.files && input.files[0];
+      if(f){
+        drop.classList.add('has-file');
+        if(emptyView) emptyView.style.display = 'none';
+        if(filledView) filledView.style.display = 'flex';
+        if(nameEl) nameEl.textContent = f.name;
+        if(sizeEl) sizeEl.textContent = fmtSize(f.size) + (limits.max ? ' · max ' + fmtSize(limits.max) : '');
+        if(iconEl) iconEl.className = iconFor(f.name);
+      } else {
+        drop.classList.remove('has-file');
+        if(emptyView) emptyView.style.display = 'flex';
+        if(filledView) filledView.style.display = 'none';
+        if(nameEl) nameEl.textContent = '';
+        if(sizeEl) sizeEl.textContent = '';
+      }
+    }
+
+    function validate(f){
+      if(!f) return true;
+      if(f.size === 0){
+        showToast('That file appears to be empty. Please choose a different file.', 'error');
+        return false;
+      }
+      if(f.size > limits.max){
+        showToast(
+          limits.label + ' is too large (' + fmtSize(f.size) + '). Maximum is ' + fmtSize(limits.max) +
+          '. Please compress it, or email it to admissions@nolaninstitute.org and continue with the rest of your application.',
+          'error'
+        );
+        return false;
+      }
+      const ext = getExt(f.name);
+      const allowedByExt  = limits.exts.length  && limits.exts.includes(ext);
+      const allowedByMime = limits.mimes.length && f.type && limits.mimes.includes(f.type);
+      if(limits.exts.length && !allowedByExt && !allowedByMime){
+        showToast('Unsupported file type for ' + limits.label + '. Allowed: ' + limits.exts.join(', '), 'error');
+        return false;
+      }
+      return true;
+    }
+
+    /* Click to open picker */
+    drop.addEventListener('click', function(e){
+      if(e.target.closest('.upload-remove')) return;
+      input.click();
+    });
+
+    /* Drag & drop support */
+    ['dragenter','dragover'].forEach(function(ev){
+      drop.addEventListener(ev, function(e){
+        e.preventDefault(); e.stopPropagation();
+        drop.classList.add('dragover');
+      });
+    });
+    ['dragleave','drop'].forEach(function(ev){
+      drop.addEventListener(ev, function(e){
+        e.preventDefault(); e.stopPropagation();
+        drop.classList.remove('dragover');
+      });
+    });
+    drop.addEventListener('drop', function(e){
+      const dt = e.dataTransfer;
+      if(!dt || !dt.files || !dt.files.length) return;
+      const f = dt.files[0];
+      if(!validate(f)) return;
+      try {
+        const bag = new DataTransfer();
+        bag.items.add(f);
+        input.files = bag.files;
+      } catch(err){
+        showToast('Please use the browse button to select files on this device.', 'error');
+        return;
+      }
+      render();
+    });
+
+    /* Change handler */
+    input.addEventListener('change', function(){
+      const f = input.files && input.files[0];
+      if(!f){ render(); return; }
+      if(!validate(f)){
+        input.value = '';
+        render();
+        return;
+      }
+      render();
+    });
+
+    if(removeBtn){
+      removeBtn.addEventListener('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        input.value = '';
+        render();
+      });
+    }
+  });
+})();
+
 /* ==============================
    HERO SLIDER
    ============================== */
@@ -2262,7 +2770,6 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
   let current = 0;
   let timer;
 
-  /* Build dots */
   slides.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.type = 'button';
@@ -2281,7 +2788,6 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
   function next(){ showSlide((current + 1) % slides.length); }
   function resetTimer(){ clearInterval(timer); timer = setInterval(next, ROTATE_MS); }
 
-  /* Pause on hover of the frame */
   const frame = slides[0].closest('.hero-image-frame');
   if(frame){
     frame.addEventListener('mouseenter', () => clearInterval(timer));
