@@ -10,6 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- Receipt generation libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <style>
 :root{
   color-scheme: light only;
@@ -18,6 +21,7 @@
   --white:#fff;--off-white:#FAFAF8;--gray-light:#F5F5F5;--gray-mid:#E0E0E0;--gray-dark:#666;--gray-darker:#333;
   --success:#28A745;--error:#DC3545;--warning:#FFC107;
   --airtel-red:#E40000;--mtn-yellow:#FFCC00;--scb-blue:#1B5E8C;--paypal-blue:#003087;--paypal-light:#009CDE;--crypto-orange:#F7931A;
+  --whatsapp:#25D366;--whatsapp-dark:#1EBE5A;--whatsapp-deep:#075E54;
   --shadow-sm:0 2px 8px rgba(0,0,0,.05);--shadow-md:0 4px 12px rgba(0,0,0,.08);
   --shadow-lg:0 12px 32px rgba(0,0,0,.12);--shadow-xl:0 24px 48px rgba(10,28,58,.18);
   --transition:all .3s cubic-bezier(.4,0,.2,1);--radius:16px;--radius-sm:10px;
@@ -102,7 +106,6 @@ input,select,textarea{color-scheme:light only}
 .hero-image-frame{position:relative;width:100%;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid rgba(197,160,40,.4);box-shadow:0 30px 70px -25px rgba(0,0,0,.7);background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy-light) 100%)}
 .hero-image-frame img{width:100%;height:100%;object-fit:cover;display:block}
 
-/* HERO SLIDER */
 .hero-slides{position:absolute;inset:0;z-index:1}
 .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;pointer-events:none}
 .hero-slide.active{opacity:1;pointer-events:auto}
@@ -113,12 +116,6 @@ input,select,textarea{color-scheme:light only}
 .hero-slider-dot.active{background:var(--gold);width:22px;border-radius:20px;box-shadow:0 0 8px var(--gold)}
 @media(max-width:600px){.hero-slider-dots{top:10px;right:10px;padding:6px 10px;gap:5px}.hero-slider-dot{width:7px;height:7px}.hero-slider-dot.active{width:18px}}
 
-.img-placeholder-badge{position:absolute;top:14px;left:14px;background:rgba(10,28,58,.85);border:1px solid rgba(197,160,40,.5);color:var(--gold-light);font-size:10.5px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:50px;text-transform:uppercase;z-index:3;backdrop-filter:blur(6px)}
-.hero-badge-floating{position:absolute;bottom:20px;left:20px;right:20px;background:linear-gradient(135deg, rgba(6,18,37,.96), rgba(10,28,58,.96));border:1px solid rgba(197,160,40,.5);border-radius:14px;padding:16px 18px;color:#fff;z-index:3;backdrop-filter:blur(10px)}
-.hero-badge-floating .hbf-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:6px}
-.hero-badge-floating .hbf-title{font-family:'Playfair Display',serif;font-size:16px;color:#fff;font-weight:700;line-height:1.3}
-.hero-badge-floating .hbf-sub{font-size:12px;color:rgba(255,255,255,.75);margin-top:4px}
-
 /* STATS STRIP */
 .stats-strip{background:var(--navy);color:#fff;padding:26px 0;border-top:1px solid rgba(197,160,40,.2);border-bottom:1px solid rgba(197,160,40,.2)}
 .stats-strip .container{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px;align-items:center}
@@ -126,7 +123,7 @@ input,select,textarea{color-scheme:light only}
 .strip-stat strong{display:block;font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.8vw,1.9rem);color:var(--gold);font-weight:800;line-height:1}
 .strip-stat span{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:600;margin-top:6px}
 
-/* SCHOLARSHIP ANNOUNCEMENT BAR */
+/* SCHOLARSHIP BAR */
 .scholarship-bar{background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);padding:18px 0;text-align:center;position:relative;overflow:hidden}
 .scholarship-bar::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,.08) 20px, rgba(255,255,255,.08) 40px);pointer-events:none}
 .scholarship-bar .container{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
@@ -200,7 +197,7 @@ input,select,textarea{color-scheme:light only}
 .delivery-stat .ds-label{font-size:11px;font-weight:700;color:var(--gold-dark);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
 .delivery-stat p{font-size:12.5px;color:var(--gray-dark);line-height:1.55}
 
-/* LEARNING EXPERIENCE */
+/* LEARNING */
 .learning-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:34px}
 .learning-item{background:rgba(255,255,255,.04);border:1px solid rgba(197,160,40,.22);border-radius:12px;padding:18px 18px;display:flex;align-items:flex-start;gap:14px;transition:var(--transition)}
 .learning-item:hover{background:rgba(197,160,40,.1);border-color:var(--gold);transform:translateY(-3px)}
@@ -308,10 +305,8 @@ input,select,textarea{color-scheme:light only}
 .eligibility-wrapper::before{content:'ELIGIBILITY CHECK';position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy-dark);padding:6px 20px;border-radius:50px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
 .eligibility-wrapper h3{font-size:clamp(1.3rem,2.6vw,1.7rem);color:var(--navy);text-align:center;margin-bottom:10px;font-family:'Playfair Display',serif}
 .eligibility-wrapper > p{text-align:center;color:var(--gray-dark);font-size:14.5px;margin-bottom:30px;line-height:1.7}
-
 .eligibility-progress{height:6px;background:var(--gray-light);border-radius:50px;overflow:hidden;margin-bottom:30px}
 .eligibility-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);border-radius:50px;transition:width .4s ease;width:20%}
-
 .elig-question{display:none}
 .elig-question.active{display:block;animation:fadeIn .35s ease}
 .elig-q-num{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px}
@@ -323,9 +318,7 @@ input,select,textarea{color-scheme:light only}
 .elig-option .eo-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--gray-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--transition)}
 .elig-option.selected .eo-check{background:var(--gold);border-color:var(--gold);color:var(--navy-dark)}
 .elig-option.selected .eo-check::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;font-size:11px}
-
 .elig-nav{display:flex;justify-content:space-between;margin-top:26px;padding-top:22px;border-top:1px solid var(--gray-mid);gap:12px}
-
 .elig-result{display:none;text-align:center;padding:20px 0}
 .elig-result.active{display:block;animation:fadeIn .4s ease}
 .elig-result .er-percent{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5rem);font-weight:800;color:var(--gold-dark);line-height:1;margin-bottom:8px}
@@ -342,10 +335,8 @@ input,select,textarea{color-scheme:light only}
 .quiz-head .qh-icon{width:64px;height:64px;border-radius:50%;background:rgba(197,160,40,.15);border:1px solid rgba(197,160,40,.4);color:var(--gold);display:inline-flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:18px}
 .quiz-head h3{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.8vw,1.9rem);color:#fff;margin-bottom:10px}
 .quiz-head p{font-size:14.5px;color:rgba(255,255,255,.78);line-height:1.7;max-width:620px;margin:0 auto}
-
 .quiz-progress{height:5px;background:rgba(255,255,255,.1);border-radius:50px;overflow:hidden;margin-bottom:26px}
 .quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);border-radius:50px;transition:width .4s ease;width:20%}
-
 .quiz-step{display:none}
 .quiz-step.active{display:block;animation:fadeIn .3s ease}
 .quiz-q-num{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;text-align:center}
@@ -357,9 +348,7 @@ input,select,textarea{color-scheme:light only}
 .quiz-opt .qo-check{width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--transition)}
 .quiz-opt.selected .qo-check{background:var(--gold);border-color:var(--gold);color:var(--navy-dark)}
 .quiz-opt.selected .qo-check::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;font-size:11px}
-
 .quiz-nav{display:flex;justify-content:center;gap:12px;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1)}
-
 .quiz-result{display:none;text-align:center}
 .quiz-result.active{display:block;animation:fadeIn .4s ease}
 .quiz-result .qr-score{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5rem);font-weight:800;color:var(--gold);line-height:1;margin-bottom:12px}
@@ -515,63 +504,34 @@ input,select,textarea{color-scheme:light only}
 .apply-toast.error{background:var(--error)}
 .apply-toast i{color:#fff;font-size:15px;flex-shrink:0}
 
-/* ============================================================
-   PAYMENT STEP — branded methods, real account details
-   ============================================================ */
-
-/* Amount banner */
-.pay-amount-banner{
-  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);
-  color:#fff;border-radius:14px;padding:26px 28px;margin-bottom:26px;
-  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
-  position:relative;overflow:hidden;
-}
+/* PAYMENT STEP */
+.pay-amount-banner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;border-radius:14px;padding:26px 28px;margin-bottom:26px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;position:relative;overflow:hidden}
 .pay-amount-banner::before{content:'';position:absolute;top:-50%;right:-10%;width:280px;height:280px;background:radial-gradient(circle,rgba(197,160,40,.2) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
 .pay-amount-banner .pab-label{font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px;position:relative;z-index:2}
 .pay-amount-banner .pab-amount{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,2.6rem);font-weight:800;color:var(--gold);line-height:1;position:relative;z-index:2}
 .pay-amount-banner .pab-context{font-size:12.5px;color:rgba(255,255,255,.75);margin-top:8px;position:relative;z-index:2;max-width:380px;line-height:1.6}
 .pay-amount-banner .pab-icon{font-size:44px;color:var(--gold);opacity:.65;position:relative;z-index:2;flex-shrink:0}
 
-/* Method selection cards */
 .pay-methods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:22px}
-.pay-method-card{
-  background:#fff;border:2px solid var(--gray-mid);border-radius:14px;
-  padding:18px 12px 16px;cursor:pointer;transition:var(--transition);
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-  text-align:center;font-family:inherit;position:relative;overflow:hidden;
-}
+.pay-method-card{background:#fff;border:2px solid var(--gray-mid);border-radius:14px;padding:18px 12px 16px;cursor:pointer;transition:var(--transition);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;font-family:inherit;position:relative;overflow:hidden}
 .pay-method-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow-md)}
 .pay-method-card.selected{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-10);transform:translateY(-3px)}
-.pay-method-card.selected::after{
-  content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;
-  position:absolute;top:8px;right:8px;width:22px;height:22px;background:var(--gold);
-  color:var(--navy-dark);border-radius:50%;font-size:11px;
-  display:flex;align-items:center;justify-content:center;
-}
-.pay-method-card .pm-logo{
-  width:56px;height:56px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:900;font-family:Arial,Helvetica,sans-serif;letter-spacing:-.5px;
-  flex-shrink:0;
-}
+.pay-method-card.selected::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;position:absolute;top:8px;right:8px;width:22px;height:22px;background:var(--gold);color:var(--navy-dark);border-radius:50%;font-size:11px;display:flex;align-items:center;justify-content:center}
+.pay-method-card .pm-logo{width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900;font-family:Arial,Helvetica,sans-serif;letter-spacing:-.5px;flex-shrink:0}
 .pay-method-card .pm-name{font-size:12.5px;font-weight:800;color:var(--navy);line-height:1.25;letter-spacing:.2px}
 .pay-method-card .pm-desc{font-size:10.5px;color:var(--gray-dark);font-weight:500;line-height:1.35}
-
-/* Branded logos */
 .pm-airtel .pm-logo{background:#E40000;color:#fff;font-size:15px;font-style:italic;text-transform:lowercase;letter-spacing:-1px;padding-bottom:2px}
 .pm-mtn .pm-logo{background:#FFCC00;color:#000;font-size:14px;letter-spacing:-.5px}
 .pm-bank .pm-logo{background:linear-gradient(135deg,#1B5E8C 0%,#0D3D5E 100%);color:#fff;font-size:22px}
 .pm-paypal .pm-logo{background:linear-gradient(135deg,#003087 0%,#009CDE 100%);color:#fff;font-size:20px}
 .pm-crypto .pm-logo{background:linear-gradient(135deg,#F7931A 0%,#E2761B 100%);color:#fff;font-size:22px}
 
-/* Details panel */
 .pay-details-panel{margin-top:18px;background:#fff;border:2px solid var(--gray-mid);border-radius:16px;overflow:hidden;animation:fadeIn .35s ease}
 .pay-details-panel.brand-airtel{border-color:#E40000}
 .pay-details-panel.brand-mtn{border-color:#FFCC00}
 .pay-details-panel.brand-bank{border-color:#1B5E8C}
 .pay-details-panel.brand-paypal{border-color:#003087}
 .pay-details-panel.brand-crypto{border-color:#F7931A}
-
 .pdp-header{padding:18px 22px;display:flex;align-items:center;gap:14px;color:#fff}
 .brand-airtel .pdp-header{background:#E40000}
 .brand-mtn .pdp-header{background:#FFCC00;color:#000}
@@ -582,71 +542,216 @@ input,select,textarea{color-scheme:light only}
 .brand-mtn .pdp-header .pdp-icon{background:rgba(0,0,0,.12)}
 .pdp-header .pdp-title{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;letter-spacing:.3px;line-height:1.25}
 .pdp-header .pdp-sub{font-size:11.5px;opacity:.88;margin-top:2px;font-weight:500}
-
 .pdp-body{padding:22px}
-
 .pdp-amount-banner{background:linear-gradient(135deg,var(--gold-10) 0%,#FFF9E6 100%);border:1px solid rgba(197,160,40,.35);border-radius:10px;padding:14px 18px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
 .pdp-amount-banner .pab-l{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark)}
 .pdp-amount-banner .pab-v{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:var(--navy);line-height:1}
-
 .pdp-rows{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
 .pay-detail-row{background:var(--off-white);border:1px solid var(--gray-mid);border-radius:10px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .pay-detail-row .pdr-info{flex:1;min-width:0}
 .pay-detail-row .pdr-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);font-weight:800;margin-bottom:3px}
 .pay-detail-row .pdr-value{font-size:15px;font-weight:700;color:var(--navy);font-family:'SFMono-Regular',Consolas,'Courier New',monospace;word-break:break-all;line-height:1.35}
 .pay-detail-row .pdr-value.plain{font-family:'Inter',sans-serif;font-size:14.5px;letter-spacing:.2px}
-.pay-detail-row .pdr-copy{
-  background:var(--gold-10);border:none;color:var(--gold-dark);
-  width:38px;height:38px;border-radius:8px;cursor:pointer;font-size:14px;
-  transition:var(--transition);flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-}
+.pay-detail-row .pdr-copy{background:var(--gold-10);border:none;color:var(--gold-dark);width:38px;height:38px;border-radius:8px;cursor:pointer;font-size:14px;transition:var(--transition);flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .pay-detail-row .pdr-copy:hover{background:var(--gold);color:var(--navy-dark);transform:scale(1.05)}
 .pay-detail-row .pdr-copy.copied{background:var(--success);color:#fff}
-
 .pdp-steps{background:#fff;border:1px solid var(--gray-mid);border-radius:10px;padding:20px 22px 20px 46px;margin-bottom:12px}
 .pdp-steps .pds-title{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:14px;margin-left:-24px;display:flex;align-items:center;gap:8px}
 .pdp-steps .pds-title i{color:var(--gold-dark)}
 .pdp-steps ol{list-style:none;padding:0;margin:0;counter-reset:stepc}
 .pdp-steps ol li{position:relative;padding:0 0 14px 0;font-size:13px;color:var(--gray-darker);line-height:1.55;counter-increment:stepc}
-.pdp-steps ol li::before{
-  content:counter(stepc);position:absolute;left:-32px;top:0;
-  width:22px;height:22px;border-radius:50%;
-  background:var(--gold-10);color:var(--gold-dark);
-  font-size:11px;font-weight:800;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Playfair Display',serif;
-}
+.pdp-steps ol li::before{content:counter(stepc);position:absolute;left:-32px;top:0;width:22px;height:22px;border-radius:50%;background:var(--gold-10);color:var(--gold-dark);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif}
 .pdp-steps ol li:last-child{padding-bottom:0}
-
 .pdp-warning{background:#FFF4E5;border-left:3px solid var(--warning);border-radius:8px;padding:14px 18px;font-size:12.5px;color:#7A5C10;line-height:1.6;margin-top:6px;display:flex;gap:12px;align-items:flex-start}
 .pdp-warning i{color:#D89400;font-size:16px;flex-shrink:0;margin-top:2px}
 .pdp-warning strong{color:#5C4508}
 
-/* Confirmation form */
 .pay-confirm-form{margin-top:22px;padding-top:22px;border-top:1px dashed var(--gray-mid)}
 .pay-confirm-form h4{font-family:'Inter',sans-serif;font-size:13px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .pay-confirm-form h4 i{color:var(--gold-dark)}
 
-/* Success panel */
-.payment-success{
-  background:linear-gradient(135deg,#EAF7EE 0%,#F0FBF4 100%);
-  border:2px solid var(--success);border-radius:14px;padding:32px 26px;
-  text-align:center;margin-top:8px;
+/* ============================================================
+   PAYMENT SUCCESS — receipt generation
+   ============================================================ */
+.payment-success{background:linear-gradient(135deg,#EAF7EE 0%,#F0FBF4 100%);border:2px solid var(--success);border-radius:14px;padding:26px 24px;text-align:center;margin-top:8px}
+.payment-success i.ps-icon{font-size:56px;color:var(--success);margin-bottom:10px;display:block}
+.payment-success h4{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:8px}
+.payment-success > p{font-size:13.5px;color:var(--gray-dark);margin-bottom:6px;line-height:1.65}
+.payment-success > p strong{color:var(--navy);font-weight:700}
+.payment-success .ps-ref{display:inline-block;background:#fff;border:1px dashed var(--success);padding:8px 16px;border-radius:8px;font-family:'SFMono-Regular',Consolas,monospace;font-size:13px;color:var(--navy);margin-top:8px;letter-spacing:1.5px;font-weight:700}
+
+/* WhatsApp block */
+.ps-whatsapp-block{background:#fff;border:1px dashed var(--whatsapp);border-radius:12px;padding:18px;margin-top:20px;text-align:left}
+.ps-whatsapp-block .psw-title{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:800;letter-spacing:.6px;color:var(--whatsapp-deep);margin-bottom:8px;display:flex;align-items:center;gap:8px;text-transform:uppercase}
+.ps-whatsapp-block .psw-title i{color:var(--whatsapp);font-size:16px}
+.ps-whatsapp-block p{font-size:12.5px;color:var(--gray-dark);line-height:1.6;margin-bottom:12px}
+.btn-whatsapp{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--whatsapp);color:#fff;padding:13px 22px;border-radius:10px;font-size:14px;font-weight:700;width:100%;transition:var(--transition);border:none;cursor:pointer;font-family:inherit}
+.btn-whatsapp:hover{background:var(--whatsapp-dark);transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.35)}
+.btn-whatsapp i{font-size:18px}
+.psw-note{font-size:11.5px;color:var(--gray-dark);margin-top:10px;font-style:italic;line-height:1.55;text-align:center}
+.psw-sent{background:#E7F7EC;border:1px solid var(--whatsapp);color:var(--whatsapp-deep);font-size:12.5px;font-weight:600;padding:10px 14px;border-radius:8px;margin-top:12px;display:none;align-items:center;gap:8px}
+.psw-sent.show{display:flex}
+
+/* Receipt section */
+.receipt-section{margin-top:22px;text-align:left}
+.receipt-section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding:0 4px}
+.receipt-section-head h5{font-family:'Playfair Display',serif;font-size:16px;color:var(--navy);font-weight:700}
+.receipt-section-head .rsh-sub{font-size:11.5px;color:var(--gray-dark);margin-top:2px}
+.receipt-buttons{display:flex;gap:8px;flex-wrap:wrap}
+.receipt-btn{display:inline-flex;align-items:center;gap:7px;background:var(--navy);color:#fff;padding:9px 16px;border-radius:8px;font-size:12.5px;font-weight:700;border:none;cursor:pointer;transition:var(--transition);font-family:inherit}
+.receipt-btn:hover{background:var(--navy-light);transform:translateY(-1px)}
+.receipt-btn.receipt-btn-gold{background:var(--gold);color:var(--navy-dark)}
+.receipt-btn.receipt-btn-gold:hover{background:var(--gold-light)}
+.receipt-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.receipt-btn i{font-size:13px}
+
+/* THE RECEIPT DOCUMENT — plain CSS for reliable PDF rendering */
+.nolan-receipt{
+  background:#ffffff;
+  border:1px solid #D0D0D0;
+  border-radius:6px;
+  padding:28px 30px;
+  font-family:'Inter', Arial, sans-serif;
+  color:#222222;
+  font-size:12.5px;
+  line-height:1.55;
+  margin-top:10px;
+  max-width:640px;
 }
-.payment-success i.ps-icon{font-size:56px;color:var(--success);margin-bottom:14px;display:block}
-.payment-success h4{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:12px}
-.payment-success p{font-size:13.5px;color:var(--gray-dark);margin-bottom:8px;line-height:1.65}
-.payment-success p strong{color:var(--navy);font-weight:700}
-.payment-success .ps-ref{
-  display:inline-block;background:#fff;border:1px dashed var(--success);
-  padding:8px 16px;border-radius:8px;
-  font-family:'SFMono-Regular',Consolas,monospace;
-  font-size:13px;color:var(--navy);margin-top:10px;letter-spacing:1.5px;font-weight:700;
+.nolan-receipt *{box-sizing:border-box}
+.nolan-receipt .nr-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  padding-bottom:16px;
+  border-bottom:3px solid #0A1C3A;
+  margin-bottom:16px;
+  flex-wrap:wrap;
 }
-.payment-success .ps-next{
-  margin-top:18px;padding-top:18px;border-top:1px dashed rgba(40,167,69,.3);
-  font-size:13px;color:var(--success);font-weight:700;
+.nolan-receipt .nr-brand{
+  font-family:'Playfair Display', Georgia, serif;
+  font-size:19px;
+  font-weight:800;
+  color:#0A1C3A;
+  letter-spacing:1px;
+  line-height:1.1;
+}
+.nolan-receipt .nr-brand-sub{
+  font-size:9.5px;
+  color:#A07F1F;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  font-weight:700;
+  margin-top:4px;
+}
+.nolan-receipt .nr-doc-type{
+  font-family:'Playfair Display', Georgia, serif;
+  font-size:14px;
+  font-weight:800;
+  color:#C5A028;
+  letter-spacing:1.5px;
+  text-align:right;
+  line-height:1.2;
+}
+.nolan-receipt .nr-status{
+  display:inline-block;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.2px;
+  padding:4px 10px;
+  border-radius:50px;
+  background:#FFF3CD;
+  color:#856404;
+  border:1px solid #FFE69C;
+  margin-top:6px;
+}
+.nolan-receipt .nr-meta{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  font-size:11.5px;
+  padding:12px 14px;
+  background:#FAFAF8;
+  border-radius:6px;
+  margin-bottom:16px;
+}
+.nolan-receipt .nr-meta > div{flex:1;min-width:140px}
+.nolan-receipt .nr-lbl{color:#666666;font-weight:600}
+.nolan-receipt .nr-meta strong,
+.nolan-receipt .nr-grid-2 strong{color:#0A1C3A;font-weight:700}
+.nolan-receipt .nr-section{
+  padding:12px 0;
+  border-bottom:1px dashed #E0E0E0;
+}
+.nolan-receipt .nr-section:last-of-type{border-bottom:none}
+.nolan-receipt .nr-section-title{
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  color:#A07F1F;
+  text-transform:uppercase;
+  margin-bottom:8px;
+}
+.nolan-receipt .nr-grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:5px 24px;
+  font-size:12px;
+}
+.nolan-receipt .nr-footer{
+  margin-top:16px;
+  padding-top:14px;
+  border-top:2px solid #0A1C3A;
+  font-size:10.5px;
+  color:#666666;
+}
+.nolan-receipt .nr-footer-note{
+  font-style:italic;
+  margin-bottom:8px;
+  line-height:1.5;
+}
+.nolan-receipt .nr-footer-contact{font-size:10.5px;color:#333333}
+.nolan-receipt .nr-footer-contact strong{color:#0A1C3A;font-weight:700}
+.nolan-receipt .nr-highlight-amount{
+  background:#FFF9E6;
+  border:1px solid #F0E0A0;
+  border-radius:8px;
+  padding:12px 16px;
+  margin:14px 0;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+}
+.nolan-receipt .nr-highlight-amount .nr-ha-lbl{
+  font-size:9.5px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:#A07F1F;
+  font-weight:800;
+}
+.nolan-receipt .nr-highlight-amount .nr-ha-val{
+  font-family:'Playfair Display', Georgia, serif;
+  font-size:22px;
+  font-weight:800;
+  color:#0A1C3A;
+  line-height:1;
+}
+
+@media print {
+  body.print-receipt-mode * { visibility: hidden !important; }
+  body.print-receipt-mode #apReceipt,
+  body.print-receipt-mode #apReceipt * { visibility: visible !important; }
+  body.print-receipt-mode #apReceipt {
+    position: absolute;
+    left: 0; top: 0;
+    width: 100%;
+    padding: 20px;
+    box-shadow: none;
+  }
 }
 
 /* FILE UPLOAD */
@@ -722,6 +827,8 @@ input,select,textarea{color-scheme:light only}
   .apply-progress::before{left:12px;right:12px}
   .pdp-body{padding:18px}
   .pay-methods-grid{grid-template-columns:repeat(2,1fr)}
+  .nolan-receipt{padding:20px 18px;font-size:11.5px}
+  .nolan-receipt .nr-grid-2{grid-template-columns:1fr}
 }
 @media(max-width:600px){
   .container{padding:0 16px}
@@ -751,6 +858,8 @@ input,select,textarea{color-scheme:light only}
   .pay-detail-row .pdr-value{font-size:13.5px}
   .pdp-steps{padding:16px 16px 16px 40px}
   .pdp-steps ol li{font-size:12.5px}
+  .receipt-buttons{width:100%}
+  .receipt-btn{flex:1;justify-content:center}
 }
 @media(max-width:400px){
   .container{padding:0 12px}
@@ -822,19 +931,16 @@ input,select,textarea{color-scheme:light only}
         <span class="flag-badge"><i class="fas fa-crown"></i> Application Now Open · Starting Now Or 2027</span>
         <h1>Bachelor of <span class="gold">Global Business</span><br>&amp; Technology</h1>
         <p class="flag-sub">A 3-year online degree for a new generation of business professionals who understand both business fundamentals and emerging technologies — and can apply them to real-world problems in a global environment.</p>
-
         <div class="flag-microstats">
           <div class="ms"><i class="fas fa-clock"></i> <span><strong>3 Years</strong> · Online</span></div>
           <div class="ms"><i class="fas fa-tag"></i> <span><strong>K120,000</strong> · ≈ US$6,000</span></div>
           <div class="ms"><i class="fas fa-percent"></i> <span><strong>70–100%</strong> Scholarships</span></div>
         </div>
-
         <div class="flag-actions">
           <a href="#apply" class="btn btn-primary btn-lg">Apply to the Founding Cohort <i class="fas fa-arrow-right"></i></a>
           <a href="#scholarships" class="btn btn-outline-white btn-lg"><i class="fas fa-percent"></i> Check Scholarship</a>
         </div>
       </div>
-
       <div class="hero-visual">
         <div class="hero-image-frame">
           <div class="hero-slides" id="heroSlides">
@@ -845,7 +951,6 @@ input,select,textarea{color-scheme:light only}
             <div class="hero-slide"><img src="8d627792-b117-43ac-a134-9e4ee81f4a29.png" alt="Bachelor of Global Business & Technology"></div>
           </div>
           <div class="hero-slider-dots" id="heroSliderDots"></div>
-          </div>
         </div>
       </div>
     </div>
@@ -896,27 +1001,13 @@ input,select,textarea{color-scheme:light only}
       <h2>Three Years. Three Themes. One Trajectory.</h2>
       <p>Click any year to explore its courses, focus, and applied project.</p>
     </div>
-
     <div class="structure-tabs">
-      <button type="button" class="structure-tab active" data-year="1">
-        <span class="st-year">Year 1</span>
-        <span class="st-theme">Business Foundations</span>
-      </button>
-      <button type="button" class="structure-tab" data-year="2">
-        <span class="st-year">Year 2</span>
-        <span class="st-theme">Technology &amp; Global Business</span>
-      </button>
-      <button type="button" class="structure-tab" data-year="3">
-        <span class="st-year">Year 3</span>
-        <span class="st-theme">Innovation &amp; Leadership</span>
-      </button>
+      <button type="button" class="structure-tab active" data-year="1"><span class="st-year">Year 1</span><span class="st-theme">Business Foundations</span></button>
+      <button type="button" class="structure-tab" data-year="2"><span class="st-year">Year 2</span><span class="st-theme">Technology &amp; Global Business</span></button>
+      <button type="button" class="structure-tab" data-year="3"><span class="st-year">Year 3</span><span class="st-theme">Innovation &amp; Leadership</span></button>
     </div>
-
     <div class="structure-panel active" data-panel="1">
-      <div class="sp-header">
-        <h3>Build the <span class="gold">Business Mindset</span></h3>
-        <p>Students establish a strong foundation in business and develop the ability to understand how organisations operate — across economics, finance, marketing, communication and entrepreneurship.</p>
-      </div>
+      <div class="sp-header"><h3>Build the <span class="gold">Business Mindset</span></h3><p>Students establish a strong foundation in business and develop the ability to understand how organisations operate — across economics, finance, marketing, communication and entrepreneurship.</p></div>
       <div class="sp-courses-label"><i class="fas fa-book-open"></i> Core Courses</div>
       <div class="sp-courses">
         <div class="sp-course"><span class="sc-num">1</span><span class="sc-title">Principles of Global Business</span></div>
@@ -929,20 +1020,10 @@ input,select,textarea{color-scheme:light only}
         <div class="sp-course"><span class="sc-num">8</span><span class="sc-title">Entrepreneurship &amp; Innovation</span></div>
         <div class="sp-course"><span class="sc-num">9</span><span class="sc-title">Introduction to AI for Business</span></div>
       </div>
-      <div class="sp-project">
-        <div class="sp-project-inner">
-          <span class="sp-label"><i class="fas fa-lightbulb"></i> Year 1 Applied Project</span>
-          <h4>Business Concept Development Project</h4>
-          <p>Students develop, validate and present a viable business concept — demonstrating understanding of customers, markets, value propositions, basic financials and business models.</p>
-        </div>
-      </div>
+      <div class="sp-project"><div class="sp-project-inner"><span class="sp-label"><i class="fas fa-lightbulb"></i> Year 1 Applied Project</span><h4>Business Concept Development Project</h4><p>Students develop, validate and present a viable business concept — demonstrating understanding of customers, markets, value propositions, basic financials and business models.</p></div></div>
     </div>
-
     <div class="structure-panel" data-panel="2">
-      <div class="sp-header">
-        <h3>Become a <span class="gold">Technology-Enabled</span> Business Professional</h3>
-        <p>Year 2 is where the programme differentiates itself from a conventional BBA. Students learn how technology, data and digital platforms are transforming modern businesses and global markets.</p>
-      </div>
+      <div class="sp-header"><h3>Become a <span class="gold">Technology-Enabled</span> Business Professional</h3><p>Year 2 is where the programme differentiates itself from a conventional BBA. Students learn how technology, data and digital platforms are transforming modern businesses and global markets.</p></div>
       <div class="sp-courses-label"><i class="fas fa-book-open"></i> Core Courses</div>
       <div class="sp-courses">
         <div class="sp-course"><span class="sc-num">1</span><span class="sc-title">Business Data Analytics</span></div>
@@ -955,20 +1036,10 @@ input,select,textarea{color-scheme:light only}
         <div class="sp-course"><span class="sc-num">8</span><span class="sc-title">Technology &amp; Innovation Management</span></div>
         <div class="sp-course"><span class="sc-num">9</span><span class="sc-title">Business Information Systems</span></div>
       </div>
-      <div class="sp-project">
-        <div class="sp-project-inner">
-          <span class="sp-label"><i class="fas fa-cogs"></i> Year 2 Applied Project</span>
-          <h4>Technology &amp; Business Problem-Solving Project</h4>
-          <p>Students identify a real business problem and use data, technology and analytical methods to develop and present a practical solution.</p>
-        </div>
-      </div>
+      <div class="sp-project"><div class="sp-project-inner"><span class="sp-label"><i class="fas fa-cogs"></i> Year 2 Applied Project</span><h4>Technology &amp; Business Problem-Solving Project</h4><p>Students identify a real business problem and use data, technology and analytical methods to develop and present a practical solution.</p></div></div>
     </div>
-
     <div class="structure-panel" data-panel="3">
-      <div class="sp-header">
-        <h3>Become a <span class="gold">Global Business Builder</span></h3>
-        <p>The final year is highly applied, strategic and entrepreneurial. Students move from understanding business to building, managing and transforming businesses — with a substantial capstone outcome.</p>
-      </div>
+      <div class="sp-header"><h3>Become a <span class="gold">Global Business Builder</span></h3><p>The final year is highly applied, strategic and entrepreneurial. Students move from understanding business to building, managing and transforming businesses — with a substantial capstone outcome.</p></div>
       <div class="sp-courses-label"><i class="fas fa-book-open"></i> Core Courses</div>
       <div class="sp-courses">
         <div class="sp-course"><span class="sc-num">1</span><span class="sc-title">Global Business Strategy</span></div>
@@ -981,13 +1052,7 @@ input,select,textarea{color-scheme:light only}
         <div class="sp-course"><span class="sc-num">8</span><span class="sc-title">Business Ethics, Governance &amp; Sustainability</span></div>
         <div class="sp-course"><span class="sc-num">9</span><span class="sc-title">Nolan Global Capstone</span></div>
       </div>
-      <div class="sp-project">
-        <div class="sp-project-inner">
-          <span class="sp-label"><i class="fas fa-trophy"></i> Year 3 Capstone</span>
-          <h4>Nolan Global Capstone — Three Pathways</h4>
-          <p>Choose one: <strong>Build a Venture</strong>, <strong>Develop a Technology-Enabled Business Solution</strong>, or <strong>Complete a Consulting Project</strong>. The capstone results in a substantial, professionally presented digital portfolio or practical business output.</p>
-        </div>
-      </div>
+      <div class="sp-project"><div class="sp-project-inner"><span class="sp-label"><i class="fas fa-trophy"></i> Year 3 Capstone</span><h4>Nolan Global Capstone — Three Pathways</h4><p>Choose one: <strong>Build a Venture</strong>, <strong>Develop a Technology-Enabled Business Solution</strong>, or <strong>Complete a Consulting Project</strong>. The capstone results in a substantial, professionally presented digital portfolio or practical business output.</p></div></div>
     </div>
   </div>
 </section>
@@ -1000,26 +1065,10 @@ input,select,textarea{color-scheme:light only}
       <h2>Three Pathways. One Substantial Outcome.</h2>
       <p>Every student leaves with a professionally presented digital portfolio or practical business output — not just a transcript.</p>
     </div>
-
     <div class="pathways-grid">
-      <div class="pathway-card">
-        <div class="pathway-num">PATHWAY 01</div>
-        <div class="pathway-icon"><i class="fas fa-rocket"></i></div>
-        <h3>Build a Venture</h3>
-        <p>Develop and launch a new business — from concept and validation through to business model, financials, go-to-market, and a live or pilot-stage venture.</p>
-      </div>
-      <div class="pathway-card">
-        <div class="pathway-num">PATHWAY 02</div>
-        <div class="pathway-icon"><i class="fas fa-microchip"></i></div>
-        <h3>Develop a Technology-Enabled Business Solution</h3>
-        <p>Solve a significant business problem using technology, AI or data — delivering a working solution, prototype or applied system with real business value.</p>
-      </div>
-      <div class="pathway-card">
-        <div class="pathway-num">PATHWAY 03</div>
-        <div class="pathway-icon"><i class="fas fa-handshake"></i></div>
-        <h3>Complete a Consulting Project</h3>
-        <p>Deliver a strategic project for an organisation — applying analytical, strategic and technology-enabled methods to a real, sponsored business challenge.</p>
-      </div>
+      <div class="pathway-card"><div class="pathway-num">PATHWAY 01</div><div class="pathway-icon"><i class="fas fa-rocket"></i></div><h3>Build a Venture</h3><p>Develop and launch a new business — from concept and validation through to business model, financials, go-to-market, and a live or pilot-stage venture.</p></div>
+      <div class="pathway-card"><div class="pathway-num">PATHWAY 02</div><div class="pathway-icon"><i class="fas fa-microchip"></i></div><h3>Develop a Technology-Enabled Business Solution</h3><p>Solve a significant business problem using technology, AI or data — delivering a working solution, prototype or applied system with real business value.</p></div>
+      <div class="pathway-card"><div class="pathway-num">PATHWAY 03</div><div class="pathway-icon"><i class="fas fa-handshake"></i></div><h3>Complete a Consulting Project</h3><p>Deliver a strategic project for an organisation — applying analytical, strategic and technology-enabled methods to a real, sponsored business challenge.</p></div>
     </div>
   </div>
 </section>
@@ -1027,12 +1076,7 @@ input,select,textarea{color-scheme:light only}
 <!-- DELIVERY -->
 <section class="section section-alt">
   <div class="container">
-    <div class="section-head">
-      <span class="section-tag">Programme Delivery Model</span>
-      <h2>Designed as an Intensive, Applied Online Experience</h2>
-      <p>Structured around three academic years, six semesters, and applied outcomes in every year.</p>
-    </div>
-
+    <div class="section-head"><span class="section-tag">Programme Delivery Model</span><h2>Designed as an Intensive, Applied Online Experience</h2><p>Structured around three academic years, six semesters, and applied outcomes in every year.</p></div>
     <div class="delivery-grid">
       <div class="delivery-stat"><div class="ds-value">3</div><div class="ds-label">Academic Years</div><p>Structured progression from foundations to leadership.</p></div>
       <div class="delivery-stat"><div class="ds-value">6</div><div class="ds-label">Semesters</div><p>Approximately 5–6 courses per semester.</p></div>
@@ -1045,12 +1089,7 @@ input,select,textarea{color-scheme:light only}
 <!-- LEARNING EXPERIENCE -->
 <section class="section section-navy">
   <div class="container">
-    <div class="section-head">
-      <span class="section-tag" style="background:rgba(197,160,40,.18);color:var(--gold-light)">Learning Experience</span>
-      <h2>How Students Actually Learn</h2>
-      <p>A blend of structured teaching, live engagement, applied projects, and real-world problem-solving.</p>
-    </div>
-
+    <div class="section-head"><span class="section-tag" style="background:rgba(197,160,40,.18);color:var(--gold-light)">Learning Experience</span><h2>How Students Actually Learn</h2><p>A blend of structured teaching, live engagement, applied projects, and real-world problem-solving.</p></div>
     <div class="learning-grid">
       <div class="learning-item"><i class="fas fa-calendar-week"></i><span>Weekly structured learning units</span></div>
       <div class="learning-item"><i class="fas fa-video"></i><span>Recorded lectures and interactive learning materials</span></div>
@@ -1074,21 +1113,10 @@ input,select,textarea{color-scheme:light only}
 <!-- GRADUATE OUTCOME -->
 <section class="section">
   <div class="container">
-    <div class="section-head">
-      <span class="section-tag">The Graduate Outcome</span>
-      <h2>Not "I Passed 36 Courses."<br>But "I Can Do This."</h2>
-      <p>The distinction is central to the programme. Graduates leave with genuine capability — not just a transcript.</p>
-    </div>
-
+    <div class="section-head"><span class="section-tag">The Graduate Outcome</span><h2>Not "I Passed 36 Courses."<br>But "I Can Do This."</h2><p>The distinction is central to the programme. Graduates leave with genuine capability — not just a transcript.</p></div>
     <div class="outcome-compare">
-      <div class="outcome-box bad">
-        <span class="outcome-tag">A Weaker Outcome</span>
-        <p class="outcome-quote">"I passed 36 courses."</p>
-      </div>
-      <div class="outcome-box good">
-        <span class="outcome-tag">The Nolan Outcome</span>
-        <p class="outcome-quote">"I can analyse a business, understand its finances, use AI and data to improve it, develop a strategy, operate across international markets, solve real business problems and build a new venture."</p>
-      </div>
+      <div class="outcome-box bad"><span class="outcome-tag">A Weaker Outcome</span><p class="outcome-quote">"I passed 36 courses."</p></div>
+      <div class="outcome-box good"><span class="outcome-tag">The Nolan Outcome</span><p class="outcome-quote">"I can analyse a business, understand its finances, use AI and data to improve it, develop a strategy, operate across international markets, solve real business problems and build a new venture."</p></div>
     </div>
   </div>
 </section>
@@ -1096,12 +1124,7 @@ input,select,textarea{color-scheme:light only}
 <!-- TUITION & FEES -->
 <section class="section section-alt" id="fees">
   <div class="container">
-    <div class="section-head">
-      <span class="section-tag">Tuition &amp; Fees</span>
-      <h2>Transparent Pricing. Clear Investment.</h2>
-      <p>One tuition. Three years. Six semesters. No hidden charges. And with our 70–100% scholarships, most students pay far less than full tuition.</p>
-    </div>
-
+    <div class="section-head"><span class="section-tag">Tuition &amp; Fees</span><h2>Transparent Pricing. Clear Investment.</h2><p>One tuition. Three years. Six semesters. No hidden charges. And with our 70–100% scholarships, most students pay far less than full tuition.</p></div>
     <div class="fee-hero">
       <div class="fee-hero-main">
         <div class="fh-label">Full Tuition · 3-Year Programme</div>
@@ -1110,18 +1133,9 @@ input,select,textarea{color-scheme:light only}
         <div class="fh-note">Total investment for the complete Bachelor of Global Business &amp; Technology degree programme. No additional tuition charges across the 3 years.</div>
       </div>
       <div class="fee-hero-side">
-        <div class="fh-side-item">
-          <div class="fhsi-label">Per Year (Year 1 · 2 · 3)</div>
-          <div class="fhsi-value">K40,000 <small>≈ US$2,000</small></div>
-        </div>
-        <div class="fh-side-item">
-          <div class="fhsi-label">Per Semester (6 total)</div>
-          <div class="fhsi-value">K20,000 <small>≈ US$1,000</small></div>
-        </div>
-        <div class="fh-side-item">
-          <div class="fhsi-label">Per Month (36 months)</div>
-          <div class="fhsi-value">K3,333 <small>≈ US$167</small></div>
-        </div>
+        <div class="fh-side-item"><div class="fhsi-label">Per Year (Year 1 · 2 · 3)</div><div class="fhsi-value">K40,000 <small>≈ US$2,000</small></div></div>
+        <div class="fh-side-item"><div class="fhsi-label">Per Semester (6 total)</div><div class="fhsi-value">K20,000 <small>≈ US$1,000</small></div></div>
+        <div class="fh-side-item"><div class="fhsi-label">Per Month (36 months)</div><div class="fhsi-value">K3,333 <small>≈ US$167</small></div></div>
       </div>
     </div>
 
@@ -1129,110 +1143,31 @@ input,select,textarea{color-scheme:light only}
       <h3>What You'll Actually Invest — After Scholarship</h3>
       <p>Depending on your scholarship tier, here is what you'll invest across the full 3 years, and how that breaks down at every level.</p>
       <div class="investment-table">
-        <div class="it-row it-head">
-          <div class="it-cell it-tier">Scholarship</div>
-          <div class="it-cell">Total (3 Years)</div>
-          <div class="it-cell">Per Year</div>
-          <div class="it-cell">Per Semester</div>
-          <div class="it-cell">Per Month</div>
-        </div>
-        <div class="it-row">
-          <div class="it-cell it-tier">No Scholarship</div>
-          <div class="it-cell it-strong">K120,000 <small>≈ US$6,000</small></div>
-          <div class="it-cell">K40,000 <small>≈ US$2,000</small></div>
-          <div class="it-cell">K20,000 <small>≈ US$1,000</small></div>
-          <div class="it-cell">K3,333 <small>≈ US$167</small></div>
-        </div>
-        <div class="it-row">
-          <div class="it-cell it-tier">70% · Merit</div>
-          <div class="it-cell it-strong">K36,000 <small>≈ US$1,800</small></div>
-          <div class="it-cell">K12,000 <small>≈ US$600</small></div>
-          <div class="it-cell">K6,000 <small>≈ US$300</small></div>
-          <div class="it-cell">K1,000 <small>≈ US$50</small></div>
-        </div>
-        <div class="it-row it-highlight">
-          <div class="it-cell it-tier">85% · Founder's</div>
-          <div class="it-cell it-strong">K18,000 <small>≈ US$900</small></div>
-          <div class="it-cell">K6,000 <small>≈ US$300</small></div>
-          <div class="it-cell">K3,000 <small>≈ US$150</small></div>
-          <div class="it-cell">K500 <small>≈ US$25</small></div>
-        </div>
-        <div class="it-row it-best">
-          <div class="it-cell it-tier">100% · Founding Cohort</div>
-          <div class="it-cell it-strong">K0</div>
-          <div class="it-cell">K0</div>
-          <div class="it-cell">K0</div>
-          <div class="it-cell">K0</div>
-        </div>
+        <div class="it-row it-head"><div class="it-cell it-tier">Scholarship</div><div class="it-cell">Total (3 Years)</div><div class="it-cell">Per Year</div><div class="it-cell">Per Semester</div><div class="it-cell">Per Month</div></div>
+        <div class="it-row"><div class="it-cell it-tier">No Scholarship</div><div class="it-cell it-strong">K120,000 <small>≈ US$6,000</small></div><div class="it-cell">K40,000 <small>≈ US$2,000</small></div><div class="it-cell">K20,000 <small>≈ US$1,000</small></div><div class="it-cell">K3,333 <small>≈ US$167</small></div></div>
+        <div class="it-row"><div class="it-cell it-tier">70% · Merit</div><div class="it-cell it-strong">K36,000 <small>≈ US$1,800</small></div><div class="it-cell">K12,000 <small>≈ US$600</small></div><div class="it-cell">K6,000 <small>≈ US$300</small></div><div class="it-cell">K1,000 <small>≈ US$50</small></div></div>
+        <div class="it-row it-highlight"><div class="it-cell it-tier">85% · Founder's</div><div class="it-cell it-strong">K18,000 <small>≈ US$900</small></div><div class="it-cell">K6,000 <small>≈ US$300</small></div><div class="it-cell">K3,000 <small>≈ US$150</small></div><div class="it-cell">K500 <small>≈ US$25</small></div></div>
+        <div class="it-row it-best"><div class="it-cell it-tier">100% · Founding Cohort</div><div class="it-cell it-strong">K0</div><div class="it-cell">K0</div><div class="it-cell">K0</div><div class="it-cell">K0</div></div>
       </div>
     </div>
 
-    <div class="section-head" style="margin-top:60px;">
-      <span class="section-tag">Interactive Cost Calculator</span>
-      <h2>See Your Exact Investment</h2>
-      <p>Choose your scholarship tier, payment plan and currency to see your personalised breakdown.</p>
-    </div>
-
+    <div class="section-head" style="margin-top:60px;"><span class="section-tag">Interactive Cost Calculator</span><h2>See Your Exact Investment</h2><p>Choose your scholarship tier, payment plan and currency to see your personalised breakdown.</p></div>
     <div class="calc-wrapper">
       <div class="calc-inputs">
         <h3>Your Estimate</h3>
-        <div class="calc-group">
-          <label>Scholarship Tier</label>
-          <select id="calcTier">
-            <option value="0">No scholarship — full tuition</option>
-            <option value="70">70% — Merit Scholarship</option>
-            <option value="85" selected>85% — Founder's Scholarship</option>
-            <option value="100">100% — Founding Cohort Scholarship</option>
-          </select>
-        </div>
-        <div class="calc-group">
-          <label>Payment Plan</label>
-          <select id="calcPlan">
-            <option value="1">Pay in full (single payment)</option>
-            <option value="3" selected>3 yearly instalments</option>
-            <option value="6">6 semester instalments</option>
-            <option value="36">36 monthly instalments</option>
-          </select>
-        </div>
-        <div class="calc-group">
-          <label>Currency</label>
-          <select id="calcCurrency">
-            <option value="ZMW" selected>Zambian Kwacha (K)</option>
-            <option value="USD">US Dollars ($)</option>
-          </select>
-        </div>
-        <p style="font-size:12.5px;color:var(--gray-dark);line-height:1.6;margin-top:20px;padding-top:20px;border-top:1px dashed var(--gray-mid);font-style:italic;">
-          <i class="fas fa-info-circle" style="color:var(--gold-dark);margin-right:6px;"></i>
-          This is an indicative estimate. Actual fees confirmed upon offer.
-        </p>
+        <div class="calc-group"><label>Scholarship Tier</label><select id="calcTier"><option value="0">No scholarship — full tuition</option><option value="70">70% — Merit Scholarship</option><option value="85" selected>85% — Founder's Scholarship</option><option value="100">100% — Founding Cohort Scholarship</option></select></div>
+        <div class="calc-group"><label>Payment Plan</label><select id="calcPlan"><option value="1">Pay in full (single payment)</option><option value="3" selected>3 yearly instalments</option><option value="6">6 semester instalments</option><option value="36">36 monthly instalments</option></select></div>
+        <div class="calc-group"><label>Currency</label><select id="calcCurrency"><option value="ZMW" selected>Zambian Kwacha (K)</option><option value="USD">US Dollars ($)</option></select></div>
+        <p style="font-size:12.5px;color:var(--gray-dark);line-height:1.6;margin-top:20px;padding-top:20px;border-top:1px dashed var(--gray-mid);font-style:italic;"><i class="fas fa-info-circle" style="color:var(--gold-dark);margin-right:6px;"></i>This is an indicative estimate. Actual fees confirmed upon offer.</p>
       </div>
-
       <div class="calc-result">
         <h3>Your Investment</h3>
-        <div class="calc-row">
-          <span class="cr-label">Full tuition (3 years)</span>
-          <span class="cr-value" id="calcFull">K120,000</span>
-        </div>
-        <div class="calc-row discount">
-          <span class="cr-label" id="calcScholarshipLabel">85% scholarship</span>
-          <span class="cr-value" id="calcDiscount">– K102,000</span>
-        </div>
-        <div class="calc-row">
-          <span class="cr-label">Net tuition</span>
-          <span class="cr-value" id="calcNet">K18,000</span>
-        </div>
-        <div class="calc-total">
-          <span class="ct-label">You pay</span>
-          <span class="ct-value" id="calcTotal">K18,000</span>
-        </div>
-        <div class="calc-monthly">
-          <div class="cm-label">Payment Plan</div>
-          <div class="cm-value" id="calcMonthly">K6,000 / instalment</div>
-          <div class="cm-sub" id="calcMonthlySub">3 instalments</div>
-        </div>
-        <div class="calc-cta">
-          <a href="#apply" class="btn btn-primary">Apply with This Estimate <i class="fas fa-arrow-right"></i></a>
-        </div>
+        <div class="calc-row"><span class="cr-label">Full tuition (3 years)</span><span class="cr-value" id="calcFull">K120,000</span></div>
+        <div class="calc-row discount"><span class="cr-label" id="calcScholarshipLabel">85% scholarship</span><span class="cr-value" id="calcDiscount">– K102,000</span></div>
+        <div class="calc-row"><span class="cr-label">Net tuition</span><span class="cr-value" id="calcNet">K18,000</span></div>
+        <div class="calc-total"><span class="ct-label">You pay</span><span class="ct-value" id="calcTotal">K18,000</span></div>
+        <div class="calc-monthly"><div class="cm-label">Payment Plan</div><div class="cm-value" id="calcMonthly">K6,000 / instalment</div><div class="cm-sub" id="calcMonthlySub">3 instalments</div></div>
+        <div class="calc-cta"><a href="#apply" class="btn btn-primary">Apply with This Estimate <i class="fas fa-arrow-right"></i></a></div>
       </div>
     </div>
   </div>
@@ -1253,114 +1188,30 @@ input,select,textarea{color-scheme:light only}
 
 <section class="section">
   <div class="container">
-    <div class="section-head">
-      <span class="section-tag">Scholarship Tiers</span>
-      <h2>Choose the Scholarship That Fits You</h2>
-      <p>All scholarships are awarded on a rolling basis. Applying earlier gives you the best chance at the highest tier.</p>
-    </div>
-
+    <div class="section-head"><span class="section-tag">Scholarship Tiers</span><h2>Choose the Scholarship That Fits You</h2><p>All scholarships are awarded on a rolling basis. Applying earlier gives you the best chance at the highest tier.</p></div>
     <div class="scholarship-tiers">
-      <div class="scholarship-tier">
-        <div class="st-percent">70<span>%</span></div>
-        <div class="st-tier-name">Merit Scholarship</div>
-        <div class="st-tier-net">K36,000 <small>≈ US$1,800 over 3 years</small></div>
-        <p class="st-tier-desc">For students with strong academic records and demonstrated achievement. Automatically considered with your application.</p>
-        <button type="button" class="st-tier-btn" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'});">Check Your Eligibility</button>
-      </div>
-
-      <div class="scholarship-tier featured">
-        <div class="st-percent">85<span>%</span></div>
-        <div class="st-tier-name">Founder's Scholarship</div>
-        <div class="st-tier-net">K18,000 <small>≈ US$900 over 3 years</small></div>
-        <p class="st-tier-desc">For high-potential students who demonstrate exceptional drive, initiative, and readiness to build something real.</p>
-        <button type="button" class="st-tier-btn" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'});">Check Your Eligibility</button>
-      </div>
-
-      <div class="scholarship-tier">
-        <div class="st-percent">100<span>%</span></div>
-        <div class="st-tier-name">Founding Cohort Scholarship</div>
-        <div class="st-tier-net">K0 <small>Full tuition covered</small></div>
-        <p class="st-tier-desc">Our most prestigious award. Full tuition — for exceptional candidates who will shape the first cohort and represent the Institute globally.</p>
-        <button type="button" class="st-tier-btn" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'});">Check Your Eligibility</button>
-      </div>
+      <div class="scholarship-tier"><div class="st-percent">70<span>%</span></div><div class="st-tier-name">Merit Scholarship</div><div class="st-tier-net">K36,000 <small>≈ US$1,800 over 3 years</small></div><p class="st-tier-desc">For students with strong academic records and demonstrated achievement. Automatically considered with your application.</p><button type="button" class="st-tier-btn" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'});">Check Your Eligibility</button></div>
+      <div class="scholarship-tier featured"><div class="st-percent">85<span>%</span></div><div class="st-tier-name">Founder's Scholarship</div><div class="st-tier-net">K18,000 <small>≈ US$900 over 3 years</small></div><p class="st-tier-desc">For high-potential students who demonstrate exceptional drive, initiative, and readiness to build something real.</p><button type="button" class="st-tier-btn" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'});">Check Your Eligibility</button></div>
+      <div class="scholarship-tier"><div class="st-percent">100<span>%</span></div><div class="st-tier-name">Founding Cohort Scholarship</div><div class="st-tier-net">K0 <small>Full tuition covered</small></div><p class="st-tier-desc">Our most prestigious award. Full tuition — for exceptional candidates who will shape the first cohort and represent the Institute globally.</p><button type="button" class="st-tier-btn" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'});">Check Your Eligibility</button></div>
     </div>
 
     <div class="eligibility-wrapper" id="eligibility">
       <h3>Scholarship Eligibility Checker</h3>
       <p>Answer 5 quick questions to see what scholarship tier you may qualify for. This is an indicative estimate — the final decision rests with the admissions committee.</p>
-
       <div class="eligibility-progress"><div class="eligibility-progress-fill" id="eligProgressFill"></div></div>
-
-      <div class="elig-question active" data-elig-q="1">
-        <div class="elig-q-num">Question 1 of 5</div>
-        <div class="elig-q-text">What best describes your most recent academic achievement?</div>
-        <div class="elig-options">
-          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I completed secondary school with average results.</span></button>
-          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I completed secondary school with strong results.</span></button>
-          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I hold a diploma or partial degree with good performance.</span></button>
-          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I hold a completed degree or top-tier diploma with excellent results.</span></button>
-        </div>
-      </div>
-
-      <div class="elig-question" data-elig-q="2">
-        <div class="elig-q-num">Question 2 of 5</div>
-        <div class="elig-q-text">Have you ever started, led, or built anything?</div>
-        <div class="elig-options">
-          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>Not yet — this programme will be my first major step.</span></button>
-          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have led a team or a small project.</span></button>
-          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have built something — a business, initiative, or side project.</span></button>
-          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have founded or co-founded a business or notable venture.</span></button>
-        </div>
-      </div>
-
-      <div class="elig-question" data-elig-q="3">
-        <div class="elig-q-num">Question 3 of 5</div>
-        <div class="elig-q-text">How would you describe your financial need?</div>
-        <div class="elig-options">
-          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I can comfortably pay full tuition.</span></button>
-          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I need partial support to make it work.</span></button>
-          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>Without scholarship support, I would find it difficult.</span></button>
-          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>Without a near-full scholarship, I cannot attend.</span></button>
-        </div>
-      </div>
-
-      <div class="elig-question" data-elig-q="4">
-        <div class="elig-q-num">Question 4 of 5</div>
-        <div class="elig-q-text">How strong is your vision for what you will do after this degree?</div>
-        <div class="elig-options">
-          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I'm still figuring it out.</span></button>
-          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have a general direction.</span></button>
-          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have a clear plan I'm pursuing.</span></button>
-          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have a specific venture, role, or mission I'm building toward.</span></button>
-        </div>
-      </div>
-
-      <div class="elig-question" data-elig-q="5">
-        <div class="elig-q-num">Question 5 of 5</div>
-        <div class="elig-q-text">How would you describe your global or cross-cultural experience?</div>
-        <div class="elig-options">
-          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>Limited so far.</span></button>
-          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I've worked with people from different backgrounds.</span></button>
-          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I've worked or studied across multiple countries or cultures.</span></button>
-          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I'm already operating globally.</span></button>
-        </div>
-      </div>
-
+      <div class="elig-question active" data-elig-q="1"><div class="elig-q-num">Question 1 of 5</div><div class="elig-q-text">What best describes your most recent academic achievement?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I completed secondary school with average results.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I completed secondary school with strong results.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I hold a diploma or partial degree with good performance.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I hold a completed degree or top-tier diploma with excellent results.</span></button></div></div>
+      <div class="elig-question" data-elig-q="2"><div class="elig-q-num">Question 2 of 5</div><div class="elig-q-text">Have you ever started, led, or built anything?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>Not yet — this programme will be my first major step.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have led a team or a small project.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have built something — a business, initiative, or side project.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have founded or co-founded a business or notable venture.</span></button></div></div>
+      <div class="elig-question" data-elig-q="3"><div class="elig-q-num">Question 3 of 5</div><div class="elig-q-text">How would you describe your financial need?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I can comfortably pay full tuition.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I need partial support to make it work.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>Without scholarship support, I would find it difficult.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>Without a near-full scholarship, I cannot attend.</span></button></div></div>
+      <div class="elig-question" data-elig-q="4"><div class="elig-q-num">Question 4 of 5</div><div class="elig-q-text">How strong is your vision for what you will do after this degree?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I'm still figuring it out.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have a general direction.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have a clear plan I'm pursuing.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have a specific venture, role, or mission I'm building toward.</span></button></div></div>
+      <div class="elig-question" data-elig-q="5"><div class="elig-q-num">Question 5 of 5</div><div class="elig-q-text">How would you describe your global or cross-cultural experience?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>Limited so far.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I've worked with people from different backgrounds.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I've worked or studied across multiple countries or cultures.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I'm already operating globally.</span></button></div></div>
       <div class="elig-result" id="eligResult">
         <div class="er-percent" id="eligPercent">85%</div>
         <div class="er-tier" id="eligTier">Founder's Scholarship · Estimated</div>
         <h3>You may qualify for scholarship support</h3>
-        <p id="eligMessage">Based on your responses, you could be considered for a strong scholarship. This is an indicative estimate only — the final decision rests with the admissions committee.</p>
-        <div class="er-actions">
-          <a href="#apply" class="btn btn-primary btn-lg">Start Your Application <i class="fas fa-arrow-right"></i></a>
-          <button type="button" class="btn btn-outline btn-lg" id="eligRetake">Retake Checker</button>
-        </div>
+        <p id="eligMessage">Based on your responses, you could be considered for a strong scholarship.</p>
+        <div class="er-actions"><a href="#apply" class="btn btn-primary btn-lg">Start Your Application <i class="fas fa-arrow-right"></i></a><button type="button" class="btn btn-outline btn-lg" id="eligRetake">Retake Checker</button></div>
       </div>
-
-      <div class="elig-nav">
-        <button type="button" class="btn btn-outline btn-sm" id="eligPrev" style="visibility:hidden;">← Previous</button>
-        <button type="button" class="btn btn-primary btn-sm" id="eligNext" disabled>Next Question →</button>
-      </div>
+      <div class="elig-nav"><button type="button" class="btn btn-outline btn-sm" id="eligPrev" style="visibility:hidden;">← Previous</button><button type="button" class="btn btn-primary btn-sm" id="eligNext" disabled>Next Question →</button></div>
     </div>
   </div>
 </section>
@@ -1368,91 +1219,23 @@ input,select,textarea{color-scheme:light only}
 <!-- SELF-ORIENTATION HUB -->
 <section class="section" id="orientation">
   <div class="container">
-    <div class="section-head">
-      <span class="section-tag">Self-Orientation Hub</span>
-      <h2>Everything You Need to Decide</h2>
-      <p>No calls required. No waiting for a response. Use these interactive tools to orient yourself — then apply when you're ready.</p>
-    </div>
-
+    <div class="section-head"><span class="section-tag">Self-Orientation Hub</span><h2>Everything You Need to Decide</h2><p>No calls required. Use these interactive tools to orient yourself — then apply when you're ready.</p></div>
     <div class="quiz-wrapper" id="quiz">
       <div class="quiz-inner">
-        <div class="quiz-head">
-          <div class="qh-icon"><i class="fas fa-compass"></i></div>
-          <h3>Is This Programme Right for You?</h3>
-          <p>Answer 5 questions. Get an honest read on whether the Bachelor of Global Business &amp; Technology fits where you're heading.</p>
-        </div>
-
+        <div class="quiz-head"><div class="qh-icon"><i class="fas fa-compass"></i></div><h3>Is This Programme Right for You?</h3><p>Answer 5 questions. Get an honest read on whether the Bachelor of Global Business &amp; Technology fits where you're heading.</p></div>
         <div class="quiz-progress"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-
-        <div class="quiz-step active" data-quiz-q="1">
-          <div class="quiz-q-num">Question 1 of 5</div>
-          <div class="quiz-q-text">What is your main goal over the next 3 years?</div>
-          <div class="quiz-options">
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Build my own venture or business</span></button>
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Grow into a business or technology leadership role</span></button>
-            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Develop practical business and technology skills</span></button>
-            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm still exploring what I want to do</span></button>
-          </div>
-        </div>
-
-        <div class="quiz-step" data-quiz-q="2">
-          <div class="quiz-q-num">Question 2 of 5</div>
-          <div class="quiz-q-text">How do you feel about AI, data, and technology in business?</div>
-          <div class="quiz-options">
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to lead the way technology transforms business</span></button>
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be highly competent in tech-enabled work</span></button>
-            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>I want to understand it well enough to lead</span></button>
-            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm more interested in the business side</span></button>
-          </div>
-        </div>
-
-        <div class="quiz-step" data-quiz-q="3">
-          <div class="quiz-q-num">Question 3 of 5</div>
-          <div class="quiz-q-text">How do you learn best?</div>
-          <div class="quiz-options">
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By building, testing, and pitching real projects</span></button>
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By applying ideas to real business problems</span></button>
-            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>By combining theory with practice</span></button>
-            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>Mostly by reading and studying theory first</span></button>
-          </div>
-        </div>
-
-        <div class="quiz-step" data-quiz-q="4">
-          <div class="quiz-q-num">Question 4 of 5</div>
-          <div class="quiz-q-text">What pace and intensity are you ready for?</div>
-          <div class="quiz-options">
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Intensive, structured, and highly practical</span></button>
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be challenged at a serious professional level</span></button>
-            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Balanced — serious but manageable alongside work</span></button>
-            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm looking for something light</span></button>
-          </div>
-        </div>
-
-        <div class="quiz-step" data-quiz-q="5">
-          <div class="quiz-q-num">Question 5 of 5</div>
-          <div class="quiz-q-text">Where do you want to operate?</div>
-          <div class="quiz-options">
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Globally — across countries and markets</span></button>
-            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>In emerging markets, building serious capability</span></button>
-            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>In my country, at a high professional level</span></button>
-            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I haven't decided</span></button>
-          </div>
-        </div>
-
+        <div class="quiz-step active" data-quiz-q="1"><div class="quiz-q-num">Question 1 of 5</div><div class="quiz-q-text">What is your main goal over the next 3 years?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Build my own venture or business</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Grow into a business or technology leadership role</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Develop practical business and technology skills</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm still exploring what I want to do</span></button></div></div>
+        <div class="quiz-step" data-quiz-q="2"><div class="quiz-q-num">Question 2 of 5</div><div class="quiz-q-text">How do you feel about AI, data, and technology in business?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to lead the way technology transforms business</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be highly competent in tech-enabled work</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>I want to understand it well enough to lead</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm more interested in the business side</span></button></div></div>
+        <div class="quiz-step" data-quiz-q="3"><div class="quiz-q-num">Question 3 of 5</div><div class="quiz-q-text">How do you learn best?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By building, testing, and pitching real projects</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By applying ideas to real business problems</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>By combining theory with practice</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>Mostly by reading and studying theory first</span></button></div></div>
+        <div class="quiz-step" data-quiz-q="4"><div class="quiz-q-num">Question 4 of 5</div><div class="quiz-q-text">What pace and intensity are you ready for?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Intensive, structured, and highly practical</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be challenged at a serious professional level</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Balanced — serious but manageable alongside work</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm looking for something light</span></button></div></div>
+        <div class="quiz-step" data-quiz-q="5"><div class="quiz-q-num">Question 5 of 5</div><div class="quiz-q-text">Where do you want to operate?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Globally — across countries and markets</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>In emerging markets, building serious capability</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>In my country, at a high professional level</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I haven't decided</span></button></div></div>
         <div class="quiz-result" id="quizResult">
           <div class="qr-score" id="quizScore">15 / 15</div>
           <h3 id="quizVerdict">This programme is built for you.</h3>
-          <p id="quizMessage">Your answers suggest this is exactly the kind of programme you're looking for. You're ready to apply.</p>
-          <div class="qr-actions">
-            <a href="#apply" class="btn btn-primary btn-lg">Apply Now <i class="fas fa-arrow-right"></i></a>
-            <button type="button" class="btn btn-outline-white btn-lg" id="quizRetake">Retake</button>
-          </div>
+          <p id="quizMessage">Your answers suggest this is exactly the kind of programme you're looking for.</p>
+          <div class="qr-actions"><a href="#apply" class="btn btn-primary btn-lg">Apply Now <i class="fas fa-arrow-right"></i></a><button type="button" class="btn btn-outline-white btn-lg" id="quizRetake">Retake</button></div>
         </div>
-
-        <div class="quiz-nav">
-          <button type="button" class="btn btn-outline-white btn-sm" id="quizPrev" style="visibility:hidden;">← Previous</button>
-          <button type="button" class="btn btn-primary btn-sm" id="quizNext" disabled>Next Question →</button>
-        </div>
+        <div class="quiz-nav"><button type="button" class="btn btn-outline-white btn-sm" id="quizPrev" style="visibility:hidden;">← Previous</button><button type="button" class="btn btn-primary btn-sm" id="quizNext" disabled>Next Question →</button></div>
       </div>
     </div>
   </div>
@@ -1461,12 +1244,7 @@ input,select,textarea{color-scheme:light only}
 <!-- CAREER EXPLORER -->
 <section class="section section-alt" id="careers">
   <div class="container">
-    <div class="section-head">
-      <span class="section-tag">Career Explorer</span>
-      <h2>Where Graduates Go</h2>
-      <p>Click a career track to see the kinds of roles and industries this degree opens.</p>
-    </div>
-
+    <div class="section-head"><span class="section-tag">Career Explorer</span><h2>Where Graduates Go</h2><p>Click a career track to see the kinds of roles and industries this degree opens.</p></div>
     <div class="career-tabs">
       <button type="button" class="career-tab active" data-career="business">Business &amp; Strategy</button>
       <button type="button" class="career-tab" data-career="tech">Technology &amp; AI</button>
@@ -1474,111 +1252,27 @@ input,select,textarea{color-scheme:light only}
       <button type="button" class="career-tab" data-career="finance">Finance &amp; Analytics</button>
       <button type="button" class="career-tab" data-career="global">Global Operations</button>
     </div>
-
-    <div class="career-panel active" data-career-panel="business">
-      <div class="career-content">
-        <h3>Business &amp; Strategy</h3>
-        <p>Graduates are prepared for roles that require business acumen, analytical judgement, and the ability to translate strategy into execution across organisations.</p>
-        <div class="career-roles">
-          <div class="career-role"><div class="cr-title">Business Analyst</div><div class="cr-industry">Consulting &amp; Corporate</div><p>Analyse business problems and design practical solutions.</p></div>
-          <div class="career-role"><div class="cr-title">Strategy Associate</div><div class="cr-industry">Corporate Strategy</div><p>Support strategic planning, market analysis, and execution.</p></div>
-          <div class="career-role"><div class="cr-title">Operations Manager</div><div class="cr-industry">Operations</div><p>Lead operations teams and improve business processes.</p></div>
-          <div class="career-role"><div class="cr-title">Management Consultant</div><div class="cr-industry">Consulting</div><p>Advise organisations on business and technology challenges.</p></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="career-panel" data-career-panel="tech">
-      <div class="career-content">
-        <h3>Technology &amp; AI</h3>
-        <p>Graduates bridge business and technology — leading AI adoption, driving digital transformation, and translating emerging tech into business value.</p>
-        <div class="career-roles">
-          <div class="career-role"><div class="cr-title">AI Business Lead</div><div class="cr-industry">Technology &amp; AI</div><p>Identify and lead AI opportunities inside organisations.</p></div>
-          <div class="career-role"><div class="cr-title">Digital Transformation Manager</div><div class="cr-industry">Enterprise Technology</div><p>Lead technology-driven change programmes.</p></div>
-          <div class="career-role"><div class="cr-title">Product Manager</div><div class="cr-industry">Technology &amp; Product</div><p>Build and ship technology products with business impact.</p></div>
-          <div class="career-role"><div class="cr-title">FinTech Specialist</div><div class="cr-industry">Financial Services</div><p>Work at the intersection of finance and modern technology.</p></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="career-panel" data-career-panel="entrepreneurship">
-      <div class="career-content">
-        <h3>Entrepreneurship</h3>
-        <p>Graduates leave with the tools, frameworks, and portfolio to build ventures — or join early-stage teams as operator-founders.</p>
-        <div class="career-roles">
-          <div class="career-role"><div class="cr-title">Founder / Co-Founder</div><div class="cr-industry">Startups</div><p>Build a new venture from concept to launch.</p></div>
-          <div class="career-role"><div class="cr-title">Early-Stage Operator</div><div class="cr-industry">Startups &amp; Scale-ups</div><p>Take on a leadership role at a fast-growing company.</p></div>
-          <div class="career-role"><div class="cr-title">Venture Analyst</div><div class="cr-industry">VC &amp; Private Equity</div><p>Evaluate investment opportunities and support portfolio companies.</p></div>
-          <div class="career-role"><div class="cr-title">Innovation Lead</div><div class="cr-industry">Corporate Innovation</div><p>Drive innovation programmes inside established organisations.</p></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="career-panel" data-career-panel="finance">
-      <div class="career-content">
-        <h3>Finance &amp; Analytics</h3>
-        <p>Graduates apply technology and data to financial analysis, decision-making, and business intelligence.</p>
-        <div class="career-roles">
-          <div class="career-role"><div class="cr-title">Financial Analyst</div><div class="cr-industry">Corporate Finance</div><p>Analyse financial performance and support key decisions.</p></div>
-          <div class="career-role"><div class="cr-title">Data Analyst</div><div class="cr-industry">Data &amp; Analytics</div><p>Turn data into insight that drives business decisions.</p></div>
-          <div class="career-role"><div class="cr-title">Business Intelligence Analyst</div><div class="cr-industry">BI &amp; Reporting</div><p>Build reporting systems and dashboards for organisations.</p></div>
-          <div class="career-role"><div class="cr-title">Investment Associate</div><div class="cr-industry">Investment &amp; Capital Markets</div><p>Support investment analysis, due diligence, and portfolio work.</p></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="career-panel" data-career-panel="global">
-      <div class="career-content">
-        <h3>Global Operations</h3>
-        <p>Graduates are prepared to operate across borders — in international markets, supply chains, and cross-cultural business environments.</p>
-        <div class="career-roles">
-          <div class="career-role"><div class="cr-title">International Business Manager</div><div class="cr-industry">Global Business</div><p>Lead cross-border business initiatives.</p></div>
-          <div class="career-role"><div class="cr-title">Supply Chain Analyst</div><div class="cr-industry">Operations &amp; Logistics</div><p>Optimise global supply chains using data and technology.</p></div>
-          <div class="career-role"><div class="cr-title">Global Marketing Manager</div><div class="cr-industry">Marketing</div><p>Lead marketing across multiple markets and cultures.</p></div>
-          <div class="career-role"><div class="cr-title">International Trade Analyst</div><div class="cr-industry">Trade &amp; Economics</div><p>Support trade strategy and cross-border business operations.</p></div>
-        </div>
-      </div>
-    </div>
+    <div class="career-panel active" data-career-panel="business"><div class="career-content"><h3>Business &amp; Strategy</h3><p>Graduates are prepared for roles that require business acumen, analytical judgement, and the ability to translate strategy into execution across organisations.</p><div class="career-roles"><div class="career-role"><div class="cr-title">Business Analyst</div><div class="cr-industry">Consulting &amp; Corporate</div><p>Analyse business problems and design practical solutions.</p></div><div class="career-role"><div class="cr-title">Strategy Associate</div><div class="cr-industry">Corporate Strategy</div><p>Support strategic planning, market analysis, and execution.</p></div><div class="career-role"><div class="cr-title">Operations Manager</div><div class="cr-industry">Operations</div><p>Lead operations teams and improve business processes.</p></div><div class="career-role"><div class="cr-title">Management Consultant</div><div class="cr-industry">Consulting</div><p>Advise organisations on business and technology challenges.</p></div></div></div></div>
+    <div class="career-panel" data-career-panel="tech"><div class="career-content"><h3>Technology &amp; AI</h3><p>Graduates bridge business and technology — leading AI adoption, driving digital transformation, and translating emerging tech into business value.</p><div class="career-roles"><div class="career-role"><div class="cr-title">AI Business Lead</div><div class="cr-industry">Technology &amp; AI</div><p>Identify and lead AI opportunities inside organisations.</p></div><div class="career-role"><div class="cr-title">Digital Transformation Manager</div><div class="cr-industry">Enterprise Technology</div><p>Lead technology-driven change programmes.</p></div><div class="career-role"><div class="cr-title">Product Manager</div><div class="cr-industry">Technology &amp; Product</div><p>Build and ship technology products with business impact.</p></div><div class="career-role"><div class="cr-title">FinTech Specialist</div><div class="cr-industry">Financial Services</div><p>Work at the intersection of finance and modern technology.</p></div></div></div></div>
+    <div class="career-panel" data-career-panel="entrepreneurship"><div class="career-content"><h3>Entrepreneurship</h3><p>Graduates leave with the tools, frameworks, and portfolio to build ventures — or join early-stage teams as operator-founders.</p><div class="career-roles"><div class="career-role"><div class="cr-title">Founder / Co-Founder</div><div class="cr-industry">Startups</div><p>Build a new venture from concept to launch.</p></div><div class="career-role"><div class="cr-title">Early-Stage Operator</div><div class="cr-industry">Startups &amp; Scale-ups</div><p>Take on a leadership role at a fast-growing company.</p></div><div class="career-role"><div class="cr-title">Venture Analyst</div><div class="cr-industry">VC &amp; Private Equity</div><p>Evaluate investment opportunities and support portfolio companies.</p></div><div class="career-role"><div class="cr-title">Innovation Lead</div><div class="cr-industry">Corporate Innovation</div><p>Drive innovation programmes inside established organisations.</p></div></div></div></div>
+    <div class="career-panel" data-career-panel="finance"><div class="career-content"><h3>Finance &amp; Analytics</h3><p>Graduates apply technology and data to financial analysis, decision-making, and business intelligence.</p><div class="career-roles"><div class="career-role"><div class="cr-title">Financial Analyst</div><div class="cr-industry">Corporate Finance</div><p>Analyse financial performance and support key decisions.</p></div><div class="career-role"><div class="cr-title">Data Analyst</div><div class="cr-industry">Data &amp; Analytics</div><p>Turn data into insight that drives business decisions.</p></div><div class="career-role"><div class="cr-title">Business Intelligence Analyst</div><div class="cr-industry">BI &amp; Reporting</div><p>Build reporting systems and dashboards for organisations.</p></div><div class="career-role"><div class="cr-title">Investment Associate</div><div class="cr-industry">Investment &amp; Capital Markets</div><p>Support investment analysis, due diligence, and portfolio work.</p></div></div></div></div>
+    <div class="career-panel" data-career-panel="global"><div class="career-content"><h3>Global Operations</h3><p>Graduates are prepared to operate across borders — in international markets, supply chains, and cross-cultural business environments.</p><div class="career-roles"><div class="career-role"><div class="cr-title">International Business Manager</div><div class="cr-industry">Global Business</div><p>Lead cross-border business initiatives.</p></div><div class="career-role"><div class="cr-title">Supply Chain Analyst</div><div class="cr-industry">Operations &amp; Logistics</div><p>Optimise global supply chains using data and technology.</p></div><div class="career-role"><div class="cr-title">Global Marketing Manager</div><div class="cr-industry">Marketing</div><p>Lead marketing across multiple markets and cultures.</p></div><div class="career-role"><div class="cr-title">International Trade Analyst</div><div class="cr-industry">Trade &amp; Economics</div><p>Support trade strategy and cross-border business operations.</p></div></div></div></div>
   </div>
 </section>
 
 <!-- SAMPLE TIMETABLE -->
 <section class="section">
   <div class="container">
-    <div class="section-head">
-      <span class="section-tag">Sample Week</span>
-      <h2>What a Typical Week Looks Like</h2>
-      <p>Flexible enough to work alongside your life, structured enough to keep you on track.</p>
-    </div>
+    <div class="section-head"><span class="section-tag">Sample Week</span><h2>What a Typical Week Looks Like</h2><p>Flexible enough to work alongside your life, structured enough to keep you on track.</p></div>
     <div class="timetable">
       <h3>Sample Weekly Timetable · Year 1</h3>
       <p>Each week combines recorded lectures, one live seminar, one applied workshop, and structured study.</p>
       <div class="tt-grid">
-        <div class="tt-day">
-          <div class="tt-name">Monday</div>
-          <div class="tt-item">Recorded lectures<small>Principles of Global Business</small></div>
-          <div class="tt-item">Reading + discussion<small>Business Communication</small></div>
-        </div>
-        <div class="tt-day">
-          <div class="tt-name">Tuesday</div>
-          <div class="tt-item">Problem set<small>Business Mathematics</small></div>
-          <div class="tt-item">Group prep<small>Virtual team</small></div>
-        </div>
-        <div class="tt-day">
-          <div class="tt-name">Wednesday</div>
-          <div class="tt-item">Live global seminar<small>60–90 mins · with faculty</small></div>
-          <div class="tt-item">Applied workshop<small>Entrepreneurship &amp; Innovation</small></div>
-        </div>
-        <div class="tt-day">
-          <div class="tt-name">Thursday</div>
-          <div class="tt-item">Case analysis<small>Financial Accounting</small></div>
-          <div class="tt-item">Recorded lectures<small>Digital Business Fundamentals</small></div>
-        </div>
-        <div class="tt-day">
-          <div class="tt-name">Friday</div>
-          <div class="tt-item">Project work<small>Business Concept Development</small></div>
-          <div class="tt-item">Mentor session (bi-weekly)<small>Industry mentor</small></div>
-        </div>
+        <div class="tt-day"><div class="tt-name">Monday</div><div class="tt-item">Recorded lectures<small>Principles of Global Business</small></div><div class="tt-item">Reading + discussion<small>Business Communication</small></div></div>
+        <div class="tt-day"><div class="tt-name">Tuesday</div><div class="tt-item">Problem set<small>Business Mathematics</small></div><div class="tt-item">Group prep<small>Virtual team</small></div></div>
+        <div class="tt-day"><div class="tt-name">Wednesday</div><div class="tt-item">Live global seminar<small>60–90 mins · with faculty</small></div><div class="tt-item">Applied workshop<small>Entrepreneurship &amp; Innovation</small></div></div>
+        <div class="tt-day"><div class="tt-name">Thursday</div><div class="tt-item">Case analysis<small>Financial Accounting</small></div><div class="tt-item">Recorded lectures<small>Digital Business Fundamentals</small></div></div>
+        <div class="tt-day"><div class="tt-name">Friday</div><div class="tt-item">Project work<small>Business Concept Development</small></div><div class="tt-item">Mentor session (bi-weekly)<small>Industry mentor</small></div></div>
       </div>
     </div>
   </div>
@@ -1587,12 +1281,7 @@ input,select,textarea{color-scheme:light only}
 <!-- FAQ -->
 <section class="section section-alt" id="faq">
   <div class="container">
-    <div class="section-head">
-      <span class="section-tag">Self-Service FAQ</span>
-      <h2>Answers Without Waiting</h2>
-      <p>Everything you need to know, organised by category. No need to email or call.</p>
-    </div>
-
+    <div class="section-head"><span class="section-tag">Self-Service FAQ</span><h2>Answers Without Waiting</h2><p>Everything you need to know, organised by category. No need to email or call.</p></div>
     <div class="faq-categories">
       <button type="button" class="faq-cat active" data-cat="all">All Questions</button>
       <button type="button" class="faq-cat" data-cat="programme">Programme</button>
@@ -1600,66 +1289,20 @@ input,select,textarea{color-scheme:light only}
       <button type="button" class="faq-cat" data-cat="admissions">Admissions</button>
       <button type="button" class="faq-cat" data-cat="fees">Fees</button>
     </div>
-
     <div class="faq-list">
-      <div class="faq-item" data-cat="programme">
-        <button type="button" class="faq-q">Is this programme fully online? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Yes — the Bachelor of Global Business &amp; Technology is delivered entirely online, built around weekly learning units, live global seminars, applied workshops, and collaborative projects. You can study from anywhere in the world.</p></div>
-      </div>
-      <div class="faq-item" data-cat="programme">
-        <button type="button" class="faq-q">How long does the programme take? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Three academic years, structured as six semesters, totalling approximately 120–130 credits depending on the accreditation framework adopted.</p></div>
-      </div>
-      <div class="faq-item" data-cat="programme">
-        <button type="button" class="faq-q">What qualification will I receive? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>A Bachelor's Degree in Global Business &amp; Technology, awarded by Nolan University, alongside a professionally presented digital portfolio from your applied projects and capstone.</p></div>
-      </div>
-
-      <div class="faq-item" data-cat="scholarships">
-        <button type="button" class="faq-q">How much scholarship can I get? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Scholarships range from 70% to 100% of tuition, depending on your academic record, entrepreneurial or leadership experience, financial need, and clarity of vision. Use the Scholarship Eligibility Checker on this page for an indicative estimate.</p>
-        <p><strong>70% scholarship:</strong> you pay K36,000 (≈ US$1,800) across 3 years.<br>
-        <strong>85% scholarship:</strong> you pay K18,000 (≈ US$900) across 3 years.<br>
-        <strong>100% scholarship:</strong> you pay K0 — full tuition covered.</p></div>
-      </div>
-      <div class="faq-item" data-cat="scholarships">
-        <button type="button" class="faq-q">How do I apply for a scholarship? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Scholarships are considered as part of your main application. There is no separate scholarship application — simply indicate your interest during the application and complete the short scholarship assessment section.</p></div>
-      </div>
-      <div class="faq-item" data-cat="scholarships">
-        <button type="button" class="faq-q">Is the scholarship guaranteed if the eligibility checker says I qualify? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>No — the checker gives an indicative estimate only. Final scholarship decisions are made by the admissions committee, based on the full application including academic records, essays, and demonstrated fit.</p></div>
-      </div>
-
-      <div class="faq-item" data-cat="admissions">
-        <button type="button" class="faq-q">What are the entry requirements? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>You should have completed secondary education (or equivalent), or hold a diploma or partial degree. Beyond that, we look for motivation, clarity of purpose, and demonstrated capability — not just grades.</p></div>
-      </div>
-      <div class="faq-item" data-cat="admissions">
-        <button type="button" class="faq-q">Is there an application fee? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Yes — a modest, non-refundable application fee of <strong>K120</strong> (Zambian applicants) or <strong>US$10</strong> (international applicants). Payable by Airtel Money, MTN MoMo, bank transfer / Visa, PayPal, or crypto. The fee must be settled before you can proceed to the academic and scholarship sections of the application.</p></div>
-      </div>
-      <div class="faq-item" data-cat="admissions">
-        <button type="button" class="faq-q">Can I apply if I'm already working full time? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Absolutely. The programme is designed for working professionals — with flexible weekly structure, recorded lectures, and live sessions scheduled to accommodate international time zones.</p></div>
-      </div>
-
-      <div class="faq-item" data-cat="fees">
-        <button type="button" class="faq-q">How much is the total tuition for the full programme? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Total tuition for the full 3-year Bachelor of Global Business &amp; Technology is <strong>K120,000</strong> (≈ US$6,000). That works out at K40,000 per year, K20,000 per semester, or about K3,333 per month across 36 months — before any scholarship.</p></div>
-      </div>
-      <div class="faq-item" data-cat="fees">
-        <button type="button" class="faq-q">Can I pay in instalments? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Yes. You can pay in full, in 3 yearly instalments, in 6 semester instalments, or in 36 monthly instalments depending on the payment plan you choose. Use the Cost Calculator on this page to see your options.</p></div>
-      </div>
-      <div class="faq-item" data-cat="fees">
-        <button type="button" class="faq-q">What payment methods do you accept? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Mobile money (Airtel Money, MTN MoMo), bank transfer / Visa card via Standard Chartered Bank, PayPal, and cryptocurrency (BTC, ETH, USDT-TRC20) for international applicants.</p></div>
-      </div>
-      <div class="faq-item" data-cat="fees">
-        <button type="button" class="faq-q">Are there any additional fees? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>The K120,000 tuition covers the full programme. There is a non-refundable application fee of K120 (Zambian) or US$10 (international). No hidden charges.</p></div>
-      </div>
+      <div class="faq-item" data-cat="programme"><button type="button" class="faq-q">Is this programme fully online? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Yes — the Bachelor of Global Business &amp; Technology is delivered entirely online, built around weekly learning units, live global seminars, applied workshops, and collaborative projects.</p></div></div>
+      <div class="faq-item" data-cat="programme"><button type="button" class="faq-q">How long does the programme take? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Three academic years, structured as six semesters, totalling approximately 120–130 credits.</p></div></div>
+      <div class="faq-item" data-cat="programme"><button type="button" class="faq-q">What qualification will I receive? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>A Bachelor's Degree in Global Business &amp; Technology, awarded by Nolan University, alongside a professionally presented digital portfolio.</p></div></div>
+      <div class="faq-item" data-cat="scholarships"><button type="button" class="faq-q">How much scholarship can I get? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Scholarships range from 70% to 100% of tuition, depending on your academic record, entrepreneurial or leadership experience, financial need, and clarity of vision.</p></div></div>
+      <div class="faq-item" data-cat="scholarships"><button type="button" class="faq-q">How do I apply for a scholarship? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Scholarships are considered as part of your main application. Simply indicate your interest during the application and complete the short scholarship assessment section.</p></div></div>
+      <div class="faq-item" data-cat="scholarships"><button type="button" class="faq-q">Is the scholarship guaranteed if the eligibility checker says I qualify? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>No — the checker gives an indicative estimate only. Final scholarship decisions are made by the admissions committee.</p></div></div>
+      <div class="faq-item" data-cat="admissions"><button type="button" class="faq-q">What are the entry requirements? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>You should have completed secondary education (or equivalent), or hold a diploma or partial degree. Beyond that, we look for motivation, clarity of purpose, and demonstrated capability.</p></div></div>
+      <div class="faq-item" data-cat="admissions"><button type="button" class="faq-q">Is there an application fee? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Yes — a non-refundable application fee of <strong>K120</strong> (Zambian applicants) or <strong>US$10</strong> (international). Payable by Airtel Money, MTN MoMo, bank transfer / Visa, PayPal, or crypto. You'll be asked to send proof of payment to WhatsApp, and a downloadable receipt is generated for you.</p></div></div>
+      <div class="faq-item" data-cat="admissions"><button type="button" class="faq-q">Can I apply if I'm already working full time? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Absolutely. The programme is designed for working professionals — with flexible weekly structure, recorded lectures, and live sessions across time zones.</p></div></div>
+      <div class="faq-item" data-cat="fees"><button type="button" class="faq-q">How much is the total tuition? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Total tuition is <strong>K120,000</strong> (≈ US$6,000) — K40,000 per year, K20,000 per semester, or about K3,333 per month across 36 months — before any scholarship.</p></div></div>
+      <div class="faq-item" data-cat="fees"><button type="button" class="faq-q">Can I pay in instalments? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Yes. Full payment, 3 yearly instalments, 6 semester instalments, or 36 monthly instalments. Use the Cost Calculator above.</p></div></div>
+      <div class="faq-item" data-cat="fees"><button type="button" class="faq-q">What payment methods do you accept? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Airtel Money, MTN MoMo, bank transfer / Visa via Standard Chartered Bank, PayPal, and cryptocurrency (BTC, ETH, USDT) for international applicants.</p></div></div>
+      <div class="faq-item" data-cat="fees"><button type="button" class="faq-q">Why do I have to send proof of payment to WhatsApp? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>To protect both you and Nolan Institute — it lets our team quickly verify every payment against our records, prevent errors, and confirm receipt before your application moves forward. You'll also receive a downloadable receipt for your own records.</p></div></div>
     </div>
   </div>
 </section>
@@ -1689,7 +1332,6 @@ input,select,textarea{color-scheme:light only}
       <div class="apply-section-form active" data-apply-form="1">
         <h3>Personal Information</h3>
         <p class="as-sub">Tell us a little about yourself. All fields marked * are required.</p>
-
         <div class="programme-locked">
           <i class="fas fa-graduation-cap"></i>
           <div class="pl-text">
@@ -1698,7 +1340,6 @@ input,select,textarea{color-scheme:light only}
             <div class="pl-meta">3 Years · Online · K120,000 (≈ US$6,000) · Founding Cohort 2026</div>
           </div>
         </div>
-
         <div class="apply-form-grid" style="margin-top:22px;">
           <div class="apply-form-group"><label>First Name <span class="req">*</span></label><input type="text" id="apFirstName"></div>
           <div class="apply-form-group"><label>Last Name <span class="req">*</span></label><input type="text" id="apLastName"></div>
@@ -1722,15 +1363,15 @@ input,select,textarea{color-scheme:light only}
         </div>
       </div>
 
-      <!-- STEP 2 · MANDATORY PAYMENT -->
+      <!-- STEP 2 · PAYMENT -->
       <div class="apply-section-form" data-apply-form="2">
         <h3>Application Fee Payment</h3>
         <p class="as-sub">
           A non-refundable application fee is required before you can continue.
-          Choose your preferred payment method below, complete the transfer, then confirm below.
+          Choose your payment method, complete the transfer, then confirm below.
+          Your confirmation will be sent to admissions on WhatsApp, and a downloadable receipt will be generated for you.
         </p>
 
-        <!-- Amount banner -->
         <div class="pay-amount-banner">
           <div>
             <div class="pab-label">Amount Due</div>
@@ -1740,7 +1381,6 @@ input,select,textarea{color-scheme:light only}
           <i class="fas fa-shield-alt pab-icon"></i>
         </div>
 
-        <!-- Method cards -->
         <div class="pay-methods-grid" id="apPayMethods">
           <button type="button" class="pay-method-card pm-airtel" data-pm="airtel">
             <div class="pm-logo">airtel</div>
@@ -1769,57 +1409,147 @@ input,select,textarea{color-scheme:light only}
           </button>
         </div>
 
-        <!-- Details panel — rendered dynamically -->
         <div id="apPayDetails" style="display:none;"></div>
 
-        <!-- Confirmation form -->
         <div class="pay-confirm-form" id="apPayConfirm" style="display:none;">
           <h4><i class="fas fa-clipboard-check"></i> Confirm Your Payment</h4>
           <p style="font-size:12.5px;color:var(--gray-dark);margin-bottom:16px;line-height:1.6;">
-            Once you have completed the transfer, please confirm below so we can match your payment to your application.
+            Once you have completed the transfer, confirm below. Your details will be sent to admissions on WhatsApp, and a receipt will be generated.
           </p>
-
           <div class="apply-form-grid">
             <div class="apply-form-group">
               <label>Your Name (as on the payment) <span class="req">*</span></label>
-              <input type="text" id="apPaySenderName" placeholder="e.g. Chanda Mwale">
+              <input type="text" id="apPaySenderName" placeholder="e.g. Mulenga Katyala">
             </div>
             <div class="apply-form-group">
               <label>Phone / Email used to pay <span class="req">*</span></label>
-              <input type="text" id="apPaySenderContact" placeholder="e.g. +260 977 123 456 or you@example.com">
+              <input type="text" id="apPaySenderContact" placeholder="e.g. 076 304 9144 or you@example.com">
             </div>
             <div class="apply-form-group full">
-              <label>Transaction Reference / Confirmation Code</label>
-              <input type="text" id="apPayRef" placeholder="e.g. MP240101.1234.A56789 — optional but recommended">
-              <div class="apply-helper">From your SMS confirmation, bank receipt, or PayPal / blockchain transaction ID.</div>
+              <label>Transaction Reference / Transaction ID <span class="req">*</span></label>
+              <input type="text" id="apPayRef" placeholder="e.g. 10683000119">
+              <div class="apply-helper">From your SMS confirmation, bank receipt, PayPal receipt, or blockchain TxID. <strong>Required</strong> — used to verify your payment and shown on your receipt.</div>
             </div>
           </div>
-
           <div class="apply-checks" style="margin-top:6px;">
-            <label><input type="checkbox" id="apPayConfirmed"> I confirm I have sent <strong id="apPayConfirmAmount">K120</strong> to the account shown above.</label>
+            <label><input type="checkbox" id="apPayConfirmed"> I confirm I have sent <strong id="apPayConfirmAmount">K120</strong> to the account shown above, and I agree my details will be shared with the admissions team via WhatsApp for verification.</label>
           </div>
-
           <button type="button" class="btn btn-primary btn-lg btn-block" id="apPaySubmit" style="margin-top:6px;">
-            <i class="fas fa-check-circle"></i> Confirm Payment &amp; Continue
+            <i class="fas fa-check-circle"></i> Confirm Payment &amp; Generate Receipt
           </button>
         </div>
 
-        <!-- Success panel -->
+        <!-- SUCCESS PANEL -->
         <div id="apPaymentSuccess" style="display:none;">
           <div class="payment-success">
             <i class="fas fa-check-circle ps-icon"></i>
-            <h4>Payment Confirmed</h4>
-            <p>Amount: <strong id="apPaidAmount">K120</strong></p>
-            <p>Method: <strong id="apPaidMethod">—</strong></p>
-            <p>Sender: <strong id="apPaidSender">—</strong></p>
-            <div class="ps-ref" id="apPaymentRef">NOL-XXXXXX</div>
-            <div class="ps-next">
-              <i class="fas fa-arrow-right"></i> You may now continue with the rest of your application.
+            <h4>Payment Recorded</h4>
+            <p>Receipt Reference: <strong id="apPaymentRef">NOL-XXXXXX</strong></p>
+            <p style="font-size:12.5px;color:var(--gray-dark);margin-top:6px;">Your receipt has been generated below. Download it for your records.</p>
+
+            <!-- WhatsApp verification block -->
+            <div class="ps-whatsapp-block" id="apWhatsappBlock">
+              <div class="psw-title"><i class="fab fa-whatsapp"></i> Step 1 — Send Proof to Admissions</div>
+              <p>To confirm your payment, please send the confirmation below to our admissions team on WhatsApp <strong>+260 762 499 581</strong>. They will compare your details against our records and confirm receipt.</p>
+              <a href="#" class="btn-whatsapp" id="apWhatsappBtn" target="_blank" rel="noopener">
+                <i class="fab fa-whatsapp"></i> <span>Send Proof to WhatsApp</span>
+              </a>
+              <div class="psw-note">If WhatsApp does not open automatically, tap the button above.</div>
+              <div class="psw-sent" id="apWhatsappSent"><i class="fas fa-check-circle"></i> Confirmation ready — please tap <strong>Send</strong> in WhatsApp.</div>
             </div>
+
+            <!-- Receipt section -->
+            <div class="receipt-section">
+              <div class="receipt-section-head">
+                <div>
+                  <h5><i class="fas fa-file-invoice" style="color:var(--gold-dark);margin-right:6px;"></i> Your Receipt</h5>
+                  <div class="rsh-sub">Download or print for your records</div>
+                </div>
+                <div class="receipt-buttons">
+                  <button type="button" class="receipt-btn receipt-btn-gold" id="apDownloadReceiptBtn">
+                    <i class="fas fa-download"></i> Download PDF
+                  </button>
+                  <button type="button" class="receipt-btn" id="apPrintReceiptBtn">
+                    <i class="fas fa-print"></i> Print
+                  </button>
+                </div>
+              </div>
+
+              <div id="apReceipt" class="nolan-receipt">
+                <div class="nr-header">
+                  <div>
+                    <div class="nr-brand">NOLAN INSTITUTE</div>
+                    <div class="nr-brand-sub">Learn. Innovate. Lead.</div>
+                  </div>
+                  <div>
+                    <div class="nr-doc-type">PAYMENT RECEIPT</div>
+                    <div class="nr-status" id="nrStatus">PENDING VERIFICATION</div>
+                  </div>
+                </div>
+
+                <div class="nr-meta">
+                  <div><span class="nr-lbl">Receipt No:</span> <strong id="nrRef">—</strong></div>
+                  <div><span class="nr-lbl">Date &amp; Time:</span> <strong id="nrDate">—</strong></div>
+                </div>
+
+                <div class="nr-highlight-amount">
+                  <div class="nr-ha-lbl">Amount Received</div>
+                  <div class="nr-ha-val" id="nrAmount">—</div>
+                </div>
+
+                <div class="nr-section">
+                  <div class="nr-section-title">From — Payer / Sender</div>
+                  <div class="nr-grid-2">
+                    <div><span class="nr-lbl">Name:</span> <strong id="nrSenderName">—</strong></div>
+                    <div><span class="nr-lbl">Contact:</span> <strong id="nrSenderContact">—</strong></div>
+                  </div>
+                </div>
+
+                <div class="nr-section">
+                  <div class="nr-section-title">To — Recipient</div>
+                  <div class="nr-grid-2">
+                    <div><span class="nr-lbl">Recipient Name:</span> <strong>Mwaba Lewis</strong></div>
+                    <div><span class="nr-lbl">On behalf of:</span> <strong>Nolan Institute</strong></div>
+                    <div><span class="nr-lbl">Account / Channel:</span> <strong id="nrRecipientAccount">—</strong></div>
+                  </div>
+                </div>
+
+                <div class="nr-section">
+                  <div class="nr-section-title">Payment Details</div>
+                  <div class="nr-grid-2">
+                    <div><span class="nr-lbl">Method:</span> <strong id="nrMethod">—</strong></div>
+                    <div><span class="nr-lbl">Transaction ID:</span> <strong id="nrTxId">—</strong></div>
+                    <div><span class="nr-lbl">Reference:</span> <strong id="nrUserRef">—</strong></div>
+                    <div><span class="nr-lbl">Status:</span> <strong style="color:#856404;">Pending Verification</strong></div>
+                  </div>
+                </div>
+
+                <div class="nr-section">
+                  <div class="nr-section-title">Application</div>
+                  <div class="nr-grid-2">
+                    <div><span class="nr-lbl">Applicant:</span> <strong id="nrApplicant">—</strong></div>
+                    <div><span class="nr-lbl">Email:</span> <strong id="nrEmail">—</strong></div>
+                    <div><span class="nr-lbl">Programme:</span> <strong>Bachelor of Global Business &amp; Technology</strong></div>
+                    <div><span class="nr-lbl">Intake:</span> <strong>Founding Cohort 2026</strong></div>
+                  </div>
+                </div>
+
+                <div class="nr-footer">
+                  <div class="nr-footer-note">
+                    This receipt acknowledges the applicant's submission of payment details to Nolan Institute. Final confirmation is completed by the admissions team after verification on WhatsApp. If you have any questions, please contact us using the details below.
+                  </div>
+                  <div class="nr-footer-contact">
+                    <strong>Nolan Institute of Global Business &amp; Technology</strong><br>
+                    Lusaka, Zambia · admissions@nolaninstitute.org · +260 768 526 191
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="btn btn-outline btn-sm" id="apPayReset" style="margin-top:18px;">
+              <i class="fas fa-redo"></i> Change payment method
+            </button>
           </div>
-          <button type="button" class="btn btn-outline btn-sm" id="apPayReset" style="margin-top:14px;">
-            <i class="fas fa-redo"></i> Change payment method
-          </button>
         </div>
       </div>
 
@@ -1827,11 +1557,9 @@ input,select,textarea{color-scheme:light only}
       <div class="apply-section-form" data-apply-form="3">
         <h3>Academic Background</h3>
         <p class="as-sub">Tell us about your education so far.</p>
-
         <div class="apply-form-grid">
           <div class="apply-form-group full"><label>Current or Most Recent Institution <span class="req">*</span></label><input type="text" id="apSchool"></div>
-          <div class="apply-form-group">
-            <label>Highest Qualification <span class="req">*</span></label>
+          <div class="apply-form-group"><label>Highest Qualification <span class="req">*</span></label>
             <select id="apDegree">
               <option value="">Select</option>
               <option>Completed Secondary School</option>
@@ -1854,35 +1582,20 @@ input,select,textarea{color-scheme:light only}
       <div class="apply-section-form" data-apply-form="4">
         <h3>Scholarship Assessment</h3>
         <p class="as-sub">All applicants are considered for scholarships ranging from 70% to 100% of tuition. Answer honestly — this helps us place you correctly.</p>
-
         <div class="scholarship-flag">
           <i class="fas fa-percent"></i>
           <div class="sf-text">
             <strong>70–100% scholarships available for the Founding Cohort 2026.</strong>
-            <p>Full tuition is K120,000 (≈ US$6,000). With a 70% scholarship you'd pay K36,000 across 3 years. With 85% you'd pay K18,000. With 100% you'd pay K0. Complete this short assessment to be considered.</p>
+            <p>Full tuition is K120,000 (≈ US$6,000). With a 70% scholarship you'd pay K36,000 across 3 years. With 85% you'd pay K18,000. With 100% you'd pay K0.</p>
           </div>
         </div>
-
         <div class="apply-form-group">
           <label>Are you applying for scholarship consideration? <span class="req">*</span></label>
           <div class="apply-radio-grid" id="apScholarshipInterest">
-            <button type="button" class="apply-radio" data-value="yes">
-              <span class="ar-check"></span>
-              <div class="ar-content">
-                <div class="ar-title">Yes — I'd like to be considered for a scholarship</div>
-                <div class="ar-desc">You'll be assessed for a 70–100% scholarship based on merit, need, and potential.</div>
-              </div>
-            </button>
-            <button type="button" class="apply-radio" data-value="no">
-              <span class="ar-check"></span>
-              <div class="ar-content">
-                <div class="ar-title">No — I'll pay full tuition</div>
-                <div class="ar-desc">Proceed as a full-fee applicant. Payment plans still available.</div>
-              </div>
-            </button>
+            <button type="button" class="apply-radio" data-value="yes"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Yes — I'd like to be considered for a scholarship</div><div class="ar-desc">You'll be assessed for a 70–100% scholarship based on merit, need, and potential.</div></div></button>
+            <button type="button" class="apply-radio" data-value="no"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">No — I'll pay full tuition</div><div class="ar-desc">Proceed as a full-fee applicant. Payment plans still available.</div></div></button>
           </div>
         </div>
-
         <div class="apply-form-group">
           <label>How would you describe your financial need? <span class="req">*</span></label>
           <div class="apply-radio-grid" id="apFinancialNeed">
@@ -1892,7 +1605,6 @@ input,select,textarea{color-scheme:light only}
             <button type="button" class="apply-radio" data-value="critical"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Without near-full scholarship, I cannot attend</div></div></button>
           </div>
         </div>
-
         <div class="apply-form-group">
           <label>What best describes your entrepreneurial or leadership experience? <span class="req">*</span></label>
           <div class="apply-radio-grid" id="apLeadership">
@@ -1908,92 +1620,40 @@ input,select,textarea{color-scheme:light only}
       <div class="apply-section-form" data-apply-form="5">
         <h3>Short Essays</h3>
         <p class="as-sub">Help us understand you and your ambition. Keep it honest and specific.</p>
-
-        <div class="apply-form-group">
-          <label>Essay 1: Why this programme, and why now? <span class="req">*</span></label>
-          <textarea id="apEssay1" rows="6" placeholder="Tell us why the Bachelor of Global Business & Technology is the right programme for you at this point in your life. (150–300 words)"></textarea>
-          <div class="apply-helper">Minimum 150 words.</div>
-        </div>
-
-        <div class="apply-form-group">
-          <label>Essay 2: What will you build or do after graduation? <span class="req">*</span></label>
-          <textarea id="apEssay2" rows="6" placeholder="Describe the venture, role, or mission you're moving toward. (150–300 words)"></textarea>
-          <div class="apply-helper">Minimum 150 words.</div>
-        </div>
+        <div class="apply-form-group"><label>Essay 1: Why this programme, and why now? <span class="req">*</span></label><textarea id="apEssay1" rows="6" placeholder="Tell us why the Bachelor of Global Business & Technology is the right programme for you at this point in your life. (150–300 words)"></textarea><div class="apply-helper">Minimum 150 words.</div></div>
+        <div class="apply-form-group"><label>Essay 2: What will you build or do after graduation? <span class="req">*</span></label><textarea id="apEssay2" rows="6" placeholder="Describe the venture, role, or mission you're moving toward. (150–300 words)"></textarea><div class="apply-helper">Minimum 150 words.</div></div>
       </div>
 
       <!-- STEP 6 · DOCUMENTS -->
       <div class="apply-section-form" data-apply-form="6">
         <h3>Supporting Documents</h3>
-        <p class="as-sub">
-          Upload your documents. PDF preferred. Files are validated before being accepted to protect your
-          device's memory — if a file is too large, you'll be prompted to compress it or email it to
-          <strong>admissions@nolaninstitute.org</strong>.
-        </p>
-
+        <p class="as-sub">Upload your documents. PDF preferred. Files are validated before being accepted to protect your device's memory.</p>
         <div class="apply-form-group">
           <label>Resume / CV <span class="req">*</span></label>
           <div class="upload-drop" data-upload-for="apResume">
-            <input type="file" id="apResume"
-                   accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-            <div class="upload-empty">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <div class="upload-text">Tap to browse or drag &amp; drop</div>
-              <div class="upload-hint">PDF or DOC · max 5MB</div>
-            </div>
-            <div class="upload-filled" style="display:none;">
-              <i class="fas fa-file-alt"></i>
-              <div class="upload-meta">
-                <div class="upload-name"></div>
-                <div class="upload-size"></div>
-              </div>
-              <button type="button" class="upload-remove" aria-label="Remove file"><i class="fas fa-times"></i></button>
-            </div>
+            <input type="file" id="apResume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+            <div class="upload-empty"><i class="fas fa-cloud-upload-alt"></i><div class="upload-text">Tap to browse or drag &amp; drop</div><div class="upload-hint">PDF or DOC · max 5MB</div></div>
+            <div class="upload-filled" style="display:none;"><i class="fas fa-file-alt"></i><div class="upload-meta"><div class="upload-name"></div><div class="upload-size"></div></div><button type="button" class="upload-remove" aria-label="Remove file"><i class="fas fa-times"></i></button></div>
           </div>
           <div class="apply-helper">PDF or DOC · max 5MB</div>
         </div>
-
         <div class="apply-form-group">
           <label>Academic Record (Transcript, Certificate, or Results Slip) <span class="req">*</span></label>
           <div class="upload-drop" data-upload-for="apTranscript">
             <input type="file" id="apTranscript" accept=".pdf,application/pdf">
-            <div class="upload-empty">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <div class="upload-text">Tap to browse or drag &amp; drop</div>
-              <div class="upload-hint">PDF · max 10MB</div>
-            </div>
-            <div class="upload-filled" style="display:none;">
-              <i class="fas fa-file-pdf"></i>
-              <div class="upload-meta">
-                <div class="upload-name"></div>
-                <div class="upload-size"></div>
-              </div>
-              <button type="button" class="upload-remove" aria-label="Remove file"><i class="fas fa-times"></i></button>
-            </div>
+            <div class="upload-empty"><i class="fas fa-cloud-upload-alt"></i><div class="upload-text">Tap to browse or drag &amp; drop</div><div class="upload-hint">PDF · max 10MB</div></div>
+            <div class="upload-filled" style="display:none;"><i class="fas fa-file-pdf"></i><div class="upload-meta"><div class="upload-name"></div><div class="upload-size"></div></div><button type="button" class="upload-remove" aria-label="Remove file"><i class="fas fa-times"></i></button></div>
           </div>
           <div class="apply-helper">PDF · max 10MB</div>
         </div>
-
         <div class="apply-form-group">
           <label>Supporting Document for Scholarship (Optional)</label>
           <div class="upload-drop" data-upload-for="apScholarshipDoc">
-            <input type="file" id="apScholarshipDoc"
-                   accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
-            <div class="upload-empty">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <div class="upload-text">Tap to browse or drag &amp; drop</div>
-              <div class="upload-hint">PDF, JPG or PNG · max 5MB</div>
-            </div>
-            <div class="upload-filled" style="display:none;">
-              <i class="fas fa-file-image"></i>
-              <div class="upload-meta">
-                <div class="upload-name"></div>
-                <div class="upload-size"></div>
-              </div>
-              <button type="button" class="upload-remove" aria-label="Remove file"><i class="fas fa-times"></i></button>
-            </div>
+            <input type="file" id="apScholarshipDoc" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png">
+            <div class="upload-empty"><i class="fas fa-cloud-upload-alt"></i><div class="upload-text">Tap to browse or drag &amp; drop</div><div class="upload-hint">PDF, JPG or PNG · max 5MB</div></div>
+            <div class="upload-filled" style="display:none;"><i class="fas fa-file-image"></i><div class="upload-meta"><div class="upload-name"></div><div class="upload-size"></div></div><button type="button" class="upload-remove" aria-label="Remove file"><i class="fas fa-times"></i></button></div>
           </div>
-          <div class="apply-helper">Optional — any document supporting your scholarship case (financial statement, recommendation, achievement record).</div>
+          <div class="apply-helper">Optional — any document supporting your scholarship case.</div>
         </div>
       </div>
 
@@ -2001,15 +1661,12 @@ input,select,textarea{color-scheme:light only}
       <div class="apply-section-form" data-apply-form="7">
         <h3>Review &amp; Submit</h3>
         <p class="as-sub">Check everything is correct before submitting.</p>
-
         <div class="apply-fee-panel" id="applyFeePanel">
           <h4><i class="fas fa-receipt"></i> Payment Confirmation</h4>
           <p id="applyFeePaidLine">Payment status: <strong>Pending</strong></p>
           <p id="applyFeeDetailLine">Please return to Step 2 to complete payment.</p>
         </div>
-
         <div id="applyReview"></div>
-
         <div class="apply-checks">
           <label><input type="checkbox" id="apAgreeTerms"> I certify that all information I have provided is complete and accurate.</label>
           <label><input type="checkbox" id="apAgreeSubmit"> I understand that submitting false information may result in revocation of admission.</label>
@@ -2094,11 +1751,16 @@ input,select,textarea{color-scheme:light only}
 <div class="apply-toast" id="applyToast"><i class="fas fa-check-circle"></i><span id="applyToastMsg"></span></div>
 
 <script>
+/* =============================================================
+   ADMIN WHATSAPP — where payment proofs are sent
+   Replace with your admissions WhatsApp if it changes.
+   Format: country code + number, no "+", no spaces.
+   ============================================================= */
+const ADMIN_WHATSAPP = '260762499581';
+
 /* PAGE ENTRY FIX */
 (function pageEntryFix(){
-  if ('scrollRestoration' in history) {
-    try { history.scrollRestoration = 'manual'; } catch(e) {}
-  }
+  if ('scrollRestoration' in history) { try { history.scrollRestoration = 'manual'; } catch(e) {} }
   window.addEventListener('load', function(){
     if (!window.location.hash || window.location.hash === '#apply' || window.location.hash === '') {
       window.scrollTo(0, 0);
@@ -2111,9 +1773,7 @@ const $$ = s => document.querySelectorAll(s);
 const USD_RATE = 20;
 const FULL_ZMW = 120000;
 
-/* ==============================
-   MOBILE MENU
-   ============================== */
+/* MOBILE MENU */
 function toggleMobileMenu(force){
   const nav = document.getElementById('mobileNav');
   const btn = document.getElementById('mobileMenuBtn');
@@ -2225,32 +1885,28 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
       nextBtn.disabled = false;
     });
   });
-  nextBtn.addEventListener('click', function(){
-    if(current === total){ showResult(); } else { current++; updateUI(); }
-  });
+  nextBtn.addEventListener('click', function(){ if(current === total){ showResult(); } else { current++; updateUI(); } });
   prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(); } });
   function showResult(){
     const sum = Object.values(answers).reduce((a,b) => a+b, 0);
     let percent, tier, message;
-    if(sum >= 18){ percent = '100%'; tier = 'Founding Cohort Scholarship · Estimated'; message = 'Your responses suggest you may be a strong candidate for our highest tier scholarship (full tuition covered). This is an indicative estimate only — the final decision rests with the admissions committee.'; }
-    else if(sum >= 14){ percent = '85%'; tier = "Founder's Scholarship · Estimated"; message = 'Based on your responses, you could be considered for a strong scholarship — you would pay approximately K18,000 (≈ US$900) across 3 years. This is an indicative estimate only.'; }
-    else if(sum >= 10){ percent = '70%'; tier = 'Merit Scholarship · Estimated'; message = 'You may qualify for a merit-based scholarship — you would pay approximately K36,000 (≈ US$1,800) across 3 years. You\'ll be automatically considered when you submit your application.'; }
-    else { percent = 'TBD'; tier = 'Assessment Required'; message = 'Based on your responses, scholarship eligibility will require committee review. We encourage you to apply — other support may be available.'; }
+    if(sum >= 18){ percent = '100%'; tier = 'Founding Cohort Scholarship · Estimated'; message = 'Your responses suggest you may be a strong candidate for our highest tier scholarship (full tuition covered). This is an indicative estimate only.'; }
+    else if(sum >= 14){ percent = '85%'; tier = "Founder's Scholarship · Estimated"; message = 'Based on your responses, you could be considered for a strong scholarship — you would pay approximately K18,000 (≈ US$900) across 3 years.'; }
+    else if(sum >= 10){ percent = '70%'; tier = 'Merit Scholarship · Estimated'; message = 'You may qualify for a merit-based scholarship — you would pay approximately K36,000 (≈ US$1,800) across 3 years.'; }
+    else { percent = 'TBD'; tier = 'Assessment Required'; message = 'Based on your responses, scholarship eligibility will require committee review. We encourage you to apply.'; }
     document.getElementById('eligPercent').textContent = percent;
     document.getElementById('eligTier').textContent = tier;
     document.getElementById('eligMessage').textContent = message;
     questions.forEach(q => q.classList.remove('active'));
     result.classList.add('active');
-    nextBtn.style.display = 'none';
-    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none'; prevBtn.style.display = 'none';
     fill.style.width = '100%';
   }
   document.getElementById('eligRetake').addEventListener('click', function(){
     current = 1; answers = {};
     document.querySelectorAll('.elig-option').forEach(o => o.classList.remove('selected'));
     result.classList.remove('active');
-    nextBtn.style.display = 'inline-flex';
-    prevBtn.style.display = 'inline-flex';
+    nextBtn.style.display = 'inline-flex'; prevBtn.style.display = 'inline-flex';
     updateUI();
   });
   updateUI();
@@ -2283,32 +1939,28 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
       nextBtn.disabled = false;
     });
   });
-  nextBtn.addEventListener('click', function(){
-    if(current === total){ showResult(); } else { current++; updateUI(); }
-  });
+  nextBtn.addEventListener('click', function(){ if(current === total){ showResult(); } else { current++; updateUI(); } });
   prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(); } });
   function showResult(){
     const sum = Object.values(answers).reduce((a,b) => a+b, 0);
     const max = total * 3;
     let verdict, message;
-    if(sum >= max - 2){ verdict = "This programme is built for you."; message = "Your answers suggest this is exactly the kind of programme you're looking for. You're ready to apply."; }
-    else if(sum >= max - 5){ verdict = "Strong fit."; message = "This programme aligns well with your goals and how you like to learn. Consider applying to the Founding Cohort."; }
+    if(sum >= max - 2){ verdict = "This programme is built for you."; message = "Your answers suggest this is exactly the kind of programme you're looking for."; }
+    else if(sum >= max - 5){ verdict = "Strong fit."; message = "This programme aligns well with your goals and how you like to learn."; }
     else { verdict = "Worth exploring further."; message = "You may still benefit greatly. Explore the programme structure, careers, and cost calculator above, then decide."; }
     document.getElementById('quizScore').textContent = sum + ' / ' + max;
     document.getElementById('quizVerdict').textContent = verdict;
     document.getElementById('quizMessage').textContent = message;
     steps.forEach(s => s.classList.remove('active'));
     result.classList.add('active');
-    nextBtn.style.display = 'none';
-    prevBtn.style.display = 'none';
+    nextBtn.style.display = 'none'; prevBtn.style.display = 'none';
     fill.style.width = '100%';
   }
   document.getElementById('quizRetake').addEventListener('click', function(){
     current = 1; answers = {};
     document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
     result.classList.remove('active');
-    nextBtn.style.display = 'inline-flex';
-    prevBtn.style.display = 'inline-flex';
+    nextBtn.style.display = 'inline-flex'; prevBtn.style.display = 'inline-flex';
     updateUI();
   });
   updateUI();
@@ -2356,6 +2008,7 @@ const PAYMENT_METHODS = {
     sub: 'Pay via Airtel Money in Zambian Kwacha',
     amountZMW: 'K120',
     amountUSD: 'K120',
+    recipientAccount: '+260 975 914 001 (Airtel)',
     rows: [
       { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true },
       { label: 'Recipient Note',  value: 'Receiving on behalf of Nolan Institute', plain: true },
@@ -2379,6 +2032,7 @@ const PAYMENT_METHODS = {
     sub: 'Pay via MTN MoMo in Zambian Kwacha',
     amountZMW: 'K120',
     amountUSD: 'K120',
+    recipientAccount: '076 852 6191 (MTN MoMo)',
     rows: [
       { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true },
       { label: 'Recipient Note',  value: 'Receiving on behalf of Nolan Institute', plain: true },
@@ -2402,10 +2056,11 @@ const PAYMENT_METHODS = {
     sub: 'Standard Chartered Bank',
     amountZMW: 'K120',
     amountUSD: 'US$10',
+    recipientAccount: 'Standard Chartered · 0152502166700',
     rows: [
       { label: 'Bank', value: 'Standard Chartered Bank', plain: true },
       { label: 'Account Name', value: 'Nolan Institute (Mwaba Lewis)', plain: true },
-      { label: 'Account Number', value: '015-XXXXXXX-XX', copy: true, copyValue: '015XXXXXXXX', placeholder: true },
+      { label: 'Account Number', value: '0152502166700', copy: true, copyValue: '0152502166700' },
       { label: 'Branch', value: 'Lusaka Main Branch, Zambia', plain: true },
       { label: 'Reference', value: 'Your Full Name + "Nolan"', plain: true }
     ],
@@ -2416,7 +2071,7 @@ const PAYMENT_METHODS = {
       'Use your <strong>full name + "Nolan"</strong> as the transfer reference',
       'Save your receipt or transaction confirmation'
     ],
-    note: 'For Visa card payments, use your bank\'s online card-to-account service to send to the Standard Chartered account above. The exact account number will be confirmed by admissions on request — please contact admissions@nolaninstitute.org if you need it urgently.'
+    note: 'For Visa card payments, use your bank\'s online card-to-account service to send to the Standard Chartered account above.'
   },
   paypal: {
     label: 'PayPal',
@@ -2427,6 +2082,7 @@ const PAYMENT_METHODS = {
     sub: 'Send to our verified PayPal account',
     amountZMW: 'US$10',
     amountUSD: 'US$10',
+    recipientAccount: 'lewismwaba@gmail.com (PayPal)',
     rows: [
       { label: 'Recipient Email', value: 'lewismwaba@gmail.com', copy: true, copyValue: 'lewismwaba@gmail.com' },
       { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true },
@@ -2451,17 +2107,19 @@ const PAYMENT_METHODS = {
     sub: 'For international applicants',
     amountZMW: 'US$10 equivalent',
     amountUSD: 'US$10 equivalent',
+    recipientAccount: 'User ID 14XXXXXXXXXX (crypto)',
     rows: [
-      { label: 'Accepted Coins', value: 'BTC · ETH · USDT (TRC20)', plain: true },
-      { label: 'Request Wallet', value: 'lewismwaba@gmail.com', copy: true, copyValue: 'lewismwaba@gmail.com' },
+      { label: 'Accepted Coins', value: 'BTC · ETH · USDT (TRC20 / ERC20)', plain: true },
+      { label: 'User ID / Pay ID', value: '14XXXXXXXXXX', copy: true, copyValue: '14XXXXXXXXXX' },
       { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true }
     ],
     steps: [
-      'Email <strong>lewismwaba@gmail.com</strong> with the subject <strong>"Nolan Crypto Payment"</strong>',
-      'State which coin you will use (BTC, ETH, or USDT-TRC20)',
-      'You will receive our wallet address within 24 hours',
-      'Send the <strong>US$10 equivalent</strong> — save the transaction hash',
-      'Return here, and enter the transaction hash as your reference'
+      'Open your crypto wallet or exchange app (Binance, Bybit, Trust Wallet, etc.)',
+      'Choose the coin you wish to use — <strong>BTC, ETH, or USDT</strong>',
+      'Send the <strong>US$10 equivalent</strong> to our User ID <strong>14XXXXXXXXXX</strong>',
+      'Add a note with <strong>your full name + "Nolan"</strong> if your wallet allows',
+      'Save the transaction hash (TxID) from your wallet',
+      'Return here and paste the TxID as your reference'
     ],
     note: 'Crypto is offered as an option for international applicants. Because crypto rates fluctuate, please send the US$10 equivalent at the time of transfer. Any excess will be credited towards your tuition.'
   }
@@ -2472,45 +2130,13 @@ const PAYMENT_METHODS = {
    ============================================================ */
 (function fileUploads(){
   const LIMITS = {
-    apResume: {
-      max: 5 * 1024 * 1024,
-      exts: ['.pdf','.doc','.docx'],
-      mimes: ['application/pdf','application/msword',
-              'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
-      label: 'Resume / CV'
-    },
-    apTranscript: {
-      max: 10 * 1024 * 1024,
-      exts: ['.pdf'],
-      mimes: ['application/pdf'],
-      label: 'Academic Record'
-    },
-    apScholarshipDoc: {
-      max: 5 * 1024 * 1024,
-      exts: ['.pdf','.jpg','.jpeg','.png'],
-      mimes: ['application/pdf','image/jpeg','image/png'],
-      label: 'Scholarship Document',
-      optional: true
-    }
+    apResume: { max: 5*1024*1024, exts: ['.pdf','.doc','.docx'], mimes: ['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document'], label: 'Resume / CV' },
+    apTranscript: { max: 10*1024*1024, exts: ['.pdf'], mimes: ['application/pdf'], label: 'Academic Record' },
+    apScholarshipDoc: { max: 5*1024*1024, exts: ['.pdf','.jpg','.jpeg','.png'], mimes: ['application/pdf','image/jpeg','image/png'], label: 'Scholarship Document', optional: true }
   };
-
-  function fmtSize(bytes){
-    if(bytes < 1024) return bytes + ' B';
-    if(bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-  }
-  function getExt(name){
-    const i = name.lastIndexOf('.');
-    return i >= 0 ? name.slice(i).toLowerCase() : '';
-  }
-  function iconFor(name){
-    const ext = getExt(name);
-    if(ext === '.pdf') return 'fas fa-file-pdf';
-    if(ext === '.doc' || ext === '.docx') return 'fas fa-file-word';
-    if(['.jpg','.jpeg','.png'].includes(ext)) return 'fas fa-file-image';
-    return 'fas fa-file-alt';
-  }
-
+  function fmtSize(bytes){ if(bytes < 1024) return bytes + ' B'; if(bytes < 1024*1024) return (bytes/1024).toFixed(1) + ' KB'; return (bytes/(1024*1024)).toFixed(2) + ' MB'; }
+  function getExt(name){ const i = name.lastIndexOf('.'); return i >= 0 ? name.slice(i).toLowerCase() : ''; }
+  function iconFor(name){ const ext = getExt(name); if(ext === '.pdf') return 'fas fa-file-pdf'; if(ext === '.doc' || ext === '.docx') return 'fas fa-file-word'; if(['.jpg','.jpeg','.png'].includes(ext)) return 'fas fa-file-image'; return 'fas fa-file-alt'; }
   function showToast(msg, type){
     const toast = document.getElementById('applyToast');
     const msgEl = document.getElementById('applyToastMsg');
@@ -2520,19 +2146,17 @@ const PAYMENT_METHODS = {
     clearTimeout(showToast._t);
     showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 4500);
   }
-
   document.querySelectorAll('.upload-drop').forEach(function(drop){
     const inputId = drop.dataset.uploadFor;
     const input = document.getElementById(inputId);
     if(!input) return;
-    const limits = LIMITS[inputId] || { max: 5 * 1024 * 1024, exts: [], mimes: [], label: 'File' };
-    const emptyView  = drop.querySelector('.upload-empty');
+    const limits = LIMITS[inputId] || { max: 5*1024*1024, exts: [], mimes: [], label: 'File' };
+    const emptyView = drop.querySelector('.upload-empty');
     const filledView = drop.querySelector('.upload-filled');
-    const nameEl     = drop.querySelector('.upload-name');
-    const sizeEl     = drop.querySelector('.upload-size');
-    const iconEl     = filledView ? filledView.querySelector('i') : null;
-    const removeBtn  = drop.querySelector('.upload-remove');
-
+    const nameEl = drop.querySelector('.upload-name');
+    const sizeEl = drop.querySelector('.upload-size');
+    const iconEl = filledView ? filledView.querySelector('i') : null;
+    const removeBtn = drop.querySelector('.upload-remove');
     function render(){
       const f = input.files && input.files[0];
       if(f){
@@ -2553,43 +2177,22 @@ const PAYMENT_METHODS = {
     function validate(f){
       if(!f) return true;
       if(f.size === 0){ showToast('That file appears to be empty. Please choose a different file.', 'error'); return false; }
-      if(f.size > limits.max){
-        showToast(limits.label + ' is too large (' + fmtSize(f.size) + '). Maximum is ' + fmtSize(limits.max) +
-          '. Please compress it, or email it to admissions@nolaninstitute.org.', 'error');
-        return false;
-      }
+      if(f.size > limits.max){ showToast(limits.label + ' is too large (' + fmtSize(f.size) + '). Maximum is ' + fmtSize(limits.max) + '. Please compress it, or email it to admissions@nolaninstitute.org.', 'error'); return false; }
       const ext = getExt(f.name);
-      const allowedByExt  = limits.exts.length  && limits.exts.includes(ext);
+      const allowedByExt = limits.exts.length && limits.exts.includes(ext);
       const allowedByMime = limits.mimes.length && f.type && limits.mimes.includes(f.type);
-      if(limits.exts.length && !allowedByExt && !allowedByMime){
-        showToast('Unsupported file type for ' + limits.label + '. Allowed: ' + limits.exts.join(', '), 'error');
-        return false;
-      }
+      if(limits.exts.length && !allowedByExt && !allowedByMime){ showToast('Unsupported file type for ' + limits.label + '. Allowed: ' + limits.exts.join(', '), 'error'); return false; }
       return true;
     }
-    drop.addEventListener('click', function(e){
-      if(e.target.closest('.upload-remove')) return;
-      input.click();
-    });
-    ['dragenter','dragover'].forEach(function(ev){
-      drop.addEventListener(ev, function(e){ e.preventDefault(); e.stopPropagation(); drop.classList.add('dragover'); });
-    });
-    ['dragleave','drop'].forEach(function(ev){
-      drop.addEventListener(ev, function(e){ e.preventDefault(); e.stopPropagation(); drop.classList.remove('dragover'); });
-    });
+    drop.addEventListener('click', function(e){ if(e.target.closest('.upload-remove')) return; input.click(); });
+    ['dragenter','dragover'].forEach(function(ev){ drop.addEventListener(ev, function(e){ e.preventDefault(); e.stopPropagation(); drop.classList.add('dragover'); }); });
+    ['dragleave','drop'].forEach(function(ev){ drop.addEventListener(ev, function(e){ e.preventDefault(); e.stopPropagation(); drop.classList.remove('dragover'); }); });
     drop.addEventListener('drop', function(e){
       const dt = e.dataTransfer;
       if(!dt || !dt.files || !dt.files.length) return;
       const f = dt.files[0];
       if(!validate(f)) return;
-      try {
-        const bag = new DataTransfer();
-        bag.items.add(f);
-        input.files = bag.files;
-      } catch(err){
-        showToast('Please use the browse button to select files on this device.', 'error');
-        return;
-      }
+      try { const bag = new DataTransfer(); bag.items.add(f); input.files = bag.files; } catch(err){ showToast('Please use the browse button to select files on this device.', 'error'); return; }
       render();
     });
     input.addEventListener('change', function(){
@@ -2598,12 +2201,7 @@ const PAYMENT_METHODS = {
       if(!validate(f)){ input.value = ''; render(); return; }
       render();
     });
-    if(removeBtn){
-      removeBtn.addEventListener('click', function(e){
-        e.preventDefault(); e.stopPropagation();
-        input.value = ''; render();
-      });
-    }
+    if(removeBtn){ removeBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); input.value = ''; render(); }); }
   });
 })();
 
@@ -2616,12 +2214,15 @@ const PAYMENT_METHODS = {
   let current = 1;
 
   const state = {
-    paymentStatus: 'pending',     // 'pending' | 'confirmed'
-    paymentMethod: null,          // 'airtel' | 'mtn' | 'bank' | 'paypal' | 'crypto'
+    paymentStatus: 'pending',
+    paymentMethod: null,
     paymentRef: null,
+    userRef: null,
     paidAmount: null,
     senderName: null,
     senderContact: null,
+    whatsappUrl: null,
+    receiptDate: null,
     scholarshipInterest: null,
     financialNeed: null,
     leadership: null
@@ -2634,13 +2235,14 @@ const PAYMENT_METHODS = {
   const toastMsg = document.getElementById('applyToastMsg');
 
   const countrySelect = document.getElementById('apCountry');
-  const payAmountEl   = document.getElementById('apPayAmount');
-  const payContextEl  = document.getElementById('apPayContext');
-  const payDetails    = document.getElementById('apPayDetails');
-  const payConfirm    = document.getElementById('apPayConfirm');
-  const paySuccess    = document.getElementById('apPaymentSuccess');
+  const payAmountEl = document.getElementById('apPayAmount');
+  const payContextEl = document.getElementById('apPayContext');
+  const payDetails = document.getElementById('apPayDetails');
+  const payConfirm = document.getElementById('apPayConfirm');
+  const paySuccess = document.getElementById('apPaymentSuccess');
+  const whatsappBtn = document.getElementById('apWhatsappBtn');
+  const whatsappSent = document.getElementById('apWhatsappSent');
 
-  /* ---------- Fee helpers ---------- */
   function isZambian(){ return (countrySelect.value || '').trim() === 'Zambia'; }
   function getFeeAmount(){ return isZambian() ? 'K120' : 'US$10'; }
   function getFeeContext(){
@@ -2652,7 +2254,6 @@ const PAYMENT_METHODS = {
     return { airtel:'Airtel Money', mtn:'MTN MoMo', bank:'Bank / Visa', paypal:'PayPal', crypto:'Crypto' }[v] || '—';
   }
 
-  /* ---------- Toast ---------- */
   function showToast(msg, type){
     toastMsg.textContent = msg;
     toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : '');
@@ -2660,46 +2261,32 @@ const PAYMENT_METHODS = {
     showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 4200);
   }
 
-  /* ---------- Clipboard ---------- */
   function copyText(text, btn){
     const done = () => {
       if(btn){
         const original = btn.innerHTML;
         btn.classList.add('copied');
         btn.innerHTML = '<i class="fas fa-check"></i>';
-        setTimeout(() => {
-          btn.classList.remove('copied');
-          btn.innerHTML = original;
-        }, 1600);
+        setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = original; }, 1600);
       }
     };
     if(navigator.clipboard && navigator.clipboard.writeText){
       navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
-    } else {
-      fallbackCopy(text, done);
-    }
+    } else { fallbackCopy(text, done); }
   }
   function fallbackCopy(text, done){
     const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
     try { document.execCommand('copy'); done(); } catch(e) {}
     document.body.removeChild(ta);
   }
 
   /* ---------- Render method details ---------- */
   function renderPaymentDetails(){
-    if(!state.paymentMethod){
-      payDetails.style.display = 'none';
-      payConfirm.style.display = 'none';
-      return;
-    }
+    if(!state.paymentMethod){ payDetails.style.display = 'none'; payConfirm.style.display = 'none'; return; }
     const m = PAYMENT_METHODS[state.paymentMethod];
     if(!m) return;
-
     const amount = isZambian() ? m.amountZMW : m.amountUSD;
     const iconLib = m.iconSet || 'fas';
 
@@ -2718,9 +2305,7 @@ const PAYMENT_METHODS = {
     });
 
     let stepsHtml = '';
-    m.steps.forEach(function(s){
-      stepsHtml += `<li>${s}</li>`;
-    });
+    m.steps.forEach(function(s){ stepsHtml += `<li>${s}</li>`; });
 
     payDetails.innerHTML = `
       <div class="pay-details-panel ${m.brandClass}">
@@ -2736,14 +2321,11 @@ const PAYMENT_METHODS = {
             <div class="pab-l">Amount to Send</div>
             <div class="pab-v">${amount}</div>
           </div>
-
           <div class="pdp-rows">${rowsHtml}</div>
-
           <div class="pdp-steps">
             <div class="pds-title"><i class="fas fa-list-ol"></i> How to Pay — Step by Step</div>
             <ol>${stepsHtml}</ol>
           </div>
-
           ${m.note ? `<div class="pdp-warning"><i class="fas fa-info-circle"></i><div>${m.note}</div></div>` : ''}
         </div>
       </div>
@@ -2751,25 +2333,16 @@ const PAYMENT_METHODS = {
     payDetails.style.display = 'block';
     payConfirm.style.display = 'block';
 
-    // Wire copy buttons
     payDetails.querySelectorAll('.pdr-copy').forEach(function(btn){
-      btn.addEventListener('click', function(e){
-        e.preventDefault(); e.stopPropagation();
-        copyText(this.dataset.copy, this);
-      });
+      btn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); copyText(this.dataset.copy, this); });
     });
 
-    // Update confirm amount label
     const confirmAmount = document.getElementById('apPayConfirmAmount');
     if(confirmAmount) confirmAmount.textContent = amount;
 
-    // Clear previous success if user changed method
-    if(state.paymentStatus !== 'confirmed'){
-      paySuccess.style.display = 'none';
-    }
+    if(state.paymentStatus !== 'confirmed') paySuccess.style.display = 'none';
   }
 
-  /* ---------- Method card selection ---------- */
   document.querySelectorAll('#apPayMethods .pay-method-card').forEach(function(card){
     card.addEventListener('click', function(){
       if(state.paymentStatus === 'confirmed') return;
@@ -2777,7 +2350,6 @@ const PAYMENT_METHODS = {
       this.classList.add('selected');
       state.paymentMethod = this.dataset.pm;
       renderPaymentDetails();
-      // Smooth-scroll details into view
       setTimeout(() => {
         const panel = payDetails.querySelector('.pay-details-panel');
         if(panel) panel.scrollIntoView({ behavior:'smooth', block:'center' });
@@ -2785,86 +2357,217 @@ const PAYMENT_METHODS = {
     });
   });
 
+  /* ---------- Populate receipt ---------- */
+  function populateReceipt(){
+    const fn = document.getElementById('apFirstName').value.trim();
+    const ln = document.getElementById('apLastName').value.trim();
+    const em = document.getElementById('apEmail').value.trim();
+    const m = PAYMENT_METHODS[state.paymentMethod] || {};
+    const dateStr = state.receiptDate || new Date().toLocaleString('en-GB', {
+      year:'numeric', month:'short', day:'2-digit', hour:'2-digit', minute:'2-digit'
+    });
+
+    const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val || '—'; };
+
+    set('nrRef', state.paymentRef);
+    set('nrDate', dateStr);
+    set('nrSenderName', state.senderName);
+    set('nrSenderContact', state.senderContact);
+    set('nrAmount', state.paidAmount);
+    set('nrMethod', getMethodLabel(state.paymentMethod));
+    set('nrUserRef', state.userRef);
+    set('nrTxId', state.userRef);
+    set('nrRecipientAccount', m.recipientAccount || '—');
+    set('nrApplicant', (fn + ' ' + ln).trim());
+    set('nrEmail', em);
+  }
+
+  /* ---------- Build WhatsApp message ---------- */
+  function buildWhatsappMessage(){
+    const dateStr = state.receiptDate || new Date().toLocaleString('en-GB', {
+      year:'numeric', month:'short', day:'2-digit', hour:'2-digit', minute:'2-digit'
+    });
+    const fn = document.getElementById('apFirstName').value.trim();
+    const ln = document.getElementById('apLastName').value.trim();
+    const em = document.getElementById('apEmail').value.trim();
+    const ph = document.getElementById('apPhone').value.trim();
+    const country = document.getElementById('apCountry').value;
+
+    const lines = [
+      '*NOLAN INSTITUTE — PAYMENT PROOF*',
+      '',
+      '*Receipt No:* ' + state.paymentRef,
+      '*Date & Time:* ' + dateStr,
+      '',
+      '*APPLICANT*',
+      'Name: ' + fn + ' ' + ln,
+      'Email: ' + em,
+      'Phone: ' + ph,
+      'Country: ' + country,
+      '',
+      '*PROGRAMME*',
+      'Bachelor of Global Business & Technology',
+      'Founding Cohort 2026',
+      '',
+      '*PAYMENT DETAILS*',
+      'Method: ' + getMethodLabel(state.paymentMethod),
+      'Amount: ' + state.paidAmount,
+      'Sender Name: ' + state.senderName,
+      'Sender Contact: ' + state.senderContact,
+      'Transaction ID / Ref: ' + (state.userRef || '(not provided)'),
+      '',
+      '_Please verify this payment against our records and confirm receipt. A receipt has been auto-generated for the applicant._'
+    ];
+    return lines.join('\n');
+  }
+
   /* ---------- Confirm payment ---------- */
   function confirmPayment(){
     if(state.paymentStatus === 'confirmed') return;
-    if(!state.paymentMethod){
-      showToast('Please select a payment method first.', 'error');
-      return;
-    }
+    if(!state.paymentMethod){ showToast('Please select a payment method first.', 'error'); return; }
+
     const name = document.getElementById('apPaySenderName').value.trim();
     const contact = document.getElementById('apPaySenderContact').value.trim();
     const refInput = document.getElementById('apPayRef');
     const ref = refInput.value.trim();
     const agree = document.getElementById('apPayConfirmed');
 
-    if(!name){
-      document.getElementById('apPaySenderName').classList.add('err');
-      showToast('Please enter the name on the payment.', 'error');
-      return;
-    }
+    if(!name){ document.getElementById('apPaySenderName').classList.add('err'); showToast('Please enter the name on the payment.', 'error'); return; }
     document.getElementById('apPaySenderName').classList.remove('err');
-    if(!contact){
-      document.getElementById('apPaySenderContact').classList.add('err');
-      showToast('Please enter the phone or email used to pay.', 'error');
-      return;
-    }
-    document.getElementById('apPaySenderContact').classList.remove('err');
-    if(!agree.checked){
-      showToast('Please tick the confirmation checkbox.', 'error');
-      return;
-    }
 
-    // Generate our own internal reference, plus store user's
+    if(!contact){ document.getElementById('apPaySenderContact').classList.add('err'); showToast('Please enter the phone or email used to pay.', 'error'); return; }
+    document.getElementById('apPaySenderContact').classList.remove('err');
+
+    if(!ref){ refInput.classList.add('err'); showToast('Please enter your transaction reference. This is required for verification.', 'error'); return; }
+    refInput.classList.remove('err');
+
+    if(!agree.checked){ showToast('Please tick the confirmation checkbox.', 'error'); return; }
+
     state.paymentStatus = 'confirmed';
     state.senderName = name;
     state.senderContact = contact;
+    state.userRef = ref;
     state.paidAmount = getFeeAmount();
-    state.paymentRef = ref || ('NOL-' + Math.random().toString(36).substring(2, 8).toUpperCase());
+    state.paymentRef = 'NOL-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    state.receiptDate = new Date().toLocaleString('en-GB', {
+      year:'numeric', month:'short', day:'2-digit', hour:'2-digit', minute:'2-digit'
+    });
 
-    // Success panel
-    document.getElementById('apPaidAmount').textContent = state.paidAmount;
-    document.getElementById('apPaidMethod').textContent = getMethodLabel(state.paymentMethod);
-    document.getElementById('apPaidSender').textContent = name;
     document.getElementById('apPaymentRef').textContent = state.paymentRef;
 
+    // Populate receipt
+    populateReceipt();
+
+    // Build WhatsApp URL
+    const msg = buildWhatsappMessage();
+    const waUrl = 'https://wa.me/' + ADMIN_WHATSAPP + '?text=' + encodeURIComponent(msg);
+    state.whatsappUrl = waUrl;
+    whatsappBtn.href = waUrl;
+
+    // Switch views
     payDetails.style.display = 'none';
     payConfirm.style.display = 'none';
     paySuccess.style.display = 'block';
 
-    // Disable method cards
     document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => {
       c.style.opacity = '0.55';
       c.style.pointerEvents = 'none';
     });
 
-    showToast('Payment confirmed. Reference: ' + state.paymentRef, 'success');
+    showToast('Payment recorded. Receipt generated.', 'success');
+
+    // Auto-open WhatsApp
     setTimeout(() => {
+      try { window.open(waUrl, '_blank'); } catch(err) {}
+      if(whatsappSent) whatsappSent.classList.add('show');
       paySuccess.scrollIntoView({ behavior:'smooth', block:'center' });
-    }, 120);
+    }, 350);
   }
   document.getElementById('apPaySubmit').addEventListener('click', confirmPayment);
 
-  /* ---------- Reset (change method) ---------- */
+  // Remember when the applicant tapped the WhatsApp button
+  whatsappBtn.addEventListener('click', function(){ if(whatsappSent) whatsappSent.classList.add('show'); });
+
+  /* ---------- Download receipt as PDF ---------- */
+  async function downloadReceiptPDF(){
+    const el = document.getElementById('apReceipt');
+    const btn = document.getElementById('apDownloadReceiptBtn');
+    if(!el || !btn) return;
+    if(typeof html2canvas === 'undefined' || typeof window.jspdf === 'undefined'){
+      showToast('PDF generator not ready. Use the Print option instead.', 'error');
+      return;
+    }
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+    try {
+      const canvas = await html2canvas(el, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true,
+        logging: false
+      });
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ unit:'mm', format:'a4', orientation:'portrait' });
+      const pdfW = pdf.internal.pageSize.getWidth();
+      const pdfH = pdf.internal.pageSize.getHeight();
+      const margin = 10;
+      const usableW = pdfW - margin * 2;
+      const imgW = canvas.width;
+      const imgH = canvas.height;
+      const ratio = imgH / imgW;
+      let dispW = usableW;
+      let dispH = dispW * ratio;
+      if(dispH > pdfH - margin * 2){
+        dispH = pdfH - margin * 2;
+        dispW = dispH / ratio;
+      }
+      const xOffset = (pdfW - dispW) / 2;
+      pdf.addImage(imgData, 'PNG', xOffset, margin, dispW, dispH);
+      pdf.save('Nolan-Receipt-' + (state.paymentRef || 'application') + '.pdf');
+      showToast('Receipt downloaded as PDF.', 'success');
+    } catch(err){
+      console.error(err);
+      showToast('Could not generate PDF. Please try the Print option instead.', 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = original;
+    }
+  }
+  document.getElementById('apDownloadReceiptBtn').addEventListener('click', downloadReceiptPDF);
+
+  /* ---------- Print receipt ---------- */
+  function printReceipt(){
+    document.body.classList.add('print-receipt-mode');
+    setTimeout(() => {
+      window.print();
+      setTimeout(() => document.body.classList.remove('print-receipt-mode'), 200);
+    }, 100);
+  }
+  document.getElementById('apPrintReceiptBtn').addEventListener('click', printReceipt);
+
+  /* ---------- Reset ---------- */
   document.getElementById('apPayReset').addEventListener('click', function(){
     state.paymentStatus = 'pending';
     state.paymentMethod = null;
     state.paymentRef = null;
+    state.userRef = null;
     state.paidAmount = null;
     state.senderName = null;
     state.senderContact = null;
+    state.whatsappUrl = null;
+    state.receiptDate = null;
 
     document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => {
-      c.classList.remove('selected');
-      c.style.opacity = '';
-      c.style.pointerEvents = '';
+      c.classList.remove('selected'); c.style.opacity = ''; c.style.pointerEvents = '';
     });
-
     document.getElementById('apPaySenderName').value = '';
     document.getElementById('apPaySenderContact').value = '';
     document.getElementById('apPayRef').value = '';
     document.getElementById('apPayConfirmed').checked = false;
 
+    if(whatsappSent) whatsappSent.classList.remove('show');
     paySuccess.style.display = 'none';
     payDetails.style.display = 'none';
     payConfirm.style.display = 'none';
@@ -2872,24 +2575,20 @@ const PAYMENT_METHODS = {
     showToast('You can now choose a different payment method.', 'success');
   });
 
-  /* ---------- Country change → refresh fee display ---------- */
+  /* ---------- Country change ---------- */
   if(countrySelect){
     countrySelect.addEventListener('change', function(){
       payAmountEl.textContent = getFeeAmount();
       payContextEl.textContent = getFeeContext();
-      // If user already confirmed and country changed, reset the payment
       if(state.paymentStatus === 'confirmed'){
         state.paymentStatus = 'pending';
         state.paymentRef = null;
+        state.userRef = null;
         state.paidAmount = null;
         paySuccess.style.display = 'none';
-        document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => {
-          c.style.opacity = '';
-          c.style.pointerEvents = '';
-        });
-        if(state.paymentMethod){
-          renderPaymentDetails();
-        }
+        if(whatsappSent) whatsappSent.classList.remove('show');
+        document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => { c.style.opacity = ''; c.style.pointerEvents = ''; });
+        if(state.paymentMethod) renderPaymentDetails();
         showToast('Country changed. Please complete the payment again for the correct amount.', 'error');
       } else if(state.paymentMethod){
         renderPaymentDetails();
@@ -2937,7 +2636,7 @@ const PAYMENT_METHODS = {
     }
     if(n === 2){
       if(state.paymentStatus !== 'confirmed'){
-        showToast('Please complete the application fee payment and confirm it before continuing.', 'error');
+        showToast('Please complete the application fee payment and confirm it via WhatsApp before continuing.', 'error');
         return false;
       }
     }
@@ -2957,17 +2656,9 @@ const PAYMENT_METHODS = {
     if(n === 5){
       const e1 = document.getElementById('apEssay1').value.trim();
       const e2 = document.getElementById('apEssay2').value.trim();
-      if(e1.split(/\s+/).filter(Boolean).length < 150){
-        document.getElementById('apEssay1').classList.add('err');
-        showToast('Essay 1 should be at least 150 words.', 'error');
-        return false;
-      }
+      if(e1.split(/\s+/).filter(Boolean).length < 150){ document.getElementById('apEssay1').classList.add('err'); showToast('Essay 1 should be at least 150 words.', 'error'); return false; }
       document.getElementById('apEssay1').classList.remove('err');
-      if(e2.split(/\s+/).filter(Boolean).length < 150){
-        document.getElementById('apEssay2').classList.add('err');
-        showToast('Essay 2 should be at least 150 words.', 'error');
-        return false;
-      }
+      if(e2.split(/\s+/).filter(Boolean).length < 150){ document.getElementById('apEssay2').classList.add('err'); showToast('Essay 2 should be at least 150 words.', 'error'); return false; }
       document.getElementById('apEssay2').classList.remove('err');
     }
     if(n === 6){
@@ -2990,29 +2681,17 @@ const PAYMENT_METHODS = {
     const degree = document.getElementById('apDegree').value;
     const year = document.getElementById('apYear').value;
 
-    const leadershipLabel = {
-      none: 'None yet', some: 'Led a team or project',
-      strong: 'Built a business, initiative or venture',
-      exceptional: 'Founded or co-founded a notable venture'
-    }[state.leadership] || '—';
-
-    const needLabel = {
-      low: 'I can pay full tuition (K120,000)',
-      medium: 'I need partial support',
-      high: 'Without scholarship, it would be difficult',
-      critical: 'Without near-full scholarship, I cannot attend'
-    }[state.financialNeed] || '—';
+    const leadershipLabel = { none:'None yet', some:'Led a team or project', strong:'Built a business, initiative or venture', exceptional:'Founded or co-founded a notable venture' }[state.leadership] || '—';
+    const needLabel = { low:'I can pay full tuition (K120,000)', medium:'I need partial support', high:'Without scholarship, it would be difficult', critical:'Without near-full scholarship, I cannot attend' }[state.financialNeed] || '—';
 
     const resumeName = (document.getElementById('apResume').files[0] || {}).name || '—';
-    const transName  = (document.getElementById('apTranscript').files[0] || {}).name || '—';
+    const transName = (document.getElementById('apTranscript').files[0] || {}).name || '—';
 
-    // Fee panel
     const feePaidLine = document.getElementById('applyFeePaidLine');
     const feeDetailLine = document.getElementById('applyFeeDetailLine');
     if(state.paymentStatus === 'confirmed'){
-      feePaidLine.innerHTML = 'Payment status: <strong style="color:var(--success);">Confirmed</strong>';
-      feeDetailLine.innerHTML = 'Amount: <strong>' + state.paidAmount + '</strong> · Method: <strong>' +
-        getMethodLabel(state.paymentMethod) + '</strong> · Reference: <strong>' + state.paymentRef + '</strong>';
+      feePaidLine.innerHTML = 'Payment status: <strong style="color:var(--success);">Confirmed — proof sent to WhatsApp</strong>';
+      feeDetailLine.innerHTML = 'Amount: <strong>' + state.paidAmount + '</strong> · Method: <strong>' + getMethodLabel(state.paymentMethod) + '</strong> · Receipt: <strong>' + state.paymentRef + '</strong> · TxID: <strong>' + (state.userRef || '—') + '</strong>';
     } else {
       feePaidLine.innerHTML = 'Payment status: <strong style="color:var(--error);">Pending</strong>';
       feeDetailLine.innerHTML = 'Please return to Step 2 to complete the application fee.';
@@ -3035,12 +2714,13 @@ const PAYMENT_METHODS = {
       </div>
       <div class="apply-review">
         <h4><i class="fas fa-receipt"></i> Payment Confirmation</h4>
-        <div class="apply-review-item"><span class="arl">Status:</span><span class="arv" style="color:var(--success);font-weight:700;">Confirmed</span></div>
+        <div class="apply-review-item"><span class="arl">Status:</span><span class="arv" style="color:var(--success);font-weight:700;">Confirmed — WhatsApp sent</span></div>
         <div class="apply-review-item"><span class="arl">Amount:</span><span class="arv">${state.paidAmount || '—'}</span></div>
         <div class="apply-review-item"><span class="arl">Method:</span><span class="arv">${getMethodLabel(state.paymentMethod)}</span></div>
         <div class="apply-review-item"><span class="arl">Sender:</span><span class="arv">${state.senderName || '—'}</span></div>
         <div class="apply-review-item"><span class="arl">Contact Used:</span><span class="arv">${state.senderContact || '—'}</span></div>
-        <div class="apply-review-item"><span class="arl">Reference:</span><span class="arv">${state.paymentRef || '—'}</span></div>
+        <div class="apply-review-item"><span class="arl">Receipt No:</span><span class="arv">${state.paymentRef || '—'}</span></div>
+        <div class="apply-review-item"><span class="arl">Your TxID:</span><span class="arv">${state.userRef || '—'}</span></div>
       </div>
       <div class="apply-review">
         <h4><i class="fas fa-book"></i> Academic Background</h4>
@@ -3105,9 +2785,7 @@ const PAYMENT_METHODS = {
   payContextEl.textContent = getFeeContext();
 })();
 
-/* ==============================
-   HERO SLIDER
-   ============================== */
+/* HERO SLIDER */
 (function heroSlider(){
   const slides = document.querySelectorAll('#heroSlides .hero-slide');
   const dotsContainer = document.getElementById('heroSliderDots');
