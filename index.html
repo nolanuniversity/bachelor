@@ -17,6 +17,7 @@
   --gold:#C5A028;--gold-light:#D4B84A;--gold-dark:#A07F1F;--gold-10:rgba(197,160,40,0.1);
   --white:#fff;--off-white:#FAFAF8;--gray-light:#F5F5F5;--gray-mid:#E0E0E0;--gray-dark:#666;--gray-darker:#333;
   --success:#28A745;--error:#DC3545;--warning:#FFC107;
+  --airtel-red:#E40000;--mtn-yellow:#FFCC00;--scb-blue:#1B5E8C;--paypal-blue:#003087;--paypal-light:#009CDE;--crypto-orange:#F7931A;
   --shadow-sm:0 2px 8px rgba(0,0,0,.05);--shadow-md:0 4px 12px rgba(0,0,0,.08);
   --shadow-lg:0 12px 32px rgba(0,0,0,.12);--shadow-xl:0 24px 48px rgba(10,28,58,.18);
   --transition:all .3s cubic-bezier(.4,0,.2,1);--radius:16px;--radius-sm:10px;
@@ -37,6 +38,7 @@ input,select,textarea{color-scheme:light only}
 .btn:active{transform:scale(.97)}
 .btn-primary{background:var(--gold);color:var(--navy-dark);border-color:var(--gold)}
 .btn-primary:hover{background:var(--gold-light);border-color:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 20px rgba(197,160,40,.35)}
+.btn-primary:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
 .btn-navy{background:var(--navy);color:#fff;border-color:var(--navy)}
 .btn-navy:hover{background:var(--navy-light);border-color:var(--navy-light);transform:translateY(-2px)}
 .btn-outline{background:transparent;color:var(--navy);border-color:var(--navy)}
@@ -513,6 +515,140 @@ input,select,textarea{color-scheme:light only}
 .apply-toast.error{background:var(--error)}
 .apply-toast i{color:#fff;font-size:15px;flex-shrink:0}
 
+/* ============================================================
+   PAYMENT STEP — branded methods, real account details
+   ============================================================ */
+
+/* Amount banner */
+.pay-amount-banner{
+  background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);
+  color:#fff;border-radius:14px;padding:26px 28px;margin-bottom:26px;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+}
+.pay-amount-banner::before{content:'';position:absolute;top:-50%;right:-10%;width:280px;height:280px;background:radial-gradient(circle,rgba(197,160,40,.2) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
+.pay-amount-banner .pab-label{font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px;position:relative;z-index:2}
+.pay-amount-banner .pab-amount{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,2.6rem);font-weight:800;color:var(--gold);line-height:1;position:relative;z-index:2}
+.pay-amount-banner .pab-context{font-size:12.5px;color:rgba(255,255,255,.75);margin-top:8px;position:relative;z-index:2;max-width:380px;line-height:1.6}
+.pay-amount-banner .pab-icon{font-size:44px;color:var(--gold);opacity:.65;position:relative;z-index:2;flex-shrink:0}
+
+/* Method selection cards */
+.pay-methods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:22px}
+.pay-method-card{
+  background:#fff;border:2px solid var(--gray-mid);border-radius:14px;
+  padding:18px 12px 16px;cursor:pointer;transition:var(--transition);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  text-align:center;font-family:inherit;position:relative;overflow:hidden;
+}
+.pay-method-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.pay-method-card.selected{border-color:var(--gold);box-shadow:0 0 0 4px var(--gold-10);transform:translateY(-3px)}
+.pay-method-card.selected::after{
+  content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;
+  position:absolute;top:8px;right:8px;width:22px;height:22px;background:var(--gold);
+  color:var(--navy-dark);border-radius:50%;font-size:11px;
+  display:flex;align-items:center;justify-content:center;
+}
+.pay-method-card .pm-logo{
+  width:56px;height:56px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-family:Arial,Helvetica,sans-serif;letter-spacing:-.5px;
+  flex-shrink:0;
+}
+.pay-method-card .pm-name{font-size:12.5px;font-weight:800;color:var(--navy);line-height:1.25;letter-spacing:.2px}
+.pay-method-card .pm-desc{font-size:10.5px;color:var(--gray-dark);font-weight:500;line-height:1.35}
+
+/* Branded logos */
+.pm-airtel .pm-logo{background:#E40000;color:#fff;font-size:15px;font-style:italic;text-transform:lowercase;letter-spacing:-1px;padding-bottom:2px}
+.pm-mtn .pm-logo{background:#FFCC00;color:#000;font-size:14px;letter-spacing:-.5px}
+.pm-bank .pm-logo{background:linear-gradient(135deg,#1B5E8C 0%,#0D3D5E 100%);color:#fff;font-size:22px}
+.pm-paypal .pm-logo{background:linear-gradient(135deg,#003087 0%,#009CDE 100%);color:#fff;font-size:20px}
+.pm-crypto .pm-logo{background:linear-gradient(135deg,#F7931A 0%,#E2761B 100%);color:#fff;font-size:22px}
+
+/* Details panel */
+.pay-details-panel{margin-top:18px;background:#fff;border:2px solid var(--gray-mid);border-radius:16px;overflow:hidden;animation:fadeIn .35s ease}
+.pay-details-panel.brand-airtel{border-color:#E40000}
+.pay-details-panel.brand-mtn{border-color:#FFCC00}
+.pay-details-panel.brand-bank{border-color:#1B5E8C}
+.pay-details-panel.brand-paypal{border-color:#003087}
+.pay-details-panel.brand-crypto{border-color:#F7931A}
+
+.pdp-header{padding:18px 22px;display:flex;align-items:center;gap:14px;color:#fff}
+.brand-airtel .pdp-header{background:#E40000}
+.brand-mtn .pdp-header{background:#FFCC00;color:#000}
+.brand-bank .pdp-header{background:linear-gradient(135deg,#1B5E8C 0%,#0D3D5E 100%)}
+.brand-paypal .pdp-header{background:linear-gradient(135deg,#003087 0%,#009CDE 100%)}
+.brand-crypto .pdp-header{background:linear-gradient(135deg,#F7931A 0%,#E2761B 100%)}
+.pdp-header .pdp-icon{width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.brand-mtn .pdp-header .pdp-icon{background:rgba(0,0,0,.12)}
+.pdp-header .pdp-title{font-family:'Inter',sans-serif;font-size:15px;font-weight:800;letter-spacing:.3px;line-height:1.25}
+.pdp-header .pdp-sub{font-size:11.5px;opacity:.88;margin-top:2px;font-weight:500}
+
+.pdp-body{padding:22px}
+
+.pdp-amount-banner{background:linear-gradient(135deg,var(--gold-10) 0%,#FFF9E6 100%);border:1px solid rgba(197,160,40,.35);border-radius:10px;padding:14px 18px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.pdp-amount-banner .pab-l{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark)}
+.pdp-amount-banner .pab-v{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:var(--navy);line-height:1}
+
+.pdp-rows{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.pay-detail-row{background:var(--off-white);border:1px solid var(--gray-mid);border-radius:10px;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.pay-detail-row .pdr-info{flex:1;min-width:0}
+.pay-detail-row .pdr-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);font-weight:800;margin-bottom:3px}
+.pay-detail-row .pdr-value{font-size:15px;font-weight:700;color:var(--navy);font-family:'SFMono-Regular',Consolas,'Courier New',monospace;word-break:break-all;line-height:1.35}
+.pay-detail-row .pdr-value.plain{font-family:'Inter',sans-serif;font-size:14.5px;letter-spacing:.2px}
+.pay-detail-row .pdr-copy{
+  background:var(--gold-10);border:none;color:var(--gold-dark);
+  width:38px;height:38px;border-radius:8px;cursor:pointer;font-size:14px;
+  transition:var(--transition);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}
+.pay-detail-row .pdr-copy:hover{background:var(--gold);color:var(--navy-dark);transform:scale(1.05)}
+.pay-detail-row .pdr-copy.copied{background:var(--success);color:#fff}
+
+.pdp-steps{background:#fff;border:1px solid var(--gray-mid);border-radius:10px;padding:20px 22px 20px 46px;margin-bottom:12px}
+.pdp-steps .pds-title{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:14px;margin-left:-24px;display:flex;align-items:center;gap:8px}
+.pdp-steps .pds-title i{color:var(--gold-dark)}
+.pdp-steps ol{list-style:none;padding:0;margin:0;counter-reset:stepc}
+.pdp-steps ol li{position:relative;padding:0 0 14px 0;font-size:13px;color:var(--gray-darker);line-height:1.55;counter-increment:stepc}
+.pdp-steps ol li::before{
+  content:counter(stepc);position:absolute;left:-32px;top:0;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--gold-10);color:var(--gold-dark);
+  font-size:11px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;
+}
+.pdp-steps ol li:last-child{padding-bottom:0}
+
+.pdp-warning{background:#FFF4E5;border-left:3px solid var(--warning);border-radius:8px;padding:14px 18px;font-size:12.5px;color:#7A5C10;line-height:1.6;margin-top:6px;display:flex;gap:12px;align-items:flex-start}
+.pdp-warning i{color:#D89400;font-size:16px;flex-shrink:0;margin-top:2px}
+.pdp-warning strong{color:#5C4508}
+
+/* Confirmation form */
+.pay-confirm-form{margin-top:22px;padding-top:22px;border-top:1px dashed var(--gray-mid)}
+.pay-confirm-form h4{font-family:'Inter',sans-serif;font-size:13px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.pay-confirm-form h4 i{color:var(--gold-dark)}
+
+/* Success panel */
+.payment-success{
+  background:linear-gradient(135deg,#EAF7EE 0%,#F0FBF4 100%);
+  border:2px solid var(--success);border-radius:14px;padding:32px 26px;
+  text-align:center;margin-top:8px;
+}
+.payment-success i.ps-icon{font-size:56px;color:var(--success);margin-bottom:14px;display:block}
+.payment-success h4{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:12px}
+.payment-success p{font-size:13.5px;color:var(--gray-dark);margin-bottom:8px;line-height:1.65}
+.payment-success p strong{color:var(--navy);font-weight:700}
+.payment-success .ps-ref{
+  display:inline-block;background:#fff;border:1px dashed var(--success);
+  padding:8px 16px;border-radius:8px;
+  font-family:'SFMono-Regular',Consolas,monospace;
+  font-size:13px;color:var(--navy);margin-top:10px;letter-spacing:1.5px;font-weight:700;
+}
+.payment-success .ps-next{
+  margin-top:18px;padding-top:18px;border-top:1px dashed rgba(40,167,69,.3);
+  font-size:13px;color:var(--success);font-weight:700;
+}
+
 /* FILE UPLOAD */
 .upload-drop{position:relative;border:2px dashed var(--gray-mid);border-radius:12px;padding:22px 20px;text-align:center;cursor:pointer;transition:var(--transition);background:var(--off-white)}
 .upload-drop:hover{border-color:var(--gold);background:#fff}
@@ -584,6 +720,8 @@ input,select,textarea{color-scheme:light only}
   .apply-form-group.full{grid-column:span 1}
   .career-content{padding:26px 22px}
   .apply-progress::before{left:12px;right:12px}
+  .pdp-body{padding:18px}
+  .pay-methods-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:600px){
   .container{padding:0 16px}
@@ -598,11 +736,27 @@ input,select,textarea{color-scheme:light only}
   .apply-step-circle{width:30px;height:30px;font-size:11.5px}
   .apply-step-label{font-size:9px}
   .apply-progress::before{top:15px}
+  .pay-amount-banner{flex-direction:column;text-align:center;padding:22px}
+  .pay-amount-banner .pab-context{max-width:100%}
+  .pay-methods-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .pay-method-card{padding:14px 10px 12px}
+  .pay-method-card .pm-logo{width:48px;height:48px;font-size:12px}
+  .pay-method-card .pm-name{font-size:11.5px}
+  .pay-method-card .pm-desc{font-size:10px}
+  .pdp-header{padding:14px 16px;gap:12px}
+  .pdp-header .pdp-icon{width:38px;height:38px;font-size:17px}
+  .pdp-header .pdp-title{font-size:13.5px}
+  .pdp-header .pdp-sub{font-size:10.5px}
+  .pay-detail-row{padding:11px 13px}
+  .pay-detail-row .pdr-value{font-size:13.5px}
+  .pdp-steps{padding:16px 16px 16px 40px}
+  .pdp-steps ol li{font-size:12.5px}
 }
 @media(max-width:400px){
   .container{padding:0 12px}
   .flag-actions,.final-actions{flex-direction:column;width:100%}
   .flag-actions .btn,.final-actions .btn{width:100%}
+  .pay-methods-grid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -939,9 +1093,7 @@ input,select,textarea{color-scheme:light only}
   </div>
 </section>
 
-<!-- ==========================================
-     TUITION & FEES
-     ========================================== -->
+<!-- TUITION & FEES -->
 <section class="section section-alt" id="fees">
   <div class="container">
     <div class="section-head">
@@ -950,7 +1102,6 @@ input,select,textarea{color-scheme:light only}
       <p>One tuition. Three years. Six semesters. No hidden charges. And with our 70–100% scholarships, most students pay far less than full tuition.</p>
     </div>
 
-    <!-- FEE HERO -->
     <div class="fee-hero">
       <div class="fee-hero-main">
         <div class="fh-label">Full Tuition · 3-Year Programme</div>
@@ -974,7 +1125,6 @@ input,select,textarea{color-scheme:light only}
       </div>
     </div>
 
-    <!-- INVESTMENT TABLE -->
     <div class="investment-wrap">
       <h3>What You'll Actually Invest — After Scholarship</h3>
       <p>Depending on your scholarship tier, here is what you'll invest across the full 3 years, and how that breaks down at every level.</p>
@@ -1017,7 +1167,6 @@ input,select,textarea{color-scheme:light only}
       </div>
     </div>
 
-    <!-- COST CALCULATOR -->
     <div class="section-head" style="margin-top:60px;">
       <span class="section-tag">Interactive Cost Calculator</span>
       <h2>See Your Exact Investment</h2>
@@ -1136,7 +1285,6 @@ input,select,textarea{color-scheme:light only}
       </div>
     </div>
 
-    <!-- ELIGIBILITY CHECKER -->
     <div class="eligibility-wrapper" id="eligibility">
       <h3>Scholarship Eligibility Checker</h3>
       <p>Answer 5 quick questions to see what scholarship tier you may qualify for. This is an indicative estimate — the final decision rests with the admissions committee.</p>
@@ -1489,7 +1637,7 @@ input,select,textarea{color-scheme:light only}
       </div>
       <div class="faq-item" data-cat="admissions">
         <button type="button" class="faq-q">Is there an application fee? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Yes — a modest, non-refundable application fee. Candidates applying for scholarship consideration receive a reduced or waived application fee. Details are confirmed during the application process.</p></div>
+        <div class="faq-a"><p>Yes — a modest, non-refundable application fee of <strong>K120</strong> (Zambian applicants) or <strong>US$10</strong> (international applicants). Payable by Airtel Money, MTN MoMo, bank transfer / Visa, PayPal, or crypto. The fee must be settled before you can proceed to the academic and scholarship sections of the application.</p></div>
       </div>
       <div class="faq-item" data-cat="admissions">
         <button type="button" class="faq-q">Can I apply if I'm already working full time? <i class="fas fa-chevron-down"></i></button>
@@ -1506,11 +1654,11 @@ input,select,textarea{color-scheme:light only}
       </div>
       <div class="faq-item" data-cat="fees">
         <button type="button" class="faq-q">What payment methods do you accept? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>Mobile money (Airtel, MTN, Zamtel), card, bank transfer, and international payments for students outside Africa. USD payment is available for international students.</p></div>
+        <div class="faq-a"><p>Mobile money (Airtel Money, MTN MoMo), bank transfer / Visa card via Standard Chartered Bank, PayPal, and cryptocurrency (BTC, ETH, USDT-TRC20) for international applicants.</p></div>
       </div>
       <div class="faq-item" data-cat="fees">
         <button type="button" class="faq-q">Are there any additional fees? <i class="fas fa-chevron-down"></i></button>
-        <div class="faq-a"><p>The K120,000 tuition covers the full programme. There is a modest application fee (reduced or waived for scholarship applicants). No hidden charges.</p></div>
+        <div class="faq-a"><p>The K120,000 tuition covers the full programme. There is a non-refundable application fee of K120 (Zambian) or US$10 (international). No hidden charges.</p></div>
       </div>
     </div>
   </div>
@@ -1574,93 +1722,104 @@ input,select,textarea{color-scheme:light only}
         </div>
       </div>
 
-      <!-- STEP 2 · PAYMENT -->
+      <!-- STEP 2 · MANDATORY PAYMENT -->
       <div class="apply-section-form" data-apply-form="2">
-        <h3>Application Fee &amp; Payment</h3>
-        <p class="as-sub">A non-refundable application fee applies to all applications. Choose how you would like to handle it.</p>
+        <h3>Application Fee Payment</h3>
+        <p class="as-sub">
+          A non-refundable application fee is required before you can continue.
+          Choose your preferred payment method below, complete the transfer, then confirm below.
+        </p>
 
-        <div class="apply-fee-panel">
-          <h4><i class="fas fa-credit-card"></i> Application Fee</h4>
-          <p>Standard fee: <strong>K250</strong> (Local / African applicants) or <strong>US$25</strong> (International applicants).</p>
-          <p><strong>Reduced fee:</strong> K100 / US$10 — for applicants requesting scholarship consideration.</p>
-          <p><strong>Fee waiver:</strong> available where financial need is critical.</p>
-          <p><i class="fas fa-info-circle" style="color:var(--gold-dark);margin-right:6px;"></i>
-            Your final fee is confirmed after your scholarship assessment in the next steps. If you are granted a reduced or waived fee, any excess already paid will be credited or refunded.</p>
+        <!-- Amount banner -->
+        <div class="pay-amount-banner">
+          <div>
+            <div class="pab-label">Amount Due</div>
+            <div class="pab-amount" id="apPayAmount">K120</div>
+            <div class="pab-context" id="apPayContext">For Zambian applicants. Non-refundable application fee.</div>
+          </div>
+          <i class="fas fa-shield-alt pab-icon"></i>
         </div>
 
-        <div class="apply-form-group">
-          <label>When would you like to pay? <span class="req">*</span></label>
-          <div class="apply-radio-grid" id="apPaymentTiming">
-            <button type="button" class="apply-radio" data-value="now">
-              <span class="ar-check"></span>
-              <div class="ar-content">
-                <div class="ar-title">Pay now</div>
-                <div class="ar-desc">Complete the application fee now using mobile money, card, or bank transfer.</div>
-              </div>
-            </button>
-            <button type="button" class="apply-radio" data-value="later">
-              <span class="ar-check"></span>
-              <div class="ar-content">
-                <div class="ar-title">Pay later</div>
-                <div class="ar-desc">We'll email you a payment link once your scholarship decision is confirmed.</div>
-              </div>
-            </button>
-          </div>
+        <!-- Method cards -->
+        <div class="pay-methods-grid" id="apPayMethods">
+          <button type="button" class="pay-method-card pm-airtel" data-pm="airtel">
+            <div class="pm-logo">airtel</div>
+            <div class="pm-name">Airtel Money</div>
+            <div class="pm-desc">Fastest for Zambian applicants</div>
+          </button>
+          <button type="button" class="pay-method-card pm-mtn" data-pm="mtn">
+            <div class="pm-logo">MTN</div>
+            <div class="pm-name">MTN MoMo</div>
+            <div class="pm-desc">Mobile money</div>
+          </button>
+          <button type="button" class="pay-method-card pm-bank" data-pm="bank">
+            <div class="pm-logo"><i class="fas fa-university"></i></div>
+            <div class="pm-name">Bank / Visa</div>
+            <div class="pm-desc">Standard Chartered</div>
+          </button>
+          <button type="button" class="pay-method-card pm-paypal" data-pm="paypal">
+            <div class="pm-logo"><i class="fab fa-paypal"></i></div>
+            <div class="pm-name">PayPal</div>
+            <div class="pm-desc">For international applicants</div>
+          </button>
+          <button type="button" class="pay-method-card pm-crypto" data-pm="crypto">
+            <div class="pm-logo"><i class="fab fa-bitcoin"></i></div>
+            <div class="pm-name">Crypto</div>
+            <div class="pm-desc">BTC · ETH · USDT</div>
+          </button>
         </div>
 
-        <div id="apPaymentDetails" style="display:none;">
-          <div class="apply-form-group">
-            <label>Payment Method <span class="req">*</span></label>
-            <div class="apply-radio-grid" id="apPaymentMethod">
-              <button type="button" class="apply-radio" data-value="mobile">
-                <span class="ar-check"></span>
-                <div class="ar-content"><div class="ar-title">Mobile Money</div><div class="ar-desc">Airtel Money · MTN · Zamtel Kwacha</div></div>
-              </button>
-              <button type="button" class="apply-radio" data-value="card">
-                <span class="ar-check"></span>
-                <div class="ar-content"><div class="ar-title">Debit / Credit Card</div><div class="ar-desc">Visa · Mastercard</div></div>
-              </button>
-              <button type="button" class="apply-radio" data-value="bank">
-                <span class="ar-check"></span>
-                <div class="ar-content"><div class="ar-title">Bank Transfer</div><div class="ar-desc">Local and international transfers</div></div>
-              </button>
-            </div>
-          </div>
+        <!-- Details panel — rendered dynamically -->
+        <div id="apPayDetails" style="display:none;"></div>
 
-          <div class="apply-form-grid" id="apMobileFields" style="display:none;">
-            <div class="apply-form-group"><label>Mobile Money Number <span class="req">*</span></label><input type="tel" id="apMomoNumber" placeholder="e.g. 0977 000 000"></div>
+        <!-- Confirmation form -->
+        <div class="pay-confirm-form" id="apPayConfirm" style="display:none;">
+          <h4><i class="fas fa-clipboard-check"></i> Confirm Your Payment</h4>
+          <p style="font-size:12.5px;color:var(--gray-dark);margin-bottom:16px;line-height:1.6;">
+            Once you have completed the transfer, please confirm below so we can match your payment to your application.
+          </p>
+
+          <div class="apply-form-grid">
             <div class="apply-form-group">
-              <label>Network Provider <span class="req">*</span></label>
-              <select id="apMomoProvider">
-                <option value="">Select Provider</option>
-                <option>Airtel Money</option>
-                <option>MTN Mobile Money</option>
-                <option>Zamtel Kwacha</option>
-                <option>Other</option>
-              </select>
+              <label>Your Name (as on the payment) <span class="req">*</span></label>
+              <input type="text" id="apPaySenderName" placeholder="e.g. Chanda Mwale">
+            </div>
+            <div class="apply-form-group">
+              <label>Phone / Email used to pay <span class="req">*</span></label>
+              <input type="text" id="apPaySenderContact" placeholder="e.g. +260 977 123 456 or you@example.com">
+            </div>
+            <div class="apply-form-group full">
+              <label>Transaction Reference / Confirmation Code</label>
+              <input type="text" id="apPayRef" placeholder="e.g. MP240101.1234.A56789 — optional but recommended">
+              <div class="apply-helper">From your SMS confirmation, bank receipt, or PayPal / blockchain transaction ID.</div>
             </div>
           </div>
 
-          <div class="apply-form-grid" id="apCardFields" style="display:none;">
-            <div class="apply-form-group full"><label>Name on Card <span class="req">*</span></label><input type="text" id="apCardName" autocomplete="cc-name"></div>
-            <div class="apply-form-group full"><label>Card Number <span class="req">*</span></label><input type="text" id="apCardNumber" inputmode="numeric" maxlength="23" placeholder="0000 0000 0000 0000" autocomplete="cc-number"></div>
-            <div class="apply-form-group"><label>Expiry (MM/YY) <span class="req">*</span></label><input type="text" id="apCardExpiry" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp"></div>
-            <div class="apply-form-group"><label>CVV <span class="req">*</span></label><input type="text" id="apCardCvv" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc"></div>
+          <div class="apply-checks" style="margin-top:6px;">
+            <label><input type="checkbox" id="apPayConfirmed"> I confirm I have sent <strong id="apPayConfirmAmount">K120</strong> to the account shown above.</label>
           </div>
 
-          <div id="apBankFields" style="display:none;">
-            <div class="scholarship-flag" style="margin-bottom:0;">
-              <i class="fas fa-university"></i>
-              <div class="sf-text">
-                <strong>Bank transfer details</strong>
-                <p>Our bank details will be emailed to you as soon as you submit your application. Your application is processed once the transfer is confirmed.</p>
-              </div>
-            </div>
-          </div>
+          <button type="button" class="btn btn-primary btn-lg btn-block" id="apPaySubmit" style="margin-top:6px;">
+            <i class="fas fa-check-circle"></i> Confirm Payment &amp; Continue
+          </button>
         </div>
 
-        <div class="apply-checks" style="margin-top:24px;">
-          <label><input type="checkbox" id="apFeeAgree"> I understand the application fee is non-refundable, and that my application is only processed once payment is received or a fee waiver is granted.</label>
+        <!-- Success panel -->
+        <div id="apPaymentSuccess" style="display:none;">
+          <div class="payment-success">
+            <i class="fas fa-check-circle ps-icon"></i>
+            <h4>Payment Confirmed</h4>
+            <p>Amount: <strong id="apPaidAmount">K120</strong></p>
+            <p>Method: <strong id="apPaidMethod">—</strong></p>
+            <p>Sender: <strong id="apPaidSender">—</strong></p>
+            <div class="ps-ref" id="apPaymentRef">NOL-XXXXXX</div>
+            <div class="ps-next">
+              <i class="fas fa-arrow-right"></i> You may now continue with the rest of your application.
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" id="apPayReset" style="margin-top:14px;">
+            <i class="fas fa-redo"></i> Change payment method
+          </button>
         </div>
       </div>
 
@@ -1844,10 +2003,9 @@ input,select,textarea{color-scheme:light only}
         <p class="as-sub">Check everything is correct before submitting.</p>
 
         <div class="apply-fee-panel" id="applyFeePanel">
-          <h4><i class="fas fa-credit-card"></i> Application Fee</h4>
-          <p>Standard application fee: <strong>K250</strong> (Local / African applicants) or <strong>US$25</strong> (International).</p>
-          <p id="applyFeeReduced" style="display:none;"><strong>Reduced application fee applies</strong> — K100 / US$10 for applicants requesting scholarship consideration.</p>
-          <p id="applyFeeWaived" style="display:none;color:var(--gold-dark);font-weight:700;"><i class="fas fa-check-circle"></i> Your application fee has been waived based on the financial need you indicated.</p>
+          <h4><i class="fas fa-receipt"></i> Payment Confirmation</h4>
+          <p id="applyFeePaidLine">Payment status: <strong>Pending</strong></p>
+          <p id="applyFeeDetailLine">Please return to Step 2 to complete payment.</p>
         </div>
 
         <div id="applyReview"></div>
@@ -1936,12 +2094,7 @@ input,select,textarea{color-scheme:light only}
 <div class="apply-toast" id="applyToast"><i class="fas fa-check-circle"></i><span id="applyToastMsg"></span></div>
 
 <script>
-/* =============================================================
-   PAGE ENTRY FIX
-   Prevent the browser from auto-restoring a scroll position that
-   lands on the Central Application. On first load we want the
-   hero section visible.
-   ============================================================= */
+/* PAGE ENTRY FIX */
 (function pageEntryFix(){
   if ('scrollRestoration' in history) {
     try { history.scrollRestoration = 'manual'; } catch(e) {}
@@ -1978,9 +2131,7 @@ document.addEventListener('click', function(e){
   if(link){ const nav = document.getElementById('mobileNav'); if(nav) nav.classList.remove('show'); }
 });
 
-/* ==============================
-   STICKY HEADER
-   ============================== */
+/* STICKY HEADER */
 const header = document.getElementById('mainHeader');
 if(header){
   window.addEventListener('scroll', function(){
@@ -1988,9 +2139,7 @@ if(header){
   }, { passive: true });
 }
 
-/* ==============================
-   SMOOTH SCROLL
-   ============================== */
+/* SMOOTH SCROLL */
 document.querySelectorAll('a[href^="#"]').forEach(function(anchor){
   anchor.addEventListener('click', function(e){
     const href = this.getAttribute('href');
@@ -2005,9 +2154,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor){
   });
 });
 
-/* ==============================
-   STRUCTURE TABS
-   ============================== */
+/* STRUCTURE TABS */
 document.querySelectorAll('.structure-tab').forEach(function(tab){
   tab.addEventListener('click', function(){
     const year = this.dataset.year;
@@ -2017,52 +2164,41 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
   });
 });
 
-/* ==============================
-   COST CALCULATOR
-   ============================== */
+/* COST CALCULATOR */
 (function costCalculator(){
   const tierSelect = document.getElementById('calcTier');
   const planSelect = document.getElementById('calcPlan');
   const currencySelect = document.getElementById('calcCurrency');
-
   function fmt(n){ return n.toLocaleString('en-US'); }
-
   function update(){
     const tier = parseFloat(tierSelect.value);
     const plan = parseInt(planSelect.value, 10);
     const currency = currencySelect.value;
-
     const fullTuition = currency === 'ZMW' ? FULL_ZMW : FULL_ZMW / USD_RATE;
     const symbol = currency === 'ZMW' ? 'K' : 'US$';
     const discount = fullTuition * (tier / 100);
     const net = fullTuition - discount;
     const perInstalment = net / plan;
-
     document.getElementById('calcFull').textContent = symbol + fmt(Math.round(fullTuition));
     document.getElementById('calcScholarshipLabel').textContent = tier > 0 ? tier + '% scholarship' : 'No scholarship';
     document.getElementById('calcDiscount').textContent = tier > 0 ? '– ' + symbol + fmt(Math.round(discount)) : '—';
     document.getElementById('calcNet').textContent = symbol + fmt(Math.round(net));
     document.getElementById('calcTotal').textContent = symbol + fmt(Math.round(net));
-
     let label = '';
     if(plan === 1) label = 'Single payment';
     else if(plan === 3) label = '3 yearly instalments';
     else if(plan === 6) label = '6 semester instalments';
     else label = '36 monthly instalments';
-
     document.getElementById('calcMonthly').textContent = symbol + fmt(Math.round(perInstalment)) + (plan === 1 ? ' (single payment)' : ' / instalment');
     document.getElementById('calcMonthlySub').textContent = label;
   }
-
   tierSelect.addEventListener('change', update);
   planSelect.addEventListener('change', update);
   currencySelect.addEventListener('change', update);
   update();
 })();
 
-/* ==============================
-   ELIGIBILITY CHECKER
-   ============================== */
+/* ELIGIBILITY CHECKER */
 (function eligibilityChecker(){
   const questions = document.querySelectorAll('.elig-question');
   const total = questions.length;
@@ -2072,7 +2208,6 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
   const prevBtn = document.getElementById('eligPrev');
   const fill = document.getElementById('eligProgressFill');
   const result = document.getElementById('eligResult');
-
   function updateUI(){
     questions.forEach(q => q.classList.toggle('active', parseInt(q.dataset.eligQ, 10) === current));
     fill.style.width = ((current / total) * 100) + '%';
@@ -2080,7 +2215,6 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
     nextBtn.textContent = current === total ? 'See My Estimate →' : 'Next Question →';
     nextBtn.disabled = !answers[current];
   }
-
   document.querySelectorAll('.elig-option').forEach(function(opt){
     opt.addEventListener('click', function(){
       const parent = this.closest('.elig-question');
@@ -2091,12 +2225,10 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
       nextBtn.disabled = false;
     });
   });
-
   nextBtn.addEventListener('click', function(){
     if(current === total){ showResult(); } else { current++; updateUI(); }
   });
   prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(); } });
-
   function showResult(){
     const sum = Object.values(answers).reduce((a,b) => a+b, 0);
     let percent, tier, message;
@@ -2104,34 +2236,27 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
     else if(sum >= 14){ percent = '85%'; tier = "Founder's Scholarship · Estimated"; message = 'Based on your responses, you could be considered for a strong scholarship — you would pay approximately K18,000 (≈ US$900) across 3 years. This is an indicative estimate only.'; }
     else if(sum >= 10){ percent = '70%'; tier = 'Merit Scholarship · Estimated'; message = 'You may qualify for a merit-based scholarship — you would pay approximately K36,000 (≈ US$1,800) across 3 years. You\'ll be automatically considered when you submit your application.'; }
     else { percent = 'TBD'; tier = 'Assessment Required'; message = 'Based on your responses, scholarship eligibility will require committee review. We encourage you to apply — other support may be available.'; }
-
     document.getElementById('eligPercent').textContent = percent;
     document.getElementById('eligTier').textContent = tier;
     document.getElementById('eligMessage').textContent = message;
-
     questions.forEach(q => q.classList.remove('active'));
     result.classList.add('active');
     nextBtn.style.display = 'none';
     prevBtn.style.display = 'none';
     fill.style.width = '100%';
   }
-
   document.getElementById('eligRetake').addEventListener('click', function(){
-    current = 1;
-    answers = {};
+    current = 1; answers = {};
     document.querySelectorAll('.elig-option').forEach(o => o.classList.remove('selected'));
     result.classList.remove('active');
     nextBtn.style.display = 'inline-flex';
     prevBtn.style.display = 'inline-flex';
     updateUI();
   });
-
   updateUI();
 })();
 
-/* ==============================
-   QUIZ
-   ============================== */
+/* QUIZ */
 (function selfAssessmentQuiz(){
   const steps = document.querySelectorAll('.quiz-step');
   const total = steps.length;
@@ -2141,7 +2266,6 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
   const prevBtn = document.getElementById('quizPrev');
   const fill = document.getElementById('quizProgressFill');
   const result = document.getElementById('quizResult');
-
   function updateUI(){
     steps.forEach(s => s.classList.toggle('active', parseInt(s.dataset.quizQ, 10) === current));
     fill.style.width = ((current / total) * 100) + '%';
@@ -2149,7 +2273,6 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
     nextBtn.textContent = current === total ? 'See Results →' : 'Next →';
     nextBtn.disabled = !answers[current];
   }
-
   document.querySelectorAll('.quiz-opt').forEach(function(opt){
     opt.addEventListener('click', function(){
       const parent = this.closest('.quiz-step');
@@ -2160,12 +2283,10 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
       nextBtn.disabled = false;
     });
   });
-
   nextBtn.addEventListener('click', function(){
     if(current === total){ showResult(); } else { current++; updateUI(); }
   });
   prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(); } });
-
   function showResult(){
     const sum = Object.values(answers).reduce((a,b) => a+b, 0);
     const max = total * 3;
@@ -2173,34 +2294,27 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
     if(sum >= max - 2){ verdict = "This programme is built for you."; message = "Your answers suggest this is exactly the kind of programme you're looking for. You're ready to apply."; }
     else if(sum >= max - 5){ verdict = "Strong fit."; message = "This programme aligns well with your goals and how you like to learn. Consider applying to the Founding Cohort."; }
     else { verdict = "Worth exploring further."; message = "You may still benefit greatly. Explore the programme structure, careers, and cost calculator above, then decide."; }
-
     document.getElementById('quizScore').textContent = sum + ' / ' + max;
     document.getElementById('quizVerdict').textContent = verdict;
     document.getElementById('quizMessage').textContent = message;
-
     steps.forEach(s => s.classList.remove('active'));
     result.classList.add('active');
     nextBtn.style.display = 'none';
     prevBtn.style.display = 'none';
     fill.style.width = '100%';
   }
-
   document.getElementById('quizRetake').addEventListener('click', function(){
-    current = 1;
-    answers = {};
+    current = 1; answers = {};
     document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
     result.classList.remove('active');
     nextBtn.style.display = 'inline-flex';
     prevBtn.style.display = 'inline-flex';
     updateUI();
   });
-
   updateUI();
 })();
 
-/* ==============================
-   CAREER EXPLORER
-   ============================== */
+/* CAREER EXPLORER */
 document.querySelectorAll('.career-tab').forEach(function(tab){
   tab.addEventListener('click', function(){
     const career = this.dataset.career;
@@ -2210,9 +2324,7 @@ document.querySelectorAll('.career-tab').forEach(function(tab){
   });
 });
 
-/* ==============================
-   FAQ
-   ============================== */
+/* FAQ */
 document.querySelectorAll('.faq-q').forEach(function(q){
   q.addEventListener('click', function(){
     const item = this.closest('.faq-item');
@@ -2232,368 +2344,132 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
   });
 });
 
-/* ==============================
-   APPLICATION
-   ============================== */
-(function embeddedApplication(){
-  const sections = document.querySelectorAll('.apply-section-form');
-  const totalSections = sections.length;
-  let current = 1;
-  const state = {
-    paymentTiming: null,
-    paymentMethod: null,
-    scholarshipInterest: null,
-    financialNeed: null,
-    leadership: null
-  };
-
-  const prevBtn = document.getElementById('apPrev');
-  const nextBtn = document.getElementById('apNext');
-  const submitBtn = document.getElementById('apSubmit');
-  const toast = document.getElementById('applyToast');
-  const toastMsg = document.getElementById('applyToastMsg');
-
-  function showToast(msg, type){
-    toastMsg.textContent = msg;
-    toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : '');
-    clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 4000);
+/* ============================================================
+   PAYMENT METHOD DATA
+   ============================================================ */
+const PAYMENT_METHODS = {
+  airtel: {
+    label: 'Airtel Money',
+    brandClass: 'brand-airtel',
+    icon: 'fa-mobile-alt',
+    title: 'Airtel Money',
+    sub: 'Pay via Airtel Money in Zambian Kwacha',
+    amountZMW: 'K120',
+    amountUSD: 'K120',
+    rows: [
+      { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true },
+      { label: 'Recipient Note',  value: 'Receiving on behalf of Nolan Institute', plain: true },
+      { label: 'Airtel Number',   value: '+260 975 914 001', copy: true, copyValue: '+260975914001' }
+    ],
+    steps: [
+      'On your Airtel line, dial <strong>*115#</strong>',
+      'Select <strong>Send Money</strong> → <strong>Airtel Money</strong>',
+      'Enter the recipient number <strong>+260 975 914 001</strong>',
+      'Enter the amount <strong>K120.00</strong>',
+      'Confirm — recipient will display as <strong>Mwaba Lewis</strong>',
+      'Save the transaction ID from your SMS confirmation'
+    ],
+    note: 'Airtel Money is available to all applicants. The recipient number is Zambian — if you are outside Zambia, use PayPal or Crypto below instead.'
+  },
+  mtn: {
+    label: 'MTN MoMo',
+    brandClass: 'brand-mtn',
+    icon: 'fa-mobile-alt',
+    title: 'MTN Mobile Money (MoMo)',
+    sub: 'Pay via MTN MoMo in Zambian Kwacha',
+    amountZMW: 'K120',
+    amountUSD: 'K120',
+    rows: [
+      { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true },
+      { label: 'Recipient Note',  value: 'Receiving on behalf of Nolan Institute', plain: true },
+      { label: 'MTN MoMo Number', value: '076 852 6191', copy: true, copyValue: '0768526191' }
+    ],
+    steps: [
+      'On your MTN line, dial <strong>*303#</strong>',
+      'Select <strong>Send Money</strong> → <strong>MTN Mobile Money</strong>',
+      'Enter the recipient number <strong>076 852 6191</strong>',
+      'Enter the amount <strong>K120.00</strong>',
+      'Confirm — recipient will display as <strong>Mwaba Lewis</strong>',
+      'Save the transaction ID from your SMS confirmation'
+    ],
+    note: 'MTN MoMo is available to all applicants. The recipient number is Zambian — if you are outside Zambia, use PayPal or Crypto below instead.'
+  },
+  bank: {
+    label: 'Bank / Visa',
+    brandClass: 'brand-bank',
+    icon: 'fa-university',
+    title: 'Bank Transfer or Visa Card',
+    sub: 'Standard Chartered Bank',
+    amountZMW: 'K120',
+    amountUSD: 'US$10',
+    rows: [
+      { label: 'Bank', value: 'Standard Chartered Bank', plain: true },
+      { label: 'Account Name', value: 'Nolan Institute (Mwaba Lewis)', plain: true },
+      { label: 'Account Number', value: '015-XXXXXXX-XX', copy: true, copyValue: '015XXXXXXXX', placeholder: true },
+      { label: 'Branch', value: 'Lusaka Main Branch, Zambia', plain: true },
+      { label: 'Reference', value: 'Your Full Name + "Nolan"', plain: true }
+    ],
+    steps: [
+      'Log into your online banking, or visit any Standard Chartered branch',
+      'Use the account details shown above',
+      'Transfer the applicable amount for your country',
+      'Use your <strong>full name + "Nolan"</strong> as the transfer reference',
+      'Save your receipt or transaction confirmation'
+    ],
+    note: 'For Visa card payments, use your bank\'s online card-to-account service to send to the Standard Chartered account above. The exact account number will be confirmed by admissions on request — please contact admissions@nolaninstitute.org if you need it urgently.'
+  },
+  paypal: {
+    label: 'PayPal',
+    brandClass: 'brand-paypal',
+    icon: 'fa-paypal',
+    iconSet: 'fab',
+    title: 'PayPal',
+    sub: 'Send to our verified PayPal account',
+    amountZMW: 'US$10',
+    amountUSD: 'US$10',
+    rows: [
+      { label: 'Recipient Email', value: 'lewismwaba@gmail.com', copy: true, copyValue: 'lewismwaba@gmail.com' },
+      { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true },
+      { label: 'Payment Type', value: 'Send to a friend (to avoid fees)', plain: true }
+    ],
+    steps: [
+      'Log into your PayPal account',
+      'Choose <strong>Send &amp; Request</strong> → <strong>Send to a friend</strong>',
+      'Enter <strong>lewismwaba@gmail.com</strong> as the recipient',
+      'Enter amount <strong>US$10.00</strong> and select USD currency',
+      'In the note, add <strong>your full name + "Nolan Application"</strong>',
+      'Save your PayPal transaction ID'
+    ],
+    note: 'PayPal is ideal for international applicants. Please always send in USD.'
+  },
+  crypto: {
+    label: 'Crypto',
+    brandClass: 'brand-crypto',
+    icon: 'fa-bitcoin',
+    iconSet: 'fab',
+    title: 'Cryptocurrency',
+    sub: 'For international applicants',
+    amountZMW: 'US$10 equivalent',
+    amountUSD: 'US$10 equivalent',
+    rows: [
+      { label: 'Accepted Coins', value: 'BTC · ETH · USDT (TRC20)', plain: true },
+      { label: 'Request Wallet', value: 'lewismwaba@gmail.com', copy: true, copyValue: 'lewismwaba@gmail.com' },
+      { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true }
+    ],
+    steps: [
+      'Email <strong>lewismwaba@gmail.com</strong> with the subject <strong>"Nolan Crypto Payment"</strong>',
+      'State which coin you will use (BTC, ETH, or USDT-TRC20)',
+      'You will receive our wallet address within 24 hours',
+      'Send the <strong>US$10 equivalent</strong> — save the transaction hash',
+      'Return here, and enter the transaction hash as your reference'
+    ],
+    note: 'Crypto is offered as an option for international applicants. Because crypto rates fluctuate, please send the US$10 equivalent at the time of transfer. Any excess will be credited towards your tuition.'
   }
+};
 
-  /* ---------------------------------------------------------
-     updateUI(scroll)
-     — scroll === false  → do not scroll (used on page load)
-     — scroll === true   → scroll to top of the application
-                            (used only when the user navigates)
-     --------------------------------------------------------- */
-  function updateUI(scroll){
-    sections.forEach((s, i) => s.classList.toggle('active', i + 1 === current));
-    document.querySelectorAll('.apply-step').forEach((s, i) => {
-      s.classList.toggle('active', i + 1 === current);
-      if(i + 1 < current) s.classList.add('completed');
-    });
-    prevBtn.style.display = current === 1 ? 'none' : 'inline-flex';
-    if(current === totalSections){
-      nextBtn.style.display = 'none';
-      submitBtn.style.display = 'inline-flex';
-      renderReview();
-    } else {
-      nextBtn.style.display = 'inline-flex';
-      submitBtn.style.display = 'none';
-    }
-    if(scroll){
-      const applyTop = document.getElementById('apply').offsetTop - 20;
-      window.scrollTo({ top: applyTop, behavior: 'smooth' });
-    }
-  }
-
-  /* ---------- Payment UI ---------- */
-  function updatePaymentUI(){
-    const details = document.getElementById('apPaymentDetails');
-    const payNow = state.paymentTiming === 'now';
-    if(details) details.style.display = payNow ? 'block' : 'none';
-
-    const m = state.paymentMethod;
-    const showMobile = payNow && m === 'mobile';
-    const showCard   = payNow && m === 'card';
-    const showBank   = payNow && m === 'bank';
-
-    const mf = document.getElementById('apMobileFields');
-    const cf = document.getElementById('apCardFields');
-    const bf = document.getElementById('apBankFields');
-    if(mf) mf.style.display = showMobile ? 'grid' : 'none';
-    if(cf) cf.style.display = showCard ? 'grid' : 'none';
-    if(bf) bf.style.display = showBank ? 'block' : 'none';
-  }
-
-  document.querySelectorAll('.apply-radio-grid').forEach(function(group){
-    group.querySelectorAll('.apply-radio').forEach(function(radio){
-      radio.addEventListener('click', function(){
-        group.querySelectorAll('.apply-radio').forEach(r => r.classList.remove('selected'));
-        this.classList.add('selected');
-        const groupId = group.id;
-        const value = this.dataset.value;
-        if(groupId === 'apScholarshipInterest') state.scholarshipInterest = value;
-        if(groupId === 'apFinancialNeed') state.financialNeed = value;
-        if(groupId === 'apLeadership') state.leadership = value;
-        if(groupId === 'apPaymentTiming'){ state.paymentTiming = value; updatePaymentUI(); }
-        if(groupId === 'apPaymentMethod'){ state.paymentMethod = value; updatePaymentUI(); }
-      });
-    });
-  });
-
-  /* ---------- Input formatting ---------- */
-  (function paymentInputFormatting(){
-    const cardNum = document.getElementById('apCardNumber');
-    if(cardNum){
-      cardNum.addEventListener('input', function(){
-        const v = this.value.replace(/\D/g, '').slice(0, 19);
-        this.value = v.replace(/(.{4})/g, '$1 ').trim();
-      });
-    }
-    const expiry = document.getElementById('apCardExpiry');
-    if(expiry){
-      expiry.addEventListener('input', function(){
-        let v = this.value.replace(/\D/g, '').slice(0, 4);
-        if(v.length > 2) v = v.slice(0, 2) + '/' + v.slice(2);
-        this.value = v;
-      });
-    }
-    const cvv = document.getElementById('apCardCvv');
-    if(cvv){
-      cvv.addEventListener('input', function(){
-        this.value = this.value.replace(/\D/g, '').slice(0, 4);
-      });
-    }
-  })();
-
-  /* ---------- Validation ---------- */
-  function validate(n){
-    if(n === 1){
-      const req = ['apFirstName','apLastName','apEmail','apPhone','apDob','apCountry'];
-      for(const id of req){
-        const el = document.getElementById(id);
-        if(!el.value.trim()){ el.classList.add('err'); showToast('Please complete all required personal information.', 'error'); return false; }
-        el.classList.remove('err');
-      }
-      const email = document.getElementById('apEmail').value.trim();
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
-        document.getElementById('apEmail').classList.add('err');
-        showToast('Please enter a valid email address.', 'error');
-        return false;
-      }
-    }
-
-    if(n === 2){
-      if(!state.paymentTiming){
-        showToast('Please choose when you would like to pay the application fee.', 'error');
-        return false;
-      }
-      const agree = document.getElementById('apFeeAgree');
-      if(agree && !agree.checked){
-        showToast('Please confirm you understand the application fee terms.', 'error');
-        return false;
-      }
-      if(state.paymentTiming === 'now'){
-        if(!state.paymentMethod){
-          showToast('Please select a payment method.', 'error');
-          return false;
-        }
-        if(state.paymentMethod === 'mobile'){
-          const num = document.getElementById('apMomoNumber');
-          const prov = document.getElementById('apMomoProvider');
-          if(!num.value.trim()){ num.classList.add('err'); showToast('Please enter your mobile money number.', 'error'); return false; }
-          num.classList.remove('err');
-          if(!prov.value){ prov.classList.add('err'); showToast('Please select your network provider.', 'error'); return false; }
-          prov.classList.remove('err');
-        }
-        if(state.paymentMethod === 'card'){
-          const cn = document.getElementById('apCardName');
-          const numEl = document.getElementById('apCardNumber');
-          const exp = document.getElementById('apCardExpiry');
-          const cv = document.getElementById('apCardCvv');
-          const digits = numEl.value.replace(/\s+/g, '');
-          if(!cn.value.trim()){ cn.classList.add('err'); showToast('Please enter the name on your card.', 'error'); return false; }
-          cn.classList.remove('err');
-          if(!/^\d{13,19}$/.test(digits)){ numEl.classList.add('err'); showToast('Please enter a valid card number.', 'error'); return false; }
-          numEl.classList.remove('err');
-          if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(exp.value.trim())){ exp.classList.add('err'); showToast('Please enter a valid expiry date (MM/YY).', 'error'); return false; }
-          exp.classList.remove('err');
-          if(!/^\d{3,4}$/.test(cv.value.trim())){ cv.classList.add('err'); showToast('Please enter a valid CVV.', 'error'); return false; }
-          cv.classList.remove('err');
-        }
-      }
-    }
-
-    if(n === 3){
-      const req = ['apSchool','apDegree','apYear'];
-      for(const id of req){
-        const el = document.getElementById(id);
-        if(!el.value.trim()){ el.classList.add('err'); showToast('Please complete the academic background section.', 'error'); return false; }
-        el.classList.remove('err');
-      }
-    }
-
-    if(n === 4){
-      if(!state.scholarshipInterest){ showToast('Please indicate whether you\'d like scholarship consideration.', 'error'); return false; }
-      if(!state.financialNeed){ showToast('Please answer the financial need question.', 'error'); return false; }
-      if(!state.leadership){ showToast('Please answer the leadership question.', 'error'); return false; }
-    }
-
-    if(n === 5){
-      const e1 = document.getElementById('apEssay1').value.trim();
-      const e2 = document.getElementById('apEssay2').value.trim();
-      if(e1.split(/\s+/).filter(Boolean).length < 150){
-        document.getElementById('apEssay1').classList.add('err');
-        showToast('Essay 1 should be at least 150 words.', 'error');
-        return false;
-      }
-      document.getElementById('apEssay1').classList.remove('err');
-      if(e2.split(/\s+/).filter(Boolean).length < 150){
-        document.getElementById('apEssay2').classList.add('err');
-        showToast('Essay 2 should be at least 150 words.', 'error');
-        return false;
-      }
-      document.getElementById('apEssay2').classList.remove('err');
-    }
-
-    if(n === 6){
-      const r = document.getElementById('apResume');
-      const t = document.getElementById('apTranscript');
-      if(!r.files.length){ showToast('Please upload your CV.', 'error'); return false; }
-      if(!t.files.length){ showToast('Please upload your academic record.', 'error'); return false; }
-    }
-    return true;
-  }
-
-  function updateFeePanel(){
-    const reduced = document.getElementById('applyFeeReduced');
-    const waived = document.getElementById('applyFeeWaived');
-    if(!reduced || !waived) return;
-    reduced.style.display = 'none';
-    waived.style.display = 'none';
-    if(state.scholarshipInterest === 'yes'){
-      if(state.financialNeed === 'critical'){ waived.style.display = 'block'; }
-      else { reduced.style.display = 'block'; }
-    }
-  }
-
-  /* ---------- Review ---------- */
-  function renderReview(){
-    updateFeePanel();
-
-    const fn = document.getElementById('apFirstName').value;
-    const ln = document.getElementById('apLastName').value;
-    const em = document.getElementById('apEmail').value;
-    const ph = document.getElementById('apPhone').value;
-    const country = document.getElementById('apCountry').value;
-    const school = document.getElementById('apSchool').value;
-    const degree = document.getElementById('apDegree').value;
-    const year = document.getElementById('apYear').value;
-
-    const leadershipLabel = {
-      none: 'None yet',
-      some: 'Led a team or project',
-      strong: 'Built a business, initiative or venture',
-      exceptional: 'Founded or co-founded a notable venture'
-    }[state.leadership] || '—';
-
-    const needLabel = {
-      low: 'I can pay full tuition (K120,000)',
-      medium: 'I need partial support',
-      high: 'Without scholarship, it would be difficult',
-      critical: 'Without near-full scholarship, I cannot attend'
-    }[state.financialNeed] || '—';
-
-    const timingLabel = state.paymentTiming === 'now'
-      ? 'Pay now'
-      : (state.paymentTiming === 'later' ? 'Pay later (after scholarship decision)' : '—');
-
-    let methodLabel = '—';
-    let methodDetail = '';
-    if(state.paymentTiming === 'now'){
-      if(state.paymentMethod === 'mobile'){
-        methodLabel = 'Mobile Money';
-        const prov = document.getElementById('apMomoProvider');
-        const num = document.getElementById('apMomoNumber');
-        methodDetail = (prov && prov.value ? prov.value : '') + (num && num.value ? ' · ' + num.value : '');
-      } else if(state.paymentMethod === 'card'){
-        methodLabel = 'Debit / Credit Card';
-        const digits = (document.getElementById('apCardNumber').value || '').replace(/\s+/g, '');
-        methodDetail = digits ? 'Card ending ' + digits.slice(-4) : '';
-      } else if(state.paymentMethod === 'bank'){
-        methodLabel = 'Bank Transfer';
-        methodDetail = 'Bank details emailed after submission';
-      }
-    }
-
-    const resumeName = (document.getElementById('apResume').files[0] || {}).name || '—';
-    const transName  = (document.getElementById('apTranscript').files[0] || {}).name || '—';
-
-    document.getElementById('applyReview').innerHTML = `
-      <div class="apply-review">
-        <h4><i class="fas fa-graduation-cap"></i> Programme</h4>
-        <div class="apply-review-item"><span class="arl">Programme:</span><span class="arv">Bachelor of Global Business &amp; Technology</span></div>
-        <div class="apply-review-item"><span class="arl">Duration:</span><span class="arv">3 Years · Online</span></div>
-        <div class="apply-review-item"><span class="arl">Total Tuition:</span><span class="arv">K120,000 (≈ US$6,000)</span></div>
-        <div class="apply-review-item"><span class="arl">Intake:</span><span class="arv">Founding Cohort 2026</span></div>
-      </div>
-      <div class="apply-review">
-        <h4><i class="fas fa-user"></i> Personal Information</h4>
-        <div class="apply-review-item"><span class="arl">Name:</span><span class="arv">${fn} ${ln}</span></div>
-        <div class="apply-review-item"><span class="arl">Email:</span><span class="arv">${em}</span></div>
-        <div class="apply-review-item"><span class="arl">Phone:</span><span class="arv">${ph}</span></div>
-        <div class="apply-review-item"><span class="arl">Country:</span><span class="arv">${country}</span></div>
-      </div>
-      <div class="apply-review">
-        <h4><i class="fas fa-credit-card"></i> Application Fee &amp; Payment</h4>
-        <div class="apply-review-item"><span class="arl">Payment Timing:</span><span class="arv">${timingLabel}</span></div>
-        <div class="apply-review-item"><span class="arl">Method:</span><span class="arv">${methodLabel}</span></div>
-        ${methodDetail ? `<div class="apply-review-item"><span class="arl">Details:</span><span class="arv">${methodDetail}</span></div>` : ''}
-      </div>
-      <div class="apply-review">
-        <h4><i class="fas fa-book"></i> Academic Background</h4>
-        <div class="apply-review-item"><span class="arl">Institution:</span><span class="arv">${school}</span></div>
-        <div class="apply-review-item"><span class="arl">Qualification:</span><span class="arv">${degree}</span></div>
-        <div class="apply-review-item"><span class="arl">Year:</span><span class="arv">${year}</span></div>
-      </div>
-      <div class="apply-review">
-        <h4><i class="fas fa-paperclip"></i> Documents</h4>
-        <div class="apply-review-item"><span class="arl">Resume / CV:</span><span class="arv">${resumeName}</span></div>
-        <div class="apply-review-item"><span class="arl">Academic Record:</span><span class="arv">${transName}</span></div>
-      </div>
-      <div class="apply-review">
-        <h4><i class="fas fa-percent"></i> Scholarship Assessment</h4>
-        <div class="apply-review-item"><span class="arl">Scholarship Interest:</span><span class="arv">${state.scholarshipInterest === 'yes' ? 'Yes' : 'No'}</span></div>
-        <div class="apply-review-item"><span class="arl">Financial Need:</span><span class="arv">${needLabel}</span></div>
-        <div class="apply-review-item"><span class="arl">Leadership:</span><span class="arv">${leadershipLabel}</span></div>
-      </div>
-    `;
-  }
-
-  nextBtn.addEventListener('click', function(){
-    if(!validate(current)) return;
-    if(current < totalSections){ current++; updateUI(true); }
-  });
-  prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(true); } });
-
-  document.querySelectorAll('.apply-step').forEach(function(step){
-    step.addEventListener('click', function(){
-      const target = parseInt(this.dataset.applyStep, 10);
-      if(target < current){ current = target; updateUI(true); }
-      else if(target > current){
-        for(let i = current; i < target; i++){ if(!validate(i)) return; }
-        current = target;
-        updateUI(true);
-      }
-    });
-  });
-
-  document.getElementById('applyForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    if(!document.getElementById('apAgreeTerms').checked || !document.getElementById('apAgreeSubmit').checked){
-      showToast('Please agree to the terms before submitting.', 'error');
-      return;
-    }
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-
-    setTimeout(function(){
-      showToast('Application submitted successfully. Check your email for confirmation.', 'success');
-      setTimeout(function(){ window.location.href = 'index.html'; }, 2500);
-    }, 1600);
-  });
-
-  /* Initial render — no auto-scroll, so the hero stays visible on load. */
-  updateUI(false);
-  updatePaymentUI();
-})();
-
-/* ==============================
+/* ============================================================
    FILE UPLOAD VALIDATION
-   Prevents "low memory" errors by checking size/type
-   before the browser reads the file.
-   ============================== */
+   ============================================================ */
 (function fileUploads(){
   const LIMITS = {
     apResume: {
@@ -2649,7 +2525,6 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
     const inputId = drop.dataset.uploadFor;
     const input = document.getElementById(inputId);
     if(!input) return;
-
     const limits = LIMITS[inputId] || { max: 5 * 1024 * 1024, exts: [], mimes: [], label: 'File' };
     const emptyView  = drop.querySelector('.upload-empty');
     const filledView = drop.querySelector('.upload-filled');
@@ -2675,19 +2550,12 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
         if(sizeEl) sizeEl.textContent = '';
       }
     }
-
     function validate(f){
       if(!f) return true;
-      if(f.size === 0){
-        showToast('That file appears to be empty. Please choose a different file.', 'error');
-        return false;
-      }
+      if(f.size === 0){ showToast('That file appears to be empty. Please choose a different file.', 'error'); return false; }
       if(f.size > limits.max){
-        showToast(
-          limits.label + ' is too large (' + fmtSize(f.size) + '). Maximum is ' + fmtSize(limits.max) +
-          '. Please compress it, or email it to admissions@nolaninstitute.org and continue with the rest of your application.',
-          'error'
-        );
+        showToast(limits.label + ' is too large (' + fmtSize(f.size) + '). Maximum is ' + fmtSize(limits.max) +
+          '. Please compress it, or email it to admissions@nolaninstitute.org.', 'error');
         return false;
       }
       const ext = getExt(f.name);
@@ -2699,25 +2567,15 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
       }
       return true;
     }
-
-    /* Click to open picker */
     drop.addEventListener('click', function(e){
       if(e.target.closest('.upload-remove')) return;
       input.click();
     });
-
-    /* Drag & drop support */
     ['dragenter','dragover'].forEach(function(ev){
-      drop.addEventListener(ev, function(e){
-        e.preventDefault(); e.stopPropagation();
-        drop.classList.add('dragover');
-      });
+      drop.addEventListener(ev, function(e){ e.preventDefault(); e.stopPropagation(); drop.classList.add('dragover'); });
     });
     ['dragleave','drop'].forEach(function(ev){
-      drop.addEventListener(ev, function(e){
-        e.preventDefault(); e.stopPropagation();
-        drop.classList.remove('dragover');
-      });
+      drop.addEventListener(ev, function(e){ e.preventDefault(); e.stopPropagation(); drop.classList.remove('dragover'); });
     });
     drop.addEventListener('drop', function(e){
       const dt = e.dataTransfer;
@@ -2734,28 +2592,517 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
       }
       render();
     });
-
-    /* Change handler */
     input.addEventListener('change', function(){
       const f = input.files && input.files[0];
       if(!f){ render(); return; }
-      if(!validate(f)){
-        input.value = '';
-        render();
-        return;
-      }
+      if(!validate(f)){ input.value = ''; render(); return; }
       render();
     });
-
     if(removeBtn){
       removeBtn.addEventListener('click', function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        input.value = '';
-        render();
+        e.preventDefault(); e.stopPropagation();
+        input.value = ''; render();
       });
     }
   });
+})();
+
+/* ============================================================
+   APPLICATION
+   ============================================================ */
+(function embeddedApplication(){
+  const sections = document.querySelectorAll('.apply-section-form');
+  const totalSections = sections.length;
+  let current = 1;
+
+  const state = {
+    paymentStatus: 'pending',     // 'pending' | 'confirmed'
+    paymentMethod: null,          // 'airtel' | 'mtn' | 'bank' | 'paypal' | 'crypto'
+    paymentRef: null,
+    paidAmount: null,
+    senderName: null,
+    senderContact: null,
+    scholarshipInterest: null,
+    financialNeed: null,
+    leadership: null
+  };
+
+  const prevBtn = document.getElementById('apPrev');
+  const nextBtn = document.getElementById('apNext');
+  const submitBtn = document.getElementById('apSubmit');
+  const toast = document.getElementById('applyToast');
+  const toastMsg = document.getElementById('applyToastMsg');
+
+  const countrySelect = document.getElementById('apCountry');
+  const payAmountEl   = document.getElementById('apPayAmount');
+  const payContextEl  = document.getElementById('apPayContext');
+  const payDetails    = document.getElementById('apPayDetails');
+  const payConfirm    = document.getElementById('apPayConfirm');
+  const paySuccess    = document.getElementById('apPaymentSuccess');
+
+  /* ---------- Fee helpers ---------- */
+  function isZambian(){ return (countrySelect.value || '').trim() === 'Zambia'; }
+  function getFeeAmount(){ return isZambian() ? 'K120' : 'US$10'; }
+  function getFeeContext(){
+    return isZambian()
+      ? 'For Zambian applicants. Non-refundable application fee.'
+      : 'For international applicants. Non-refundable application fee.';
+  }
+  function getMethodLabel(v){
+    return { airtel:'Airtel Money', mtn:'MTN MoMo', bank:'Bank / Visa', paypal:'PayPal', crypto:'Crypto' }[v] || '—';
+  }
+
+  /* ---------- Toast ---------- */
+  function showToast(msg, type){
+    toastMsg.textContent = msg;
+    toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : '');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 4200);
+  }
+
+  /* ---------- Clipboard ---------- */
+  function copyText(text, btn){
+    const done = () => {
+      if(btn){
+        const original = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '<i class="fas fa-check"></i>';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = original;
+        }, 1600);
+      }
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+  function fallbackCopy(text, done){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); done(); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  /* ---------- Render method details ---------- */
+  function renderPaymentDetails(){
+    if(!state.paymentMethod){
+      payDetails.style.display = 'none';
+      payConfirm.style.display = 'none';
+      return;
+    }
+    const m = PAYMENT_METHODS[state.paymentMethod];
+    if(!m) return;
+
+    const amount = isZambian() ? m.amountZMW : m.amountUSD;
+    const iconLib = m.iconSet || 'fas';
+
+    let rowsHtml = '';
+    m.rows.forEach(function(r){
+      const valueClass = r.plain ? 'pdr-value plain' : 'pdr-value';
+      rowsHtml += `
+        <div class="pay-detail-row">
+          <div class="pdr-info">
+            <div class="pdr-label">${r.label}</div>
+            <div class="${valueClass}">${r.value}</div>
+          </div>
+          ${r.copy ? `<button type="button" class="pdr-copy" data-copy="${(r.copyValue || r.value).replace(/"/g,'&quot;')}" aria-label="Copy ${r.label}"><i class="fas fa-copy"></i></button>` : ''}
+        </div>
+      `;
+    });
+
+    let stepsHtml = '';
+    m.steps.forEach(function(s){
+      stepsHtml += `<li>${s}</li>`;
+    });
+
+    payDetails.innerHTML = `
+      <div class="pay-details-panel ${m.brandClass}">
+        <div class="pdp-header">
+          <div class="pdp-icon"><i class="${iconLib} ${m.icon}"></i></div>
+          <div>
+            <div class="pdp-title">${m.title}</div>
+            <div class="pdp-sub">${m.sub}</div>
+          </div>
+        </div>
+        <div class="pdp-body">
+          <div class="pdp-amount-banner">
+            <div class="pab-l">Amount to Send</div>
+            <div class="pab-v">${amount}</div>
+          </div>
+
+          <div class="pdp-rows">${rowsHtml}</div>
+
+          <div class="pdp-steps">
+            <div class="pds-title"><i class="fas fa-list-ol"></i> How to Pay — Step by Step</div>
+            <ol>${stepsHtml}</ol>
+          </div>
+
+          ${m.note ? `<div class="pdp-warning"><i class="fas fa-info-circle"></i><div>${m.note}</div></div>` : ''}
+        </div>
+      </div>
+    `;
+    payDetails.style.display = 'block';
+    payConfirm.style.display = 'block';
+
+    // Wire copy buttons
+    payDetails.querySelectorAll('.pdr-copy').forEach(function(btn){
+      btn.addEventListener('click', function(e){
+        e.preventDefault(); e.stopPropagation();
+        copyText(this.dataset.copy, this);
+      });
+    });
+
+    // Update confirm amount label
+    const confirmAmount = document.getElementById('apPayConfirmAmount');
+    if(confirmAmount) confirmAmount.textContent = amount;
+
+    // Clear previous success if user changed method
+    if(state.paymentStatus !== 'confirmed'){
+      paySuccess.style.display = 'none';
+    }
+  }
+
+  /* ---------- Method card selection ---------- */
+  document.querySelectorAll('#apPayMethods .pay-method-card').forEach(function(card){
+    card.addEventListener('click', function(){
+      if(state.paymentStatus === 'confirmed') return;
+      document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+      state.paymentMethod = this.dataset.pm;
+      renderPaymentDetails();
+      // Smooth-scroll details into view
+      setTimeout(() => {
+        const panel = payDetails.querySelector('.pay-details-panel');
+        if(panel) panel.scrollIntoView({ behavior:'smooth', block:'center' });
+      }, 80);
+    });
+  });
+
+  /* ---------- Confirm payment ---------- */
+  function confirmPayment(){
+    if(state.paymentStatus === 'confirmed') return;
+    if(!state.paymentMethod){
+      showToast('Please select a payment method first.', 'error');
+      return;
+    }
+    const name = document.getElementById('apPaySenderName').value.trim();
+    const contact = document.getElementById('apPaySenderContact').value.trim();
+    const refInput = document.getElementById('apPayRef');
+    const ref = refInput.value.trim();
+    const agree = document.getElementById('apPayConfirmed');
+
+    if(!name){
+      document.getElementById('apPaySenderName').classList.add('err');
+      showToast('Please enter the name on the payment.', 'error');
+      return;
+    }
+    document.getElementById('apPaySenderName').classList.remove('err');
+    if(!contact){
+      document.getElementById('apPaySenderContact').classList.add('err');
+      showToast('Please enter the phone or email used to pay.', 'error');
+      return;
+    }
+    document.getElementById('apPaySenderContact').classList.remove('err');
+    if(!agree.checked){
+      showToast('Please tick the confirmation checkbox.', 'error');
+      return;
+    }
+
+    // Generate our own internal reference, plus store user's
+    state.paymentStatus = 'confirmed';
+    state.senderName = name;
+    state.senderContact = contact;
+    state.paidAmount = getFeeAmount();
+    state.paymentRef = ref || ('NOL-' + Math.random().toString(36).substring(2, 8).toUpperCase());
+
+    // Success panel
+    document.getElementById('apPaidAmount').textContent = state.paidAmount;
+    document.getElementById('apPaidMethod').textContent = getMethodLabel(state.paymentMethod);
+    document.getElementById('apPaidSender').textContent = name;
+    document.getElementById('apPaymentRef').textContent = state.paymentRef;
+
+    payDetails.style.display = 'none';
+    payConfirm.style.display = 'none';
+    paySuccess.style.display = 'block';
+
+    // Disable method cards
+    document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => {
+      c.style.opacity = '0.55';
+      c.style.pointerEvents = 'none';
+    });
+
+    showToast('Payment confirmed. Reference: ' + state.paymentRef, 'success');
+    setTimeout(() => {
+      paySuccess.scrollIntoView({ behavior:'smooth', block:'center' });
+    }, 120);
+  }
+  document.getElementById('apPaySubmit').addEventListener('click', confirmPayment);
+
+  /* ---------- Reset (change method) ---------- */
+  document.getElementById('apPayReset').addEventListener('click', function(){
+    state.paymentStatus = 'pending';
+    state.paymentMethod = null;
+    state.paymentRef = null;
+    state.paidAmount = null;
+    state.senderName = null;
+    state.senderContact = null;
+
+    document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => {
+      c.classList.remove('selected');
+      c.style.opacity = '';
+      c.style.pointerEvents = '';
+    });
+
+    document.getElementById('apPaySenderName').value = '';
+    document.getElementById('apPaySenderContact').value = '';
+    document.getElementById('apPayRef').value = '';
+    document.getElementById('apPayConfirmed').checked = false;
+
+    paySuccess.style.display = 'none';
+    payDetails.style.display = 'none';
+    payConfirm.style.display = 'none';
+
+    showToast('You can now choose a different payment method.', 'success');
+  });
+
+  /* ---------- Country change → refresh fee display ---------- */
+  if(countrySelect){
+    countrySelect.addEventListener('change', function(){
+      payAmountEl.textContent = getFeeAmount();
+      payContextEl.textContent = getFeeContext();
+      // If user already confirmed and country changed, reset the payment
+      if(state.paymentStatus === 'confirmed'){
+        state.paymentStatus = 'pending';
+        state.paymentRef = null;
+        state.paidAmount = null;
+        paySuccess.style.display = 'none';
+        document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => {
+          c.style.opacity = '';
+          c.style.pointerEvents = '';
+        });
+        if(state.paymentMethod){
+          renderPaymentDetails();
+        }
+        showToast('Country changed. Please complete the payment again for the correct amount.', 'error');
+      } else if(state.paymentMethod){
+        renderPaymentDetails();
+      }
+    });
+  }
+
+  /* ---------- Step navigation ---------- */
+  function updateUI(scroll){
+    sections.forEach((s, i) => s.classList.toggle('active', i + 1 === current));
+    document.querySelectorAll('.apply-step').forEach((s, i) => {
+      s.classList.toggle('active', i + 1 === current);
+      if(i + 1 < current) s.classList.add('completed');
+    });
+    prevBtn.style.display = current === 1 ? 'none' : 'inline-flex';
+    if(current === totalSections){
+      nextBtn.style.display = 'none';
+      submitBtn.style.display = 'inline-flex';
+      renderReview();
+    } else {
+      nextBtn.style.display = 'inline-flex';
+      submitBtn.style.display = 'none';
+    }
+    if(scroll){
+      const applyTop = document.getElementById('apply').offsetTop - 20;
+      window.scrollTo({ top: applyTop, behavior: 'smooth' });
+    }
+  }
+
+  /* ---------- Validation ---------- */
+  function validate(n){
+    if(n === 1){
+      const req = ['apFirstName','apLastName','apEmail','apPhone','apDob','apCountry'];
+      for(const id of req){
+        const el = document.getElementById(id);
+        if(!el.value.trim()){ el.classList.add('err'); showToast('Please complete all required personal information.', 'error'); return false; }
+        el.classList.remove('err');
+      }
+      const email = document.getElementById('apEmail').value.trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
+        document.getElementById('apEmail').classList.add('err');
+        showToast('Please enter a valid email address.', 'error');
+        return false;
+      }
+    }
+    if(n === 2){
+      if(state.paymentStatus !== 'confirmed'){
+        showToast('Please complete the application fee payment and confirm it before continuing.', 'error');
+        return false;
+      }
+    }
+    if(n === 3){
+      const req = ['apSchool','apDegree','apYear'];
+      for(const id of req){
+        const el = document.getElementById(id);
+        if(!el.value.trim()){ el.classList.add('err'); showToast('Please complete the academic background section.', 'error'); return false; }
+        el.classList.remove('err');
+      }
+    }
+    if(n === 4){
+      if(!state.scholarshipInterest){ showToast('Please indicate whether you\'d like scholarship consideration.', 'error'); return false; }
+      if(!state.financialNeed){ showToast('Please answer the financial need question.', 'error'); return false; }
+      if(!state.leadership){ showToast('Please answer the leadership question.', 'error'); return false; }
+    }
+    if(n === 5){
+      const e1 = document.getElementById('apEssay1').value.trim();
+      const e2 = document.getElementById('apEssay2').value.trim();
+      if(e1.split(/\s+/).filter(Boolean).length < 150){
+        document.getElementById('apEssay1').classList.add('err');
+        showToast('Essay 1 should be at least 150 words.', 'error');
+        return false;
+      }
+      document.getElementById('apEssay1').classList.remove('err');
+      if(e2.split(/\s+/).filter(Boolean).length < 150){
+        document.getElementById('apEssay2').classList.add('err');
+        showToast('Essay 2 should be at least 150 words.', 'error');
+        return false;
+      }
+      document.getElementById('apEssay2').classList.remove('err');
+    }
+    if(n === 6){
+      const r = document.getElementById('apResume');
+      const t = document.getElementById('apTranscript');
+      if(!r.files.length){ showToast('Please upload your CV.', 'error'); return false; }
+      if(!t.files.length){ showToast('Please upload your academic record.', 'error'); return false; }
+    }
+    return true;
+  }
+
+  /* ---------- Review render ---------- */
+  function renderReview(){
+    const fn = document.getElementById('apFirstName').value;
+    const ln = document.getElementById('apLastName').value;
+    const em = document.getElementById('apEmail').value;
+    const ph = document.getElementById('apPhone').value;
+    const country = document.getElementById('apCountry').value;
+    const school = document.getElementById('apSchool').value;
+    const degree = document.getElementById('apDegree').value;
+    const year = document.getElementById('apYear').value;
+
+    const leadershipLabel = {
+      none: 'None yet', some: 'Led a team or project',
+      strong: 'Built a business, initiative or venture',
+      exceptional: 'Founded or co-founded a notable venture'
+    }[state.leadership] || '—';
+
+    const needLabel = {
+      low: 'I can pay full tuition (K120,000)',
+      medium: 'I need partial support',
+      high: 'Without scholarship, it would be difficult',
+      critical: 'Without near-full scholarship, I cannot attend'
+    }[state.financialNeed] || '—';
+
+    const resumeName = (document.getElementById('apResume').files[0] || {}).name || '—';
+    const transName  = (document.getElementById('apTranscript').files[0] || {}).name || '—';
+
+    // Fee panel
+    const feePaidLine = document.getElementById('applyFeePaidLine');
+    const feeDetailLine = document.getElementById('applyFeeDetailLine');
+    if(state.paymentStatus === 'confirmed'){
+      feePaidLine.innerHTML = 'Payment status: <strong style="color:var(--success);">Confirmed</strong>';
+      feeDetailLine.innerHTML = 'Amount: <strong>' + state.paidAmount + '</strong> · Method: <strong>' +
+        getMethodLabel(state.paymentMethod) + '</strong> · Reference: <strong>' + state.paymentRef + '</strong>';
+    } else {
+      feePaidLine.innerHTML = 'Payment status: <strong style="color:var(--error);">Pending</strong>';
+      feeDetailLine.innerHTML = 'Please return to Step 2 to complete the application fee.';
+    }
+
+    document.getElementById('applyReview').innerHTML = `
+      <div class="apply-review">
+        <h4><i class="fas fa-graduation-cap"></i> Programme</h4>
+        <div class="apply-review-item"><span class="arl">Programme:</span><span class="arv">Bachelor of Global Business &amp; Technology</span></div>
+        <div class="apply-review-item"><span class="arl">Duration:</span><span class="arv">3 Years · Online</span></div>
+        <div class="apply-review-item"><span class="arl">Total Tuition:</span><span class="arv">K120,000 (≈ US$6,000)</span></div>
+        <div class="apply-review-item"><span class="arl">Intake:</span><span class="arv">Founding Cohort 2026</span></div>
+      </div>
+      <div class="apply-review">
+        <h4><i class="fas fa-user"></i> Personal Information</h4>
+        <div class="apply-review-item"><span class="arl">Name:</span><span class="arv">${fn} ${ln}</span></div>
+        <div class="apply-review-item"><span class="arl">Email:</span><span class="arv">${em}</span></div>
+        <div class="apply-review-item"><span class="arl">Phone:</span><span class="arv">${ph}</span></div>
+        <div class="apply-review-item"><span class="arl">Country:</span><span class="arv">${country}</span></div>
+      </div>
+      <div class="apply-review">
+        <h4><i class="fas fa-receipt"></i> Payment Confirmation</h4>
+        <div class="apply-review-item"><span class="arl">Status:</span><span class="arv" style="color:var(--success);font-weight:700;">Confirmed</span></div>
+        <div class="apply-review-item"><span class="arl">Amount:</span><span class="arv">${state.paidAmount || '—'}</span></div>
+        <div class="apply-review-item"><span class="arl">Method:</span><span class="arv">${getMethodLabel(state.paymentMethod)}</span></div>
+        <div class="apply-review-item"><span class="arl">Sender:</span><span class="arv">${state.senderName || '—'}</span></div>
+        <div class="apply-review-item"><span class="arl">Contact Used:</span><span class="arv">${state.senderContact || '—'}</span></div>
+        <div class="apply-review-item"><span class="arl">Reference:</span><span class="arv">${state.paymentRef || '—'}</span></div>
+      </div>
+      <div class="apply-review">
+        <h4><i class="fas fa-book"></i> Academic Background</h4>
+        <div class="apply-review-item"><span class="arl">Institution:</span><span class="arv">${school}</span></div>
+        <div class="apply-review-item"><span class="arl">Qualification:</span><span class="arv">${degree}</span></div>
+        <div class="apply-review-item"><span class="arl">Year:</span><span class="arv">${year}</span></div>
+      </div>
+      <div class="apply-review">
+        <h4><i class="fas fa-paperclip"></i> Documents</h4>
+        <div class="apply-review-item"><span class="arl">Resume / CV:</span><span class="arv">${resumeName}</span></div>
+        <div class="apply-review-item"><span class="arl">Academic Record:</span><span class="arv">${transName}</span></div>
+      </div>
+      <div class="apply-review">
+        <h4><i class="fas fa-percent"></i> Scholarship Assessment</h4>
+        <div class="apply-review-item"><span class="arl">Scholarship Interest:</span><span class="arv">${state.scholarshipInterest === 'yes' ? 'Yes' : 'No'}</span></div>
+        <div class="apply-review-item"><span class="arl">Financial Need:</span><span class="arv">${needLabel}</span></div>
+        <div class="apply-review-item"><span class="arl">Leadership:</span><span class="arv">${leadershipLabel}</span></div>
+      </div>
+    `;
+  }
+
+  nextBtn.addEventListener('click', function(){
+    if(!validate(current)) return;
+    if(current < totalSections){ current++; updateUI(true); }
+  });
+  prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(true); } });
+
+  document.querySelectorAll('.apply-step').forEach(function(step){
+    step.addEventListener('click', function(){
+      const target = parseInt(this.dataset.applyStep, 10);
+      if(target < current){ current = target; updateUI(true); }
+      else if(target > current){
+        for(let i = current; i < target; i++){ if(!validate(i)) return; }
+        current = target;
+        updateUI(true);
+      }
+    });
+  });
+
+  document.getElementById('applyForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(state.paymentStatus !== 'confirmed'){
+      showToast('Your application fee must be confirmed before submitting.', 'error');
+      current = 2; updateUI(true);
+      return;
+    }
+    if(!document.getElementById('apAgreeTerms').checked || !document.getElementById('apAgreeSubmit').checked){
+      showToast('Please agree to the terms before submitting.', 'error');
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+    setTimeout(function(){
+      showToast('Application submitted successfully. Check your email for confirmation.', 'success');
+      setTimeout(function(){ window.location.href = 'index.html'; }, 2500);
+    }, 1600);
+  });
+
+  /* Initial render */
+  updateUI(false);
+  payAmountEl.textContent = getFeeAmount();
+  payContextEl.textContent = getFeeContext();
 })();
 
 /* ==============================
@@ -2765,11 +3112,9 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
   const slides = document.querySelectorAll('#heroSlides .hero-slide');
   const dotsContainer = document.getElementById('heroSliderDots');
   if(!slides.length || !dotsContainer) return;
-
   const ROTATE_MS = 4500;
   let current = 0;
   let timer;
-
   slides.forEach((_, i) => {
     const dot = document.createElement('button');
     dot.type = 'button';
@@ -2779,7 +3124,6 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
     dotsContainer.appendChild(dot);
   });
   const dots = dotsContainer.querySelectorAll('.hero-slider-dot');
-
   function showSlide(i){
     slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
     dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
@@ -2787,15 +3131,14 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
   }
   function next(){ showSlide((current + 1) % slides.length); }
   function resetTimer(){ clearInterval(timer); timer = setInterval(next, ROTATE_MS); }
-
   const frame = slides[0].closest('.hero-image-frame');
   if(frame){
     frame.addEventListener('mouseenter', () => clearInterval(timer));
     frame.addEventListener('mouseleave', resetTimer);
   }
-
   resetTimer();
 })();
+
 console.log('Nolan Institute — Bachelor of Global Business & Technology · Full flagship page loaded.');
 </script>
 </body>
