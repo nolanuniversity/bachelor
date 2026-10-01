@@ -1,0 +1,2245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="color-scheme" content="light only">
+<title>Bachelor of Global Business & Technology | Nolan Institute Flagship Degree</title>
+<meta name="description" content="3-year online degree. K120,000 total (US$6,000). 70–100% scholarships available. Learn the business. Master the technology. Build something real. Operate globally.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+:root{
+  color-scheme: light only;
+  --navy:#0A1C3A;--navy-light:#1A2D4D;--navy-dark:#05122A;
+  --gold:#C5A028;--gold-light:#D4B84A;--gold-dark:#A07F1F;--gold-10:rgba(197,160,40,0.1);
+  --white:#fff;--off-white:#FAFAF8;--gray-light:#F5F5F5;--gray-mid:#E0E0E0;--gray-dark:#666;--gray-darker:#333;
+  --success:#28A745;--error:#DC3545;--warning:#FFC107;
+  --shadow-sm:0 2px 8px rgba(0,0,0,.05);--shadow-md:0 4px 12px rgba(0,0,0,.08);
+  --shadow-lg:0 12px 32px rgba(0,0,0,.12);--shadow-xl:0 24px 48px rgba(10,28,58,.18);
+  --transition:all .3s cubic-bezier(.4,0,.2,1);--radius:16px;--radius-sm:10px;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px;overflow-x:hidden;width:100%;color-scheme:light only;background:#fff}
+body{font-family:'Inter',sans-serif;color:var(--gray-darker);line-height:1.6;background:#fff;overflow-x:hidden;width:100%;max-width:100vw;color-scheme:light only}
+img,video{max-width:100%;height:auto}
+h1,h2,h3,h4{font-family:'Playfair Display',serif;font-weight:700;line-height:1.2;color:var(--navy)}
+a{text-decoration:none;color:inherit;transition:var(--transition)}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+input,select,textarea{color-scheme:light only}
+.container{max-width:1240px;margin:0 auto;padding:0 24px;width:100%}
+.container-narrow{max-width:920px;margin:0 auto;padding:0 24px;width:100%}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;font-weight:600;font-size:14.5px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:var(--transition);text-align:center;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--gold);color:var(--navy-dark);border-color:var(--gold)}
+.btn-primary:hover{background:var(--gold-light);border-color:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 20px rgba(197,160,40,.35)}
+.btn-navy{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-navy:hover{background:var(--navy-light);border-color:var(--navy-light);transform:translateY(-2px)}
+.btn-outline{background:transparent;color:var(--navy);border-color:var(--navy)}
+.btn-outline:hover{background:var(--navy);color:#fff}
+.btn-outline-white{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.btn-outline-white:hover{background:#fff;color:var(--navy);border-color:#fff}
+.btn-sm{padding:9px 18px;font-size:13px}
+.btn-lg{padding:15px 34px;font-size:15.5px}
+.btn-block{display:flex;width:100%}
+
+/* TOP BAR */
+.top-bar{background:var(--navy-dark);color:#cbd5e1;font-size:12.5px;padding:8px 0}
+.top-bar .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.top-bar-left{display:flex;gap:20px;flex-wrap:wrap;min-width:0}
+.top-bar-left span{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.top-bar-left i{color:var(--gold);flex-shrink:0}
+.top-bar-right{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.top-bar-right a{color:#cbd5e1;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:12.5px}
+.top-bar-right a:hover{color:var(--gold)}
+
+/* HEADER */
+.main-header{background:#fff;box-shadow:var(--shadow-sm);position:sticky;top:0;z-index:1000;transition:var(--transition);width:100%}
+.main-header.scrolled{box-shadow:var(--shadow-md)}
+.main-header .container{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;gap:16px;min-width:0}
+.logo{display:flex;flex-direction:column;flex-shrink:1;min-width:0;overflow:hidden}
+.logo-name{font-size:16px;font-weight:800;letter-spacing:1.5px;color:var(--navy);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.logo-tag{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.main-nav ul{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.main-nav ul li a{font-size:13px;font-weight:500;color:var(--gray-darker);padding:8px 0;position:relative;white-space:nowrap}
+.main-nav ul li a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:var(--transition)}
+.main-nav ul li a:hover{color:var(--gold)}
+.main-nav ul li a:hover::after{width:100%}
+.header-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.mobile-menu-btn{display:none;background:none;border:none;font-size:22px;color:var(--navy);padding:6px;flex-shrink:0}
+
+.mobile-nav{display:none;background:#fff;border-top:1px solid var(--gray-mid);overflow:hidden;max-height:0;transition:max-height .4s ease;width:100%}
+.mobile-nav.show{display:block;max-height:700px}
+.mobile-nav ul{padding:16px 20px 20px}
+.mobile-nav ul li{margin-bottom:10px}
+.mobile-nav ul li:last-child{margin-bottom:0}
+.mobile-nav ul li a{display:block;font-size:15px;font-weight:500;color:var(--navy);padding:10px 4px;border-radius:6px}
+.mobile-nav ul li a:hover{color:var(--gold);background:var(--gray-light)}
+
+/* HERO */
+.flag-hero{position:relative;background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 55%,var(--navy-light) 100%);color:#fff;padding:80px 0 70px;overflow:hidden}
+.flag-hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3Cpattern id='p' x='0' y='0' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpolyline points='10,50 30,20 50,50' fill='none' stroke='%23C5A028' stroke-width='0.8' opacity='0.16'/%3E%3Ccircle cx='10' cy='10' r='1' fill='%23C5A028' opacity='0.16'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23p)'/%3E%3C/svg%3E");opacity:.6;pointer-events:none}
+.flag-hero .container{position:relative;z-index:2}
+.flag-hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.flag-hero-inner{max-width:640px}
+.flag-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(197,160,40,.15);border:1px solid rgba(197,160,40,.5);color:var(--gold-light);padding:8px 18px;border-radius:50px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px}
+.flag-hero h1{font-size:clamp(1.9rem,4.5vw,3.2rem);color:#fff;margin-bottom:18px;letter-spacing:-.5px;line-height:1.12}
+.flag-hero h1 .gold{color:var(--gold)}
+.flag-sub{font-size:clamp(1rem,1.7vw,1.15rem);color:rgba(255,255,255,.85);max-width:620px;margin-bottom:28px;line-height:1.7}
+.flag-microstats{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:32px}
+.flag-microstats .ms{display:flex;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.85)}
+.flag-microstats .ms i{color:var(--gold);font-size:14px}
+.flag-microstats .ms strong{color:#fff;font-weight:700}
+.flag-actions{display:flex;gap:14px;flex-wrap:wrap}
+
+.hero-visual{position:relative;width:100%;max-width:520px;margin-left:auto}
+.hero-image-frame{position:relative;width:100%;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid rgba(197,160,40,.4);box-shadow:0 30px 70px -25px rgba(0,0,0,.7);background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy-light) 100%)}
+.hero-image-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.img-placeholder-badge{position:absolute;top:14px;left:14px;background:rgba(10,28,58,.85);border:1px solid rgba(197,160,40,.5);color:var(--gold-light);font-size:10.5px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:50px;text-transform:uppercase;z-index:3;backdrop-filter:blur(6px)}
+.hero-badge-floating{position:absolute;bottom:20px;left:20px;right:20px;background:linear-gradient(135deg, rgba(6,18,37,.96), rgba(10,28,58,.96));border:1px solid rgba(197,160,40,.5);border-radius:14px;padding:16px 18px;color:#fff;z-index:3;backdrop-filter:blur(10px)}
+.hero-badge-floating .hbf-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:6px}
+.hero-badge-floating .hbf-title{font-family:'Playfair Display',serif;font-size:16px;color:#fff;font-weight:700;line-height:1.3}
+.hero-badge-floating .hbf-sub{font-size:12px;color:rgba(255,255,255,.75);margin-top:4px}
+
+/* STATS STRIP */
+.stats-strip{background:var(--navy);color:#fff;padding:26px 0;border-top:1px solid rgba(197,160,40,.2);border-bottom:1px solid rgba(197,160,40,.2)}
+.stats-strip .container{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px;align-items:center}
+.strip-stat{text-align:center}
+.strip-stat strong{display:block;font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.8vw,1.9rem);color:var(--gold);font-weight:800;line-height:1}
+.strip-stat span{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:600;margin-top:6px}
+
+/* SCHOLARSHIP ANNOUNCEMENT BAR */
+.scholarship-bar{background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);padding:18px 0;text-align:center;position:relative;overflow:hidden}
+.scholarship-bar::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,.08) 20px, rgba(255,255,255,.08) 40px);pointer-events:none}
+.scholarship-bar .container{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.scholarship-bar i.big{font-size:22px}
+.scholarship-bar strong{font-family:'Playfair Display',serif;font-size:clamp(1rem,2vw,1.2rem);font-weight:800;letter-spacing:.3px}
+.scholarship-bar a{background:var(--navy-dark);color:#fff;padding:8px 18px;border-radius:50px;font-size:12.5px;font-weight:700;letter-spacing:.5px;transition:var(--transition)}
+.scholarship-bar a:hover{background:var(--navy);transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.25)}
+
+/* SECTIONS */
+.section{padding:80px 0;position:relative}
+.section-alt{background:var(--off-white)}
+.section-navy{background:var(--navy);color:#fff}
+.section-navy h2,.section-navy h3{color:#fff}
+.section-head{text-align:center;margin-bottom:52px;max-width:820px;margin-left:auto;margin-right:auto}
+.section-tag{display:inline-block;background:var(--gold-10);color:var(--gold-dark);padding:5px 14px;border-radius:50px;font-size:11.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.section-head h2{font-size:clamp(1.7rem,3.4vw,2.5rem);margin-bottom:16px}
+.section-head p{font-size:15.5px;color:var(--gray-dark);line-height:1.75}
+.section-navy .section-head p{color:rgba(255,255,255,.78)}
+
+/* PHILOSOPHY */
+.philosophy-block{background:#fff;border-radius:var(--radius);padding:52px 44px;box-shadow:var(--shadow-lg);border-left:5px solid var(--gold);max-width:920px;margin:0 auto;text-align:center}
+.philosophy-quote{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2.3vw,1.55rem);color:var(--navy);font-style:italic;line-height:1.55;margin-bottom:26px}
+.philosophy-block p{font-size:15.5px;color:var(--gray-dark);line-height:1.8;margin-bottom:16px;text-align:left}
+.philosophy-block p.emphasis{font-weight:600;color:var(--navy);text-align:center;margin-top:26px;padding-top:26px;border-top:1px dashed var(--gray-mid)}
+
+/* STRUCTURE TABS */
+.structure-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:36px;flex-wrap:wrap}
+.structure-tab{background:#fff;border:2px solid var(--gray-mid);padding:14px 26px;border-radius:12px;font-size:14px;font-weight:700;color:var(--navy);cursor:pointer;transition:var(--transition);font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:180px}
+.structure-tab .st-year{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);font-weight:800}
+.structure-tab .st-theme{font-family:'Playfair Display',serif;font-size:15px;font-weight:700}
+.structure-tab:hover{border-color:var(--gold);transform:translateY(-2px)}
+.structure-tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.structure-tab.active .st-year{color:var(--gold-light)}
+.structure-panel{display:none;background:#fff;border-radius:var(--radius);padding:44px 40px;box-shadow:var(--shadow-lg);border:1px solid var(--gray-mid);animation:fadeIn .4s ease}
+.structure-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.sp-header{margin-bottom:30px;padding-bottom:24px;border-bottom:1px solid var(--gray-mid)}
+.sp-header h3{font-size:clamp(1.4rem,2.6vw,1.8rem);color:var(--navy);margin-bottom:10px}
+.sp-header h3 .gold{color:var(--gold-dark)}
+.sp-header p{font-size:15px;color:var(--gray-dark);line-height:1.7;max-width:840px}
+.sp-courses-label{font-family:'Inter',sans-serif;font-size:12px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--navy);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.sp-courses-label i{color:var(--gold-dark)}
+.sp-courses{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:30px}
+.sp-course{background:var(--off-white);border:1px solid var(--gray-mid);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start;border-left:3px solid var(--gold)}
+.sp-course .sc-num{width:26px;height:26px;border-radius:50%;background:var(--gold-10);color:var(--gold-dark);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Playfair Display',serif}
+.sp-course .sc-title{font-size:13.5px;font-weight:600;color:var(--navy);line-height:1.4;padding-top:3px}
+.sp-project{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;border-radius:var(--radius-sm);padding:26px 28px;margin-top:14px;position:relative;overflow:hidden}
+.sp-project::before{content:'';position:absolute;top:-40%;right:-10%;width:300px;height:300px;background:radial-gradient(circle,rgba(197,160,40,.18) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
+.sp-project-inner{position:relative;z-index:2}
+.sp-project .sp-label{display:inline-flex;align-items:center;gap:8px;background:rgba(197,160,40,.2);border:1px solid rgba(197,160,40,.5);color:var(--gold-light);padding:5px 12px;border-radius:50px;font-size:10.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px}
+.sp-project h4{color:#fff;font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2vw,1.35rem);margin-bottom:10px}
+.sp-project p{font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.7}
+
+/* CAPSTONE */
+.pathways-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:36px}
+.pathway-card{background:#fff;border-radius:var(--radius);padding:32px 26px;border:1px solid var(--gray-mid);transition:var(--transition);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.pathway-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:var(--transition)}
+.pathway-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--gold)}
+.pathway-card:hover::before{transform:scaleX(1)}
+.pathway-num{font-family:'Playfair Display',serif;font-size:12px;font-weight:800;color:var(--gold-dark);letter-spacing:2px;margin-bottom:14px}
+.pathway-icon{width:52px;height:52px;border-radius:14px;background:var(--gold-10);color:var(--gold-dark);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px}
+.pathway-card h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);margin-bottom:12px;line-height:1.3}
+.pathway-card p{font-size:13.5px;color:var(--gray-dark);line-height:1.65;flex:1}
+
+/* DELIVERY STATS */
+.delivery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:36px}
+.delivery-stat{background:#fff;border-radius:var(--radius);padding:28px 22px;text-align:center;border:1px solid var(--gray-mid);border-top:4px solid var(--gold);transition:var(--transition)}
+.delivery-stat:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.delivery-stat .ds-value{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:800;color:var(--navy);line-height:1;margin-bottom:10px}
+.delivery-stat .ds-value span{color:var(--gold-dark);font-size:.6em;font-weight:700}
+.delivery-stat .ds-label{font-size:11px;font-weight:700;color:var(--gold-dark);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.delivery-stat p{font-size:12.5px;color:var(--gray-dark);line-height:1.55}
+
+/* LEARNING EXPERIENCE */
+.learning-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:34px}
+.learning-item{background:rgba(255,255,255,.04);border:1px solid rgba(197,160,40,.22);border-radius:12px;padding:18px 18px;display:flex;align-items:flex-start;gap:14px;transition:var(--transition)}
+.learning-item:hover{background:rgba(197,160,40,.1);border-color:var(--gold);transform:translateY(-3px)}
+.learning-item i{color:var(--gold);font-size:16px;flex-shrink:0;margin-top:4px;width:20px;text-align:center}
+.learning-item span{font-size:13px;color:rgba(255,255,255,.88);line-height:1.55;font-weight:500}
+
+/* GRADUATE OUTCOME */
+.outcome-compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:40px auto 0;max-width:1000px}
+.outcome-box{background:#fff;border-radius:var(--radius);padding:30px 26px;border:1px solid var(--gray-mid);position:relative}
+.outcome-box.bad{border-left:4px solid #D0D0D0}
+.outcome-box.good{border-left:4px solid var(--gold);background:linear-gradient(135deg,#fff 0%,var(--gold-10) 100%)}
+.outcome-box .outcome-tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:50px;margin-bottom:16px}
+.outcome-box.bad .outcome-tag{background:#F0F0F0;color:#999}
+.outcome-box.good .outcome-tag{background:var(--gold);color:var(--navy-dark)}
+.outcome-quote{font-family:'Playfair Display',serif;font-size:clamp(1rem,1.8vw,1.2rem);line-height:1.55;font-style:italic}
+.outcome-box.bad .outcome-quote{color:#999}
+.outcome-box.good .outcome-quote{color:var(--navy);font-weight:600}
+
+/* ==========================================
+   TUITION & FEES SECTION
+   ========================================== */
+.fee-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;border-radius:20px;padding:48px 44px;margin-bottom:36px;box-shadow:var(--shadow-xl);position:relative;overflow:hidden}
+.fee-hero::before{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(197,160,40,.15) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
+.fee-hero-main{position:relative;z-index:2}
+.fee-hero .fh-label{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);margin-bottom:16px}
+.fee-hero .fh-amount{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,6vw,4rem);font-weight:800;color:var(--gold);line-height:1;letter-spacing:-1px}
+.fee-hero .fh-usd{font-size:22px;font-weight:700;color:#fff;margin-top:12px;font-family:'Inter',sans-serif;letter-spacing:-.3px}
+.fee-hero .fh-note{font-size:13.5px;color:rgba(255,255,255,.75);margin-top:20px;line-height:1.7;max-width:340px}
+.fee-hero-side{position:relative;z-index:2;display:flex;flex-direction:column;gap:14px;justify-content:center}
+.fh-side-item{background:rgba(255,255,255,.06);border:1px solid rgba(197,160,40,.3);border-radius:12px;padding:18px 22px;transition:var(--transition)}
+.fh-side-item:hover{background:rgba(197,160,40,.1);border-color:var(--gold);transform:translateX(4px)}
+.fh-side-item .fhsi-label{font-size:10.5px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px}
+.fh-side-item .fhsi-value{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:#fff;line-height:1.15}
+.fh-side-item .fhsi-value small{font-family:'Inter',sans-serif;font-size:13px;color:rgba(255,255,255,.7);font-weight:600;margin-left:8px}
+
+.investment-wrap{margin-bottom:56px}
+.investment-wrap h3{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.5vw,1.7rem);color:var(--navy);text-align:center;margin-bottom:12px}
+.investment-wrap > p{text-align:center;font-size:14.5px;color:var(--gray-dark);max-width:720px;margin:0 auto 30px;line-height:1.7}
+.investment-table{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--gray-mid)}
+.it-row{display:grid;grid-template-columns:1.3fr 1.4fr 1fr 1fr 1fr;border-bottom:1px solid var(--gray-mid)}
+.it-row:last-child{border-bottom:none}
+.it-row.it-head{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%)}
+.it-row.it-head .it-cell{color:#fff;font-size:10.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:18px 16px}
+.it-row.it-highlight{background:linear-gradient(135deg,#FFF9E6 0%,var(--gold-10) 100%)}
+.it-row.it-best{background:linear-gradient(135deg,#EAF7EE 0%,#F0FBF4 100%)}
+.it-cell{padding:20px 16px;font-size:14px;color:var(--gray-darker);display:flex;align-items:center;flex-wrap:wrap;line-height:1.5}
+.it-cell.it-tier{font-weight:700;color:var(--navy);font-size:14px;border-right:1px solid var(--gray-mid)}
+.it-row.it-head .it-cell.it-tier{border-right:none}
+.it-cell.it-strong{font-family:'Playfair Display',serif;font-size:19px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.it-cell.it-strong small{font-family:'Inter',sans-serif;font-size:11.5px;color:var(--gray-dark);font-weight:600;margin-left:6px}
+.it-cell small{color:var(--gray-dark);font-size:12px;font-weight:500;margin-left:4px}
+.it-row.it-best .it-cell.it-strong{color:var(--success)}
+
+/* CALCULATOR */
+.calc-wrapper{display:grid;grid-template-columns:1.05fr 1fr;gap:32px;align-items:start;margin-top:36px}
+.calc-inputs{background:#fff;border-radius:var(--radius);padding:32px 28px;border:1px solid var(--gray-mid);box-shadow:var(--shadow-md)}
+.calc-inputs h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:22px}
+.calc-group{margin-bottom:20px}
+.calc-group label{display:block;font-size:12px;font-weight:800;color:var(--navy);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:10px}
+.calc-group select{width:100%;padding:13px 14px;border:2px solid var(--gray-mid);border-radius:8px;font-size:14px;background:#fff;font-family:inherit;color:var(--navy);cursor:pointer;transition:var(--transition)}
+.calc-group select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-10)}
+.calc-result{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;border-radius:var(--radius);padding:34px 30px;box-shadow:var(--shadow-xl);position:sticky;top:100px}
+.calc-result h3{color:#fff;font-family:'Playfair Display',serif;font-size:22px;margin-bottom:22px}
+.calc-row{display:flex;justify-content:space-between;align-items:baseline;padding:13px 0;border-bottom:1px dashed rgba(255,255,255,.15);gap:12px}
+.calc-row:last-of-type{border-bottom:none}
+.calc-row .cr-label{font-size:13px;color:rgba(255,255,255,.75)}
+.calc-row .cr-value{font-family:'Playfair Display',serif;font-size:18px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.calc-row.discount .cr-value{color:var(--gold)}
+.calc-total{margin-top:18px;padding-top:18px;border-top:2px solid rgba(197,160,40,.4);display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.calc-total .ct-label{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
+.calc-total .ct-value{font-family:'Playfair Display',serif;font-size:32px;font-weight:800;color:var(--gold);line-height:1}
+.calc-monthly{background:rgba(197,160,40,.12);border:1px solid rgba(197,160,40,.3);border-radius:10px;padding:16px 18px;margin-top:20px}
+.calc-monthly .cm-label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-light);font-weight:700;margin-bottom:6px}
+.calc-monthly .cm-value{font-family:'Playfair Display',serif;font-size:20px;font-weight:800;color:#fff;line-height:1.25}
+.calc-monthly .cm-sub{font-size:11.5px;color:rgba(255,255,255,.65);margin-top:4px}
+.calc-cta{margin-top:20px}
+.calc-cta .btn{width:100%}
+
+/* SCHOLARSHIP HERO */
+.scholarship-hero{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 60%,#E5C765 100%);color:var(--navy-dark);padding:70px 0;position:relative;overflow:hidden;text-align:center}
+.scholarship-hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,.1) 30px, rgba(255,255,255,.1) 60px);pointer-events:none}
+.scholarship-hero .container{position:relative;z-index:2;max-width:900px}
+.scholarship-hero .sh-icon{font-size:48px;color:var(--navy-dark);margin-bottom:20px;display:inline-block}
+.scholarship-hero h2{font-size:clamp(1.8rem,4vw,2.8rem);color:var(--navy-dark);margin-bottom:18px;font-family:'Playfair Display',serif}
+.scholarship-hero h2 .big{color:#8B1A1A;font-size:1.25em;display:block;line-height:1}
+.scholarship-hero p{font-size:16px;color:rgba(10,28,58,.85);max-width:700px;margin:0 auto 26px;line-height:1.75;font-weight:500}
+.scholarship-hero .sh-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.scholarship-hero .btn-navy{background:var(--navy-dark);color:#fff;border-color:var(--navy-dark)}
+.scholarship-hero .btn-navy:hover{background:var(--navy);border-color:var(--navy)}
+
+.scholarship-tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:44px}
+.scholarship-tier{background:#fff;border-radius:var(--radius);padding:34px 28px;border:2px solid var(--gray-mid);transition:var(--transition);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.scholarship-tier.featured{border-color:var(--gold);box-shadow:0 0 0 4px rgba(197,160,40,.12)}
+.scholarship-tier.featured::before{content:'MOST COMMON';position:absolute;top:14px;right:-32px;background:var(--gold);color:var(--navy-dark);font-size:9px;font-weight:800;letter-spacing:1.5px;padding:4px 40px;transform:rotate(45deg);z-index:2}
+.scholarship-tier:hover{transform:translateY(-6px);box-shadow:var(--shadow-xl);border-color:var(--gold)}
+.st-percent{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3rem);font-weight:800;color:var(--navy);line-height:1;margin-bottom:6px}
+.st-percent span{font-size:.5em;color:var(--gold-dark)}
+.st-tier-name{font-size:13.5px;font-weight:800;color:var(--gold-dark);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.st-tier-net{font-family:'Playfair Display',serif;font-size:22px;font-weight:800;color:var(--navy);margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--gray-mid);line-height:1.15}
+.st-tier-net small{display:block;font-family:'Inter',sans-serif;font-size:11.5px;color:var(--gray-dark);font-weight:600;letter-spacing:.3px;margin-top:3px}
+.st-tier-desc{font-size:13.5px;color:var(--gray-dark);line-height:1.65;flex:1;margin-bottom:18px}
+.st-tier-btn{background:var(--navy);color:#fff;padding:12px 22px;border-radius:8px;font-size:13.5px;font-weight:700;text-align:center;transition:var(--transition);border:none;cursor:pointer;width:100%}
+.st-tier-btn:hover{background:var(--navy-light);transform:translateY(-2px);box-shadow:0 8px 16px rgba(10,28,58,.2)}
+
+/* ELIGIBILITY CHECKER */
+.eligibility-wrapper{background:#fff;border-radius:var(--radius);padding:44px 40px;box-shadow:var(--shadow-xl);border:2px solid var(--gold);margin-top:50px;max-width:900px;margin-left:auto;margin-right:auto;position:relative}
+.eligibility-wrapper::before{content:'ELIGIBILITY CHECK';position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy-dark);padding:6px 20px;border-radius:50px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
+.eligibility-wrapper h3{font-size:clamp(1.3rem,2.6vw,1.7rem);color:var(--navy);text-align:center;margin-bottom:10px;font-family:'Playfair Display',serif}
+.eligibility-wrapper > p{text-align:center;color:var(--gray-dark);font-size:14.5px;margin-bottom:30px;line-height:1.7}
+
+.eligibility-progress{height:6px;background:var(--gray-light);border-radius:50px;overflow:hidden;margin-bottom:30px}
+.eligibility-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);border-radius:50px;transition:width .4s ease;width:20%}
+
+.elig-question{display:none}
+.elig-question.active{display:block;animation:fadeIn .35s ease}
+.elig-q-num{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:10px}
+.elig-q-text{font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2.2vw,1.35rem);color:var(--navy);line-height:1.4;margin-bottom:24px;font-weight:700}
+.elig-options{display:flex;flex-direction:column;gap:12px}
+.elig-option{background:var(--off-white);border:2px solid var(--gray-mid);border-radius:12px;padding:16px 20px;text-align:left;cursor:pointer;transition:var(--transition);font-family:inherit;font-size:14.5px;color:var(--navy);display:flex;align-items:center;gap:14px;font-weight:500}
+.elig-option:hover{border-color:var(--gold);background:#fff;transform:translateX(4px)}
+.elig-option.selected{border-color:var(--gold);background:var(--gold-10)}
+.elig-option .eo-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--gray-mid);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--transition)}
+.elig-option.selected .eo-check{background:var(--gold);border-color:var(--gold);color:var(--navy-dark)}
+.elig-option.selected .eo-check::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;font-size:11px}
+
+.elig-nav{display:flex;justify-content:space-between;margin-top:26px;padding-top:22px;border-top:1px solid var(--gray-mid);gap:12px}
+
+.elig-result{display:none;text-align:center;padding:20px 0}
+.elig-result.active{display:block;animation:fadeIn .4s ease}
+.elig-result .er-percent{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5rem);font-weight:800;color:var(--gold-dark);line-height:1;margin-bottom:8px}
+.elig-result .er-tier{font-size:13.5px;font-weight:800;color:var(--navy);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.elig-result h3{font-size:clamp(1.3rem,2.5vw,1.7rem);color:var(--navy);margin-bottom:14px}
+.elig-result p{font-size:14.5px;color:var(--gray-dark);line-height:1.7;max-width:640px;margin:0 auto 22px}
+.elig-result .er-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* QUIZ */
+.quiz-wrapper{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);border-radius:var(--radius);padding:44px 38px;color:#fff;max-width:920px;margin:0 auto;position:relative;overflow:hidden}
+.quiz-wrapper::before{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(197,160,40,.15) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
+.quiz-inner{position:relative;z-index:2}
+.quiz-head{text-align:center;margin-bottom:32px}
+.quiz-head .qh-icon{width:64px;height:64px;border-radius:50%;background:rgba(197,160,40,.15);border:1px solid rgba(197,160,40,.4);color:var(--gold);display:inline-flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:18px}
+.quiz-head h3{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.8vw,1.9rem);color:#fff;margin-bottom:10px}
+.quiz-head p{font-size:14.5px;color:rgba(255,255,255,.78);line-height:1.7;max-width:620px;margin:0 auto}
+
+.quiz-progress{height:5px;background:rgba(255,255,255,.1);border-radius:50px;overflow:hidden;margin-bottom:26px}
+.quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);border-radius:50px;transition:width .4s ease;width:20%}
+
+.quiz-step{display:none}
+.quiz-step.active{display:block;animation:fadeIn .3s ease}
+.quiz-q-num{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;text-align:center}
+.quiz-q-text{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2.2vw,1.4rem);color:#fff;text-align:center;line-height:1.45;margin-bottom:26px;font-weight:700}
+.quiz-options{display:grid;grid-template-columns:1fr;gap:12px;max-width:600px;margin:0 auto}
+.quiz-opt{background:rgba(255,255,255,.06);border:2px solid rgba(197,160,40,.25);border-radius:12px;padding:16px 22px;text-align:left;cursor:pointer;transition:var(--transition);font-family:inherit;font-size:14.5px;color:#fff;font-weight:500;display:flex;align-items:center;gap:14px}
+.quiz-opt:hover{background:rgba(197,160,40,.15);border-color:var(--gold);transform:translateX(4px)}
+.quiz-opt.selected{background:rgba(197,160,40,.2);border-color:var(--gold)}
+.quiz-opt .qo-check{width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--transition)}
+.quiz-opt.selected .qo-check{background:var(--gold);border-color:var(--gold);color:var(--navy-dark)}
+.quiz-opt.selected .qo-check::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;font-size:11px}
+
+.quiz-nav{display:flex;justify-content:center;gap:12px;margin-top:26px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1)}
+
+.quiz-result{display:none;text-align:center}
+.quiz-result.active{display:block;animation:fadeIn .4s ease}
+.quiz-result .qr-score{font-family:'Playfair Display',serif;font-size:clamp(3rem,8vw,5rem);font-weight:800;color:var(--gold);line-height:1;margin-bottom:12px}
+.quiz-result h3{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.6vw,1.8rem);color:#fff;margin-bottom:14px}
+.quiz-result p{font-size:15px;color:rgba(255,255,255,.82);line-height:1.75;max-width:640px;margin:0 auto 22px}
+.quiz-result .qr-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* CAREER EXPLORER */
+.career-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:30px}
+.career-tab{background:#fff;border:2px solid var(--gray-mid);padding:10px 22px;border-radius:50px;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;transition:var(--transition);font-family:inherit}
+.career-tab:hover{border-color:var(--gold)}
+.career-tab.active{background:var(--navy);border-color:var(--navy);color:#fff}
+.career-panel{display:none}
+.career-panel.active{display:block;animation:fadeIn .35s ease}
+.career-content{background:#fff;border-radius:var(--radius);padding:36px 32px;border:1px solid var(--gray-mid);box-shadow:var(--shadow-md)}
+.career-content h3{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.4vw,1.7rem);color:var(--navy);margin-bottom:10px}
+.career-content > p{font-size:14.5px;color:var(--gray-dark);line-height:1.7;margin-bottom:26px}
+.career-roles{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.career-role{background:var(--off-white);border-radius:12px;padding:18px 18px;border-left:3px solid var(--gold);transition:var(--transition)}
+.career-role:hover{background:#fff;box-shadow:var(--shadow-md);transform:translateX(4px)}
+.career-role .cr-title{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.career-role .cr-industry{font-size:11.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-dark);font-weight:700}
+.career-role p{font-size:12.5px;color:var(--gray-dark);margin-top:8px;line-height:1.55}
+
+/* TIMETABLE */
+.timetable{background:#fff;border-radius:var(--radius);padding:36px 32px;border:1px solid var(--gray-mid);box-shadow:var(--shadow-md)}
+.timetable h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:12px}
+.timetable > p{font-size:14px;color:var(--gray-dark);line-height:1.7;margin-bottom:26px}
+.tt-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.tt-day{background:var(--off-white);border-radius:10px;padding:14px 12px;border-top:3px solid var(--gold)}
+.tt-day .tt-name{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);margin-bottom:12px}
+.tt-day .tt-item{font-size:12px;color:var(--navy);padding:8px 0;border-bottom:1px dashed var(--gray-mid);line-height:1.4}
+.tt-day .tt-item:last-child{border-bottom:none}
+.tt-day .tt-item small{display:block;font-size:10.5px;color:var(--gray-dark);margin-top:2px}
+
+@media(max-width:900px){
+  .tt-grid{grid-template-columns:repeat(2,1fr)}
+  .calc-wrapper{grid-template-columns:1fr}
+  .calc-result{position:static}
+  .fee-hero{grid-template-columns:1fr}
+  .it-row{grid-template-columns:1fr 1fr;gap:0}
+  .it-row.it-head .it-cell:nth-child(3),
+  .it-row.it-head .it-cell:nth-child(4),
+  .it-row.it-head .it-cell:nth-child(5){display:none}
+  .it-cell{padding:14px 16px}
+  .it-row .it-cell:nth-child(3),
+  .it-row .it-cell:nth-child(4),
+  .it-row .it-cell:nth-child(5){display:none}
+  .it-cell.it-tier{border-right:1px solid var(--gray-mid)}
+}
+@media(max-width:600px){
+  .tt-grid{grid-template-columns:1fr}
+}
+
+/* FAQ */
+.faq-categories{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:32px}
+.faq-cat{background:#fff;border:2px solid var(--gray-mid);padding:9px 20px;border-radius:50px;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer;transition:var(--transition);font-family:inherit}
+.faq-cat:hover{border-color:var(--gold)}
+.faq-cat.active{background:var(--gold);border-color:var(--gold);color:var(--navy-dark)}
+.faq-list{max-width:900px;margin:0 auto}
+.faq-item{background:#fff;border:1px solid var(--gray-mid);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:var(--transition)}
+.faq-item.open{border-color:var(--gold);box-shadow:var(--shadow-md)}
+.faq-q{padding:20px 24px;font-size:15px;font-weight:700;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;font-family:'Inter',sans-serif;transition:var(--transition);background:none;border:none;width:100%;text-align:left}
+.faq-q:hover{color:var(--gold-dark)}
+.faq-q i{color:var(--gold);transition:transform .3s ease;flex-shrink:0}
+.faq-item.open .faq-q i{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;padding:0 24px}
+.faq-item.open .faq-a{max-height:600px;padding:0 24px 22px}
+.faq-a p{font-size:14px;color:var(--gray-dark);line-height:1.75}
+.faq-a p + p{margin-top:12px}
+
+/* APPLICATION */
+.apply-section{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 100%);color:#fff;padding:80px 0 90px;position:relative;overflow:hidden}
+.apply-section::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3Cpattern id='p' x='0' y='0' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpolyline points='10,50 30,20 50,50' fill='none' stroke='%23C5A028' stroke-width='0.8' opacity='0.15'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23p)'/%3E%3C/svg%3E");opacity:.5;pointer-events:none}
+.apply-section .container{position:relative;z-index:2}
+.apply-head{text-align:center;margin-bottom:44px;max-width:820px;margin-left:auto;margin-right:auto}
+.apply-head .section-tag{background:rgba(197,160,40,.2);color:var(--gold-light);border:1px solid rgba(197,160,40,.4)}
+.apply-head h2{color:#fff;font-size:clamp(1.7rem,3.4vw,2.4rem);margin-bottom:14px;font-family:'Playfair Display',serif}
+.apply-head p{color:rgba(255,255,255,.8);font-size:15.5px;line-height:1.75}
+
+.apply-progress{display:flex;justify-content:space-between;gap:8px;max-width:820px;margin:0 auto 34px;position:relative;flex-wrap:wrap}
+.apply-progress::before{content:'';position:absolute;top:18px;left:22px;right:22px;height:2px;background:rgba(255,255,255,.15);z-index:1}
+.apply-step{text-align:center;position:relative;z-index:2;flex:1;cursor:pointer;min-width:70px}
+.apply-step-circle{width:38px;height:38px;background:rgba(255,255,255,.08);border:2px solid rgba(197,160,40,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-weight:700;font-size:13px;color:rgba(255,255,255,.7);transition:var(--transition)}
+.apply-step.active .apply-step-circle{background:var(--gold);border-color:var(--gold);color:var(--navy-dark)}
+.apply-step.completed .apply-step-circle{background:var(--success);border-color:var(--success);color:#fff}
+.apply-step-label{font-size:10.5px;color:rgba(255,255,255,.65);font-weight:600;letter-spacing:.3px}
+.apply-step.active .apply-step-label{color:#fff}
+
+.apply-form{background:#fff;border-radius:20px;padding:40px 36px;box-shadow:var(--shadow-xl);max-width:920px;margin:0 auto;color:var(--gray-darker)}
+.apply-section-form{display:none}
+.apply-section-form.active{display:block;animation:fadeIn .4s ease}
+.apply-section-form h3{font-family:'Playfair Display',serif;font-size:23px;color:var(--navy);margin-bottom:6px}
+.apply-section-form .as-sub{font-size:13.5px;color:var(--gray-dark);margin-bottom:26px;padding-bottom:16px;border-bottom:1px solid var(--gray-mid);line-height:1.6}
+
+.programme-locked{background:linear-gradient(135deg,var(--gold-10) 0%,#fff 100%);border:2px solid var(--gold);border-radius:12px;padding:22px 24px;display:flex;align-items:center;gap:18px;margin-bottom:6px}
+.programme-locked i{font-size:32px;color:var(--gold-dark);flex-shrink:0}
+.programme-locked .pl-text{flex:1}
+.programme-locked .pl-label{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);font-weight:800;margin-bottom:4px}
+.programme-locked .pl-name{font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);font-weight:700;line-height:1.3}
+.programme-locked .pl-meta{font-size:12.5px;color:var(--gray-dark);margin-top:4px}
+
+.apply-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.apply-form-group{margin-bottom:18px}
+.apply-form-group.full{grid-column:span 2}
+.apply-form-group label{display:block;font-size:12.5px;font-weight:700;color:var(--navy);letter-spacing:.3px;margin-bottom:7px}
+.apply-form-group label .req{color:var(--error);margin-left:3px}
+.apply-form-group input,.apply-form-group select,.apply-form-group textarea{width:100%;padding:12px 14px;border:2px solid var(--gray-mid);border-radius:8px;font-family:inherit;font-size:14px;color:var(--navy);background:#fff;transition:var(--transition)}
+.apply-form-group input:focus,.apply-form-group select:focus,.apply-form-group textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-10)}
+.apply-form-group input.err,.apply-form-group select.err,.apply-form-group textarea.err{border-color:var(--error)}
+.apply-helper{font-size:11.5px;color:var(--gray-dark);margin-top:5px;font-style:italic}
+
+.apply-radio-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.apply-radio{background:var(--off-white);border:2px solid var(--gray-mid);border-radius:10px;padding:14px 18px;cursor:pointer;transition:var(--transition);display:flex;align-items:flex-start;gap:14px;font-family:inherit;text-align:left}
+.apply-radio:hover{border-color:var(--gold)}
+.apply-radio.selected{border-color:var(--gold);background:var(--gold-10)}
+.apply-radio .ar-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--gray-mid);flex-shrink:0;margin-top:2px;transition:var(--transition)}
+.apply-radio.selected .ar-check{background:var(--gold);border-color:var(--gold)}
+.apply-radio.selected .ar-check::after{content:'\f00c';font-family:'Font Awesome 6 Free';font-weight:900;color:var(--navy-dark);font-size:10px;display:flex;align-items:center;justify-content:center;height:100%}
+.apply-radio .ar-content{flex:1}
+.apply-radio .ar-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.apply-radio .ar-desc{font-size:12.5px;color:var(--gray-dark);line-height:1.5}
+
+.scholarship-flag{background:linear-gradient(135deg,#FBF5E1 0%,#FFF9E6 100%);border-left:4px solid var(--gold);border-radius:10px;padding:18px 22px;margin-bottom:24px;display:flex;gap:16px;align-items:flex-start}
+.scholarship-flag i{color:var(--gold-dark);font-size:22px;flex-shrink:0;margin-top:2px}
+.scholarship-flag .sf-text{flex:1}
+.scholarship-flag strong{display:block;font-size:14px;color:var(--navy);font-weight:700;margin-bottom:6px}
+.scholarship-flag p{font-size:13px;color:var(--gray-dark);line-height:1.6}
+
+.apply-review{background:var(--off-white);border-radius:12px;padding:24px 26px;margin-bottom:18px}
+.apply-review h4{font-family:'Inter',sans-serif;font-size:14px;font-weight:800;color:var(--navy);letter-spacing:.8px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.apply-review h4 i{color:var(--gold-dark)}
+.apply-review-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--gray-mid);gap:12px;font-size:13.5px;flex-wrap:wrap}
+.apply-review-item:last-child{border-bottom:none}
+.apply-review-item .arl{font-weight:700;color:var(--gray-dark);min-width:140px}
+.apply-review-item .arv{color:var(--navy);font-weight:500;text-align:right;word-break:break-word;flex:1}
+
+.apply-checks{display:flex;flex-direction:column;gap:12px;margin:22px 0}
+.apply-checks label{display:flex;gap:12px;align-items:flex-start;font-size:13.5px;color:var(--gray-darker);cursor:pointer;line-height:1.55;font-weight:500}
+.apply-checks input[type="checkbox"]{width:18px;height:18px;accent-color:var(--gold);flex-shrink:0;margin-top:2px;cursor:pointer}
+
+.apply-nav{display:flex;justify-content:space-between;gap:14px;margin-top:28px;padding-top:22px;border-top:1px solid var(--gray-mid);flex-wrap:wrap}
+
+.apply-fee-panel{background:linear-gradient(135deg,var(--gold-10) 0%,#FFF9E6 100%);border:1px solid rgba(197,160,40,.35);border-radius:12px;padding:22px 24px;margin-bottom:24px}
+.apply-fee-panel h4{font-family:'Inter',sans-serif;font-size:14px;font-weight:800;color:var(--navy);letter-spacing:.8px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.apply-fee-panel h4 i{color:var(--gold-dark)}
+.apply-fee-panel p{font-size:13.5px;color:var(--gray-dark);line-height:1.7;margin-bottom:8px}
+.apply-fee-panel p:last-child{margin-bottom:0}
+
+.apply-toast{position:fixed;bottom:24px;right:24px;background:var(--navy);color:#fff;padding:14px 24px;border-radius:10px;font-size:13.5px;font-weight:600;z-index:4000;transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:12px;max-width:calc(100vw - 48px);box-shadow:var(--shadow-xl);pointer-events:none}
+.apply-toast.show{transform:translateY(0);opacity:1}
+.apply-toast.success{background:var(--success)}
+.apply-toast.error{background:var(--error)}
+.apply-toast i{color:#fff;font-size:15px;flex-shrink:0}
+
+/* FINAL CTA */
+.final-cta{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 60%,var(--navy-light) 100%);color:#fff;text-align:center;padding:80px 0;position:relative;overflow:hidden}
+.final-cta::before{content:'';position:absolute;top:-50%;left:-20%;width:700px;height:700px;background:radial-gradient(circle,rgba(197,160,40,.16) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
+.final-cta .container{position:relative;z-index:2}
+.final-cta h2{font-size:clamp(1.6rem,3.6vw,2.4rem);color:#fff;margin-bottom:16px;max-width:780px;margin-left:auto;margin-right:auto}
+.final-cta h2 .gold{color:var(--gold)}
+.final-cta p{font-size:15.5px;color:rgba(255,255,255,.8);margin-bottom:12px;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.7}
+.final-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+
+/* FOOTER */
+.footer{background:var(--navy-dark);color:#94a3b8;padding:56px 0 24px;font-size:13px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:36px;margin-bottom:40px}
+.footer-brand .brand-name{font-family:'Playfair Display',serif;font-size:17px;color:#fff;font-weight:700;margin-bottom:6px}
+.footer-brand .brand-tag{font-size:10.5px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:14px}
+.footer-brand p{font-size:12.5px;line-height:1.7;margin-bottom:16px}
+.footer-social{display:flex;gap:10px}
+.footer-social a{width:34px;height:34px;background:rgba(255,255,255,.06);border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:13px}
+.footer-social a:hover{background:var(--gold);color:var(--navy-dark)}
+.footer-col h4{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:800;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+.footer-col ul li{margin-bottom:9px}
+.footer-col ul li a{font-size:12.5px;color:#94a3b8}
+.footer-col ul li a:hover{color:var(--gold)}
+.footer-col ul li i{color:var(--gold);margin-right:8px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-size:12px;color:#64748b}
+.footer-bottom a{color:#64748b}
+.footer-bottom a:hover{color:var(--gold)}
+
+/* RESPONSIVE */
+@media(max-width:1000px){
+  .flag-hero-grid{grid-template-columns:1fr;gap:44px;text-align:center}
+  .flag-hero-inner{max-width:100%;margin:0 auto}
+  .flag-microstats{justify-content:center}
+  .flag-actions{justify-content:center}
+  .hero-visual{max-width:440px;margin:0 auto}
+}
+@media(max-width:900px){
+  .outcome-compare{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .main-nav{display:none}
+  .mobile-menu-btn{display:block}
+  .top-bar-left span:nth-child(3){display:none}
+  .section{padding:60px 0}
+  .philosophy-block{padding:34px 24px}
+  .structure-panel{padding:28px 22px}
+  .sp-courses{grid-template-columns:1fr}
+  .eligibility-wrapper{padding:32px 22px}
+  .quiz-wrapper{padding:32px 22px}
+  .apply-form{padding:28px 22px}
+  .apply-form-grid{grid-template-columns:1fr}
+  .apply-form-group.full{grid-column:span 1}
+  .career-content{padding:26px 22px}
+  .apply-progress::before{left:12px;right:12px}
+}
+@media(max-width:600px){
+  .container{padding:0 16px}
+  .logo-name{font-size:14px;letter-spacing:1px}
+  .flag-hero{padding:60px 0 50px}
+  .flag-hero h1{font-size:1.8rem}
+  .hero-visual{max-width:100%}
+  .scholarship-hero h2 .big{font-size:1.15em}
+  .apply-nav .btn{flex:1;min-width:130px}
+}
+@media(max-width:400px){
+  .container{padding:0 12px}
+  .flag-actions,.final-actions{flex-direction:column;width:100%}
+  .flag-actions .btn,.final-actions .btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="container">
+    <div class="top-bar-left">
+      <span><i class="fas fa-phone-alt"></i> +260 768 526 191</span>
+      <span><i class="fas fa-envelope"></i> admissions@nolaninstitute.org</span>
+      <span><i class="fas fa-star"></i> Flagship Degree · Founding Cohort 2026</span>
+    </div>
+    <div class="top-bar-right">
+      <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Nolan Institute</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="main-header" id="mainHeader">
+  <div class="container">
+    <a href="index.html" class="logo">
+      <span class="logo-name">NOLAN INSTITUTE</span>
+      <span class="logo-tag">Learn. Innovate. Lead.</span>
+    </a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#structure">Structure</a></li>
+        <li><a href="#fees">Tuition</a></li>
+        <li><a href="#scholarships">Scholarships</a></li>
+        <li><a href="#orientation">Self-Orientation</a></li>
+        <li><a href="#apply">Apply</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <a href="#apply" class="btn btn-primary btn-sm">Apply Now</a>
+      <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#structure">3-Year Structure</a></li>
+    <li><a href="#capstone">Capstone Pathways</a></li>
+    <li><a href="#fees">Tuition &amp; Fees</a></li>
+    <li><a href="#scholarships">Scholarships (70–100%)</a></li>
+    <li><a href="#orientation">Self-Orientation Quiz</a></li>
+    <li><a href="#careers">Career Explorer</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#apply">Apply Now</a></li>
+  </ul>
+</div>
+
+<!-- HERO -->
+<section class="flag-hero" id="overview">
+  <div class="container">
+    <div class="flag-hero-grid">
+      <div class="flag-hero-inner">
+        <span class="flag-badge"><i class="fas fa-crown"></i> Flagship Programme · Founding Cohort 2026</span>
+        <h1>Bachelor of <span class="gold">Global Business</span><br>&amp; Technology</h1>
+        <p class="flag-sub">A 3-year online degree for a new generation of business professionals who understand both business fundamentals and emerging technologies — and can apply them to real-world problems in a global environment.</p>
+
+        <div class="flag-microstats">
+          <div class="ms"><i class="fas fa-clock"></i> <span><strong>3 Years</strong> · Online</span></div>
+          <div class="ms"><i class="fas fa-tag"></i> <span><strong>K120,000</strong> · ≈ US$6,000</span></div>
+          <div class="ms"><i class="fas fa-percent"></i> <span><strong>70–100%</strong> Scholarships</span></div>
+        </div>
+
+        <div class="flag-actions">
+          <a href="#apply" class="btn btn-primary btn-lg">Apply to the Founding Cohort <i class="fas fa-arrow-right"></i></a>
+          <a href="#scholarships" class="btn btn-outline-white btn-lg"><i class="fas fa-percent"></i> Check Scholarship</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-image-frame">
+          <span class="img-placeholder-badge"><i class="fas fa-image"></i> Replace with your image</span>
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1000&q=80" alt="Bachelor of Global Business & Technology students">
+          <div class="hero-badge-floating">
+            <div class="hbf-label">Founding Cohort 2026</div>
+            <div class="hbf-title">Business · Technology · Leadership</div>
+            <div class="hbf-sub">Learn. Innovate. Lead.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK STATS STRIP -->
+<section class="stats-strip">
+  <div class="container">
+    <div class="strip-stat"><strong>3 Years</strong><span>6 Semesters</span></div>
+    <div class="strip-stat"><strong>K120,000</strong><span>Total Tuition</span></div>
+    <div class="strip-stat"><strong>K40,000</strong><span>Per Year</span></div>
+    <div class="strip-stat"><strong>27</strong><span>Core Courses</span></div>
+    <div class="strip-stat"><strong>70–100%</strong><span>Scholarships</span></div>
+  </div>
+</section>
+
+<!-- SCHOLARSHIP ANNOUNCEMENT BAR -->
+<div class="scholarship-bar">
+  <div class="container">
+    <i class="fas fa-percent big"></i>
+    <strong>70–100% Scholarships Available · Founding Cohort 2026</strong>
+    <a href="#scholarships">Check Your Eligibility <i class="fas fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Programme Philosophy</span>
+      <h2>Business Fundamentals. Emerging Technology. Real Execution.</h2>
+    </div>
+    <div class="philosophy-block">
+      <p class="philosophy-quote">"Learn the business. Master the technology. Build something real. Operate globally."</p>
+      <p>The Bachelor of Global Business &amp; Technology is designed to develop a new generation of business professionals who understand both business fundamentals and emerging technologies, and who can apply that knowledge to real-world problems in a global environment.</p>
+      <p>The programme combines <strong>business</strong>, <strong>economics</strong>, <strong>finance</strong>, <strong>entrepreneurship</strong>, <strong>technology</strong>, <strong>artificial intelligence</strong>, <strong>data analytics</strong>, <strong>innovation</strong>, <strong>strategy</strong>, <strong>leadership</strong> and <strong>global markets</strong> into a single, integrated, applied degree.</p>
+      <p class="emphasis">Not a compressed traditional degree delivered online. A structured, intensive and highly practical online learning experience built around real capability.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3-YEAR STRUCTURE -->
+<section class="section section-alt" id="structure">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Suggested 3-Year Structure</span>
+      <h2>Three Years. Three Themes. One Trajectory.</h2>
+      <p>Click any year to explore its courses, focus, and applied project.</p>
+    </div>
+
+    <div class="structure-tabs">
+      <button type="button" class="structure-tab active" data-year="1">
+        <span class="st-year">Year 1</span>
+        <span class="st-theme">Business Foundations</span>
+      </button>
+      <button type="button" class="structure-tab" data-year="2">
+        <span class="st-year">Year 2</span>
+        <span class="st-theme">Technology &amp; Global Business</span>
+      </button>
+      <button type="button" class="structure-tab" data-year="3">
+        <span class="st-year">Year 3</span>
+        <span class="st-theme">Innovation &amp; Leadership</span>
+      </button>
+    </div>
+
+    <div class="structure-panel active" data-panel="1">
+      <div class="sp-header">
+        <h3>Build the <span class="gold">Business Mindset</span></h3>
+        <p>Students establish a strong foundation in business and develop the ability to understand how organisations operate — across economics, finance, marketing, communication and entrepreneurship.</p>
+      </div>
+      <div class="sp-courses-label"><i class="fas fa-book-open"></i> Core Courses</div>
+      <div class="sp-courses">
+        <div class="sp-course"><span class="sc-num">1</span><span class="sc-title">Principles of Global Business</span></div>
+        <div class="sp-course"><span class="sc-num">2</span><span class="sc-title">Economics for Business</span></div>
+        <div class="sp-course"><span class="sc-num">3</span><span class="sc-title">Financial Accounting</span></div>
+        <div class="sp-course"><span class="sc-num">4</span><span class="sc-title">Business Mathematics &amp; Statistics</span></div>
+        <div class="sp-course"><span class="sc-num">5</span><span class="sc-title">Digital Business Fundamentals</span></div>
+        <div class="sp-course"><span class="sc-num">6</span><span class="sc-title">Principles of Marketing</span></div>
+        <div class="sp-course"><span class="sc-num">7</span><span class="sc-title">Business Communication</span></div>
+        <div class="sp-course"><span class="sc-num">8</span><span class="sc-title">Entrepreneurship &amp; Innovation</span></div>
+        <div class="sp-course"><span class="sc-num">9</span><span class="sc-title">Introduction to AI for Business</span></div>
+      </div>
+      <div class="sp-project">
+        <div class="sp-project-inner">
+          <span class="sp-label"><i class="fas fa-lightbulb"></i> Year 1 Applied Project</span>
+          <h4>Business Concept Development Project</h4>
+          <p>Students develop, validate and present a viable business concept — demonstrating understanding of customers, markets, value propositions, basic financials and business models.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="structure-panel" data-panel="2">
+      <div class="sp-header">
+        <h3>Become a <span class="gold">Technology-Enabled</span> Business Professional</h3>
+        <p>Year 2 is where the programme differentiates itself from a conventional BBA. Students learn how technology, data and digital platforms are transforming modern businesses and global markets.</p>
+      </div>
+      <div class="sp-courses-label"><i class="fas fa-book-open"></i> Core Courses</div>
+      <div class="sp-courses">
+        <div class="sp-course"><span class="sc-num">1</span><span class="sc-title">Business Data Analytics</span></div>
+        <div class="sp-course"><span class="sc-num">2</span><span class="sc-title">Artificial Intelligence for Business</span></div>
+        <div class="sp-course"><span class="sc-num">3</span><span class="sc-title">Digital Transformation</span></div>
+        <div class="sp-course"><span class="sc-num">4</span><span class="sc-title">FinTech &amp; Digital Finance</span></div>
+        <div class="sp-course"><span class="sc-num">5</span><span class="sc-title">International Trade &amp; Economics</span></div>
+        <div class="sp-course"><span class="sc-num">6</span><span class="sc-title">Operations &amp; Supply Chain Management</span></div>
+        <div class="sp-course"><span class="sc-num">7</span><span class="sc-title">Consumer &amp; Digital Marketing</span></div>
+        <div class="sp-course"><span class="sc-num">8</span><span class="sc-title">Technology &amp; Innovation Management</span></div>
+        <div class="sp-course"><span class="sc-num">9</span><span class="sc-title">Business Information Systems</span></div>
+      </div>
+      <div class="sp-project">
+        <div class="sp-project-inner">
+          <span class="sp-label"><i class="fas fa-cogs"></i> Year 2 Applied Project</span>
+          <h4>Technology &amp; Business Problem-Solving Project</h4>
+          <p>Students identify a real business problem and use data, technology and analytical methods to develop and present a practical solution.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="structure-panel" data-panel="3">
+      <div class="sp-header">
+        <h3>Become a <span class="gold">Global Business Builder</span></h3>
+        <p>The final year is highly applied, strategic and entrepreneurial. Students move from understanding business to building, managing and transforming businesses — with a substantial capstone outcome.</p>
+      </div>
+      <div class="sp-courses-label"><i class="fas fa-book-open"></i> Core Courses</div>
+      <div class="sp-courses">
+        <div class="sp-course"><span class="sc-num">1</span><span class="sc-title">Global Business Strategy</span></div>
+        <div class="sp-course"><span class="sc-num">2</span><span class="sc-title">International Entrepreneurship</span></div>
+        <div class="sp-course"><span class="sc-num">3</span><span class="sc-title">Venture Creation &amp; New Business Models</span></div>
+        <div class="sp-course"><span class="sc-num">4</span><span class="sc-title">Corporate Strategy</span></div>
+        <div class="sp-course"><span class="sc-num">5</span><span class="sc-title">Global Leadership &amp; Negotiation</span></div>
+        <div class="sp-course"><span class="sc-num">6</span><span class="sc-title">Technology Strategy</span></div>
+        <div class="sp-course"><span class="sc-num">7</span><span class="sc-title">Consulting &amp; Business Advisory</span></div>
+        <div class="sp-course"><span class="sc-num">8</span><span class="sc-title">Business Ethics, Governance &amp; Sustainability</span></div>
+        <div class="sp-course"><span class="sc-num">9</span><span class="sc-title">Nolan Global Capstone</span></div>
+      </div>
+      <div class="sp-project">
+        <div class="sp-project-inner">
+          <span class="sp-label"><i class="fas fa-trophy"></i> Year 3 Capstone</span>
+          <h4>Nolan Global Capstone — Three Pathways</h4>
+          <p>Choose one: <strong>Build a Venture</strong>, <strong>Develop a Technology-Enabled Business Solution</strong>, or <strong>Complete a Consulting Project</strong>. The capstone results in a substantial, professionally presented digital portfolio or practical business output.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPSTONE -->
+<section class="section" id="capstone">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Year 3 Capstone</span>
+      <h2>Three Pathways. One Substantial Outcome.</h2>
+      <p>Every student leaves with a professionally presented digital portfolio or practical business output — not just a transcript.</p>
+    </div>
+
+    <div class="pathways-grid">
+      <div class="pathway-card">
+        <div class="pathway-num">PATHWAY 01</div>
+        <div class="pathway-icon"><i class="fas fa-rocket"></i></div>
+        <h3>Build a Venture</h3>
+        <p>Develop and launch a new business — from concept and validation through to business model, financials, go-to-market, and a live or pilot-stage venture.</p>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-num">PATHWAY 02</div>
+        <div class="pathway-icon"><i class="fas fa-microchip"></i></div>
+        <h3>Develop a Technology-Enabled Business Solution</h3>
+        <p>Solve a significant business problem using technology, AI or data — delivering a working solution, prototype or applied system with real business value.</p>
+      </div>
+      <div class="pathway-card">
+        <div class="pathway-num">PATHWAY 03</div>
+        <div class="pathway-icon"><i class="fas fa-handshake"></i></div>
+        <h3>Complete a Consulting Project</h3>
+        <p>Deliver a strategic project for an organisation — applying analytical, strategic and technology-enabled methods to a real, sponsored business challenge.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Programme Delivery Model</span>
+      <h2>Designed as an Intensive, Applied Online Experience</h2>
+      <p>Structured around three academic years, six semesters, and applied outcomes in every year.</p>
+    </div>
+
+    <div class="delivery-grid">
+      <div class="delivery-stat"><div class="ds-value">3</div><div class="ds-label">Academic Years</div><p>Structured progression from foundations to leadership.</p></div>
+      <div class="delivery-stat"><div class="ds-value">6</div><div class="ds-label">Semesters</div><p>Approximately 5–6 courses per semester.</p></div>
+      <div class="delivery-stat"><div class="ds-value">120<span>–130</span></div><div class="ds-label">Credits</div><p>Depending on the accreditation framework adopted.</p></div>
+      <div class="delivery-stat"><div class="ds-value">4</div><div class="ds-label">Applied Projects</div><p>One substantial applied project each year, plus capstone.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- LEARNING EXPERIENCE -->
+<section class="section section-navy">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag" style="background:rgba(197,160,40,.18);color:var(--gold-light)">Learning Experience</span>
+      <h2>How Students Actually Learn</h2>
+      <p>A blend of structured teaching, live engagement, applied projects, and real-world problem-solving.</p>
+    </div>
+
+    <div class="learning-grid">
+      <div class="learning-item"><i class="fas fa-calendar-week"></i><span>Weekly structured learning units</span></div>
+      <div class="learning-item"><i class="fas fa-video"></i><span>Recorded lectures and interactive learning materials</span></div>
+      <div class="learning-item"><i class="fas fa-broadcast-tower"></i><span>Live global seminars</span></div>
+      <div class="learning-item"><i class="fas fa-gamepad"></i><span>Business simulations</span></div>
+      <div class="learning-item"><i class="fas fa-file-alt"></i><span>Case-based learning</span></div>
+      <div class="learning-item"><i class="fas fa-project-diagram"></i><span>Applied projects</span></div>
+      <div class="learning-item"><i class="fas fa-users"></i><span>Virtual international teams</span></div>
+      <div class="learning-item"><i class="fas fa-user-tie"></i><span>Industry mentors</span></div>
+      <div class="learning-item"><i class="fas fa-microphone"></i><span>Guest lectures from business and technology leaders</span></div>
+      <div class="learning-item"><i class="fas fa-lightbulb"></i><span>Entrepreneurial challenges</span></div>
+      <div class="learning-item"><i class="fas fa-chart-bar"></i><span>Data and AI practical exercises</span></div>
+      <div class="learning-item"><i class="fas fa-briefcase"></i><span>Digital portfolios</span></div>
+      <div class="learning-item"><i class="fas fa-presentation"></i><span>Presentations and pitch sessions</span></div>
+      <div class="learning-item"><i class="fas fa-puzzle-piece"></i><span>Collaborative problem-solving</span></div>
+      <div class="learning-item"><i class="fas fa-handshake"></i><span>Real-world consulting projects</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- GRADUATE OUTCOME -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">The Graduate Outcome</span>
+      <h2>Not "I Passed 36 Courses."<br>But "I Can Do This."</h2>
+      <p>The distinction is central to the programme. Graduates leave with genuine capability — not just a transcript.</p>
+    </div>
+
+    <div class="outcome-compare">
+      <div class="outcome-box bad">
+        <span class="outcome-tag">A Weaker Outcome</span>
+        <p class="outcome-quote">"I passed 36 courses."</p>
+      </div>
+      <div class="outcome-box good">
+        <span class="outcome-tag">The Nolan Outcome</span>
+        <p class="outcome-quote">"I can analyse a business, understand its finances, use AI and data to improve it, develop a strategy, operate across international markets, solve real business problems and build a new venture."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==========================================
+     TUITION & FEES
+     ========================================== -->
+<section class="section section-alt" id="fees">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Tuition &amp; Fees</span>
+      <h2>Transparent Pricing. Clear Investment.</h2>
+      <p>One tuition. Three years. Six semesters. No hidden charges. And with our 70–100% scholarships, most students pay far less than full tuition.</p>
+    </div>
+
+    <!-- FEE HERO -->
+    <div class="fee-hero">
+      <div class="fee-hero-main">
+        <div class="fh-label">Full Tuition · 3-Year Programme</div>
+        <div class="fh-amount">K120,000</div>
+        <div class="fh-usd">≈ US$6,000</div>
+        <div class="fh-note">Total investment for the complete Bachelor of Global Business &amp; Technology degree programme. No additional tuition charges across the 3 years.</div>
+      </div>
+      <div class="fee-hero-side">
+        <div class="fh-side-item">
+          <div class="fhsi-label">Per Year (Year 1 · 2 · 3)</div>
+          <div class="fhsi-value">K40,000 <small>≈ US$2,000</small></div>
+        </div>
+        <div class="fh-side-item">
+          <div class="fhsi-label">Per Semester (6 total)</div>
+          <div class="fhsi-value">K20,000 <small>≈ US$1,000</small></div>
+        </div>
+        <div class="fh-side-item">
+          <div class="fhsi-label">Per Month (36 months)</div>
+          <div class="fhsi-value">K3,333 <small>≈ US$167</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INVESTMENT TABLE -->
+    <div class="investment-wrap">
+      <h3>What You'll Actually Invest — After Scholarship</h3>
+      <p>Depending on your scholarship tier, here is what you'll invest across the full 3 years, and how that breaks down at every level.</p>
+      <div class="investment-table">
+        <div class="it-row it-head">
+          <div class="it-cell it-tier">Scholarship</div>
+          <div class="it-cell">Total (3 Years)</div>
+          <div class="it-cell">Per Year</div>
+          <div class="it-cell">Per Semester</div>
+          <div class="it-cell">Per Month</div>
+        </div>
+        <div class="it-row">
+          <div class="it-cell it-tier">No Scholarship</div>
+          <div class="it-cell it-strong">K120,000 <small>≈ US$6,000</small></div>
+          <div class="it-cell">K40,000 <small>≈ US$2,000</small></div>
+          <div class="it-cell">K20,000 <small>≈ US$1,000</small></div>
+          <div class="it-cell">K3,333 <small>≈ US$167</small></div>
+        </div>
+        <div class="it-row">
+          <div class="it-cell it-tier">70% · Merit</div>
+          <div class="it-cell it-strong">K36,000 <small>≈ US$1,800</small></div>
+          <div class="it-cell">K12,000 <small>≈ US$600</small></div>
+          <div class="it-cell">K6,000 <small>≈ US$300</small></div>
+          <div class="it-cell">K1,000 <small>≈ US$50</small></div>
+        </div>
+        <div class="it-row it-highlight">
+          <div class="it-cell it-tier">85% · Founder's</div>
+          <div class="it-cell it-strong">K18,000 <small>≈ US$900</small></div>
+          <div class="it-cell">K6,000 <small>≈ US$300</small></div>
+          <div class="it-cell">K3,000 <small>≈ US$150</small></div>
+          <div class="it-cell">K500 <small>≈ US$25</small></div>
+        </div>
+        <div class="it-row it-best">
+          <div class="it-cell it-tier">100% · Founding Cohort</div>
+          <div class="it-cell it-strong">K0</div>
+          <div class="it-cell">K0</div>
+          <div class="it-cell">K0</div>
+          <div class="it-cell">K0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COST CALCULATOR -->
+    <div class="section-head" style="margin-top:60px;">
+      <span class="section-tag">Interactive Cost Calculator</span>
+      <h2>See Your Exact Investment</h2>
+      <p>Choose your scholarship tier, payment plan and currency to see your personalised breakdown.</p>
+    </div>
+
+    <div class="calc-wrapper">
+      <div class="calc-inputs">
+        <h3>Your Estimate</h3>
+        <div class="calc-group">
+          <label>Scholarship Tier</label>
+          <select id="calcTier">
+            <option value="0">No scholarship — full tuition</option>
+            <option value="70">70% — Merit Scholarship</option>
+            <option value="85" selected>85% — Founder's Scholarship</option>
+            <option value="100">100% — Founding Cohort Scholarship</option>
+          </select>
+        </div>
+        <div class="calc-group">
+          <label>Payment Plan</label>
+          <select id="calcPlan">
+            <option value="1">Pay in full (single payment)</option>
+            <option value="3" selected>3 yearly instalments</option>
+            <option value="6">6 semester instalments</option>
+            <option value="36">36 monthly instalments</option>
+          </select>
+        </div>
+        <div class="calc-group">
+          <label>Currency</label>
+          <select id="calcCurrency">
+            <option value="ZMW" selected>Zambian Kwacha (K)</option>
+            <option value="USD">US Dollars ($)</option>
+          </select>
+        </div>
+        <p style="font-size:12.5px;color:var(--gray-dark);line-height:1.6;margin-top:20px;padding-top:20px;border-top:1px dashed var(--gray-mid);font-style:italic;">
+          <i class="fas fa-info-circle" style="color:var(--gold-dark);margin-right:6px;"></i>
+          This is an indicative estimate. Actual fees confirmed upon offer.
+        </p>
+      </div>
+
+      <div class="calc-result">
+        <h3>Your Investment</h3>
+        <div class="calc-row">
+          <span class="cr-label">Full tuition (3 years)</span>
+          <span class="cr-value" id="calcFull">K120,000</span>
+        </div>
+        <div class="calc-row discount">
+          <span class="cr-label" id="calcScholarshipLabel">85% scholarship</span>
+          <span class="cr-value" id="calcDiscount">– K102,000</span>
+        </div>
+        <div class="calc-row">
+          <span class="cr-label">Net tuition</span>
+          <span class="cr-value" id="calcNet">K18,000</span>
+        </div>
+        <div class="calc-total">
+          <span class="ct-label">You pay</span>
+          <span class="ct-value" id="calcTotal">K18,000</span>
+        </div>
+        <div class="calc-monthly">
+          <div class="cm-label">Payment Plan</div>
+          <div class="cm-value" id="calcMonthly">K6,000 / instalment</div>
+          <div class="cm-sub" id="calcMonthlySub">3 instalments</div>
+        </div>
+        <div class="calc-cta">
+          <a href="#apply" class="btn btn-primary">Apply with This Estimate <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHOLARSHIPS -->
+<section class="scholarship-hero" id="scholarships">
+  <div class="container">
+    <i class="fas fa-award sh-icon"></i>
+    <h2><span class="big">70–100%</span>Scholarships Available</h2>
+    <p>Exceptional talent should not be held back by financial circumstance. The Founding Cohort 2026 offers substantial scholarships based on merit, need, and entrepreneurial potential.</p>
+    <div class="sh-actions">
+      <a href="#eligibility" class="btn btn-navy btn-lg"><i class="fas fa-calculator"></i> Check Your Eligibility</a>
+      <a href="#apply" class="btn btn-primary btn-lg">Start Application <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Scholarship Tiers</span>
+      <h2>Choose the Scholarship That Fits You</h2>
+      <p>All scholarships are awarded on a rolling basis. Applying earlier gives you the best chance at the highest tier.</p>
+    </div>
+
+    <div class="scholarship-tiers">
+      <div class="scholarship-tier">
+        <div class="st-percent">70<span>%</span></div>
+        <div class="st-tier-name">Merit Scholarship</div>
+        <div class="st-tier-net">K36,000 <small>≈ US$1,800 over 3 years</small></div>
+        <p class="st-tier-desc">For students with strong academic records and demonstrated achievement. Automatically considered with your application.</p>
+        <button type="button" class="st-tier-btn" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'});">Check Your Eligibility</button>
+      </div>
+
+      <div class="scholarship-tier featured">
+        <div class="st-percent">85<span>%</span></div>
+        <div class="st-tier-name">Founder's Scholarship</div>
+        <div class="st-tier-net">K18,000 <small>≈ US$900 over 3 years</small></div>
+        <p class="st-tier-desc">For high-potential students who demonstrate exceptional drive, initiative, and readiness to build something real.</p>
+        <button type="button" class="st-tier-btn" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'});">Check Your Eligibility</button>
+      </div>
+
+      <div class="scholarship-tier">
+        <div class="st-percent">100<span>%</span></div>
+        <div class="st-tier-name">Founding Cohort Scholarship</div>
+        <div class="st-tier-net">K0 <small>Full tuition covered</small></div>
+        <p class="st-tier-desc">Our most prestigious award. Full tuition — for exceptional candidates who will shape the first cohort and represent the Institute globally.</p>
+        <button type="button" class="st-tier-btn" onclick="document.getElementById('eligibility').scrollIntoView({behavior:'smooth'});">Check Your Eligibility</button>
+      </div>
+    </div>
+
+    <!-- ELIGIBILITY CHECKER -->
+    <div class="eligibility-wrapper" id="eligibility">
+      <h3>Scholarship Eligibility Checker</h3>
+      <p>Answer 5 quick questions to see what scholarship tier you may qualify for. This is an indicative estimate — the final decision rests with the admissions committee.</p>
+
+      <div class="eligibility-progress"><div class="eligibility-progress-fill" id="eligProgressFill"></div></div>
+
+      <div class="elig-question active" data-elig-q="1">
+        <div class="elig-q-num">Question 1 of 5</div>
+        <div class="elig-q-text">What best describes your most recent academic achievement?</div>
+        <div class="elig-options">
+          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I completed secondary school with average results.</span></button>
+          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I completed secondary school with strong results.</span></button>
+          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I hold a diploma or partial degree with good performance.</span></button>
+          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I hold a completed degree or top-tier diploma with excellent results.</span></button>
+        </div>
+      </div>
+
+      <div class="elig-question" data-elig-q="2">
+        <div class="elig-q-num">Question 2 of 5</div>
+        <div class="elig-q-text">Have you ever started, led, or built anything?</div>
+        <div class="elig-options">
+          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>Not yet — this programme will be my first major step.</span></button>
+          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have led a team or a small project.</span></button>
+          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have built something — a business, initiative, or side project.</span></button>
+          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have founded or co-founded a business or notable venture.</span></button>
+        </div>
+      </div>
+
+      <div class="elig-question" data-elig-q="3">
+        <div class="elig-q-num">Question 3 of 5</div>
+        <div class="elig-q-text">How would you describe your financial need?</div>
+        <div class="elig-options">
+          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I can comfortably pay full tuition.</span></button>
+          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I need partial support to make it work.</span></button>
+          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>Without scholarship support, I would find it difficult.</span></button>
+          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>Without a near-full scholarship, I cannot attend.</span></button>
+        </div>
+      </div>
+
+      <div class="elig-question" data-elig-q="4">
+        <div class="elig-q-num">Question 4 of 5</div>
+        <div class="elig-q-text">How strong is your vision for what you will do after this degree?</div>
+        <div class="elig-options">
+          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I'm still figuring it out.</span></button>
+          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have a general direction.</span></button>
+          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have a clear plan I'm pursuing.</span></button>
+          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have a specific venture, role, or mission I'm building toward.</span></button>
+        </div>
+      </div>
+
+      <div class="elig-question" data-elig-q="5">
+        <div class="elig-q-num">Question 5 of 5</div>
+        <div class="elig-q-text">How would you describe your global or cross-cultural experience?</div>
+        <div class="elig-options">
+          <button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>Limited so far.</span></button>
+          <button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I've worked with people from different backgrounds.</span></button>
+          <button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I've worked or studied across multiple countries or cultures.</span></button>
+          <button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I'm already operating globally.</span></button>
+        </div>
+      </div>
+
+      <div class="elig-result" id="eligResult">
+        <div class="er-percent" id="eligPercent">85%</div>
+        <div class="er-tier" id="eligTier">Founder's Scholarship · Estimated</div>
+        <h3>You may qualify for scholarship support</h3>
+        <p id="eligMessage">Based on your responses, you could be considered for a strong scholarship. This is an indicative estimate only — the final decision rests with the admissions committee.</p>
+        <div class="er-actions">
+          <a href="#apply" class="btn btn-primary btn-lg">Start Your Application <i class="fas fa-arrow-right"></i></a>
+          <button type="button" class="btn btn-outline btn-lg" id="eligRetake">Retake Checker</button>
+        </div>
+      </div>
+
+      <div class="elig-nav">
+        <button type="button" class="btn btn-outline btn-sm" id="eligPrev" style="visibility:hidden;">← Previous</button>
+        <button type="button" class="btn btn-primary btn-sm" id="eligNext" disabled>Next Question →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SELF-ORIENTATION HUB -->
+<section class="section" id="orientation">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Self-Orientation Hub</span>
+      <h2>Everything You Need to Decide</h2>
+      <p>No calls required. No waiting for a response. Use these interactive tools to orient yourself — then apply when you're ready.</p>
+    </div>
+
+    <div class="quiz-wrapper" id="quiz">
+      <div class="quiz-inner">
+        <div class="quiz-head">
+          <div class="qh-icon"><i class="fas fa-compass"></i></div>
+          <h3>Is This Programme Right for You?</h3>
+          <p>Answer 5 questions. Get an honest read on whether the Bachelor of Global Business &amp; Technology fits where you're heading.</p>
+        </div>
+
+        <div class="quiz-progress"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
+
+        <div class="quiz-step active" data-quiz-q="1">
+          <div class="quiz-q-num">Question 1 of 5</div>
+          <div class="quiz-q-text">What is your main goal over the next 3 years?</div>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Build my own venture or business</span></button>
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Grow into a business or technology leadership role</span></button>
+            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Develop practical business and technology skills</span></button>
+            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm still exploring what I want to do</span></button>
+          </div>
+        </div>
+
+        <div class="quiz-step" data-quiz-q="2">
+          <div class="quiz-q-num">Question 2 of 5</div>
+          <div class="quiz-q-text">How do you feel about AI, data, and technology in business?</div>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to lead the way technology transforms business</span></button>
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be highly competent in tech-enabled work</span></button>
+            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>I want to understand it well enough to lead</span></button>
+            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm more interested in the business side</span></button>
+          </div>
+        </div>
+
+        <div class="quiz-step" data-quiz-q="3">
+          <div class="quiz-q-num">Question 3 of 5</div>
+          <div class="quiz-q-text">How do you learn best?</div>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By building, testing, and pitching real projects</span></button>
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By applying ideas to real business problems</span></button>
+            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>By combining theory with practice</span></button>
+            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>Mostly by reading and studying theory first</span></button>
+          </div>
+        </div>
+
+        <div class="quiz-step" data-quiz-q="4">
+          <div class="quiz-q-num">Question 4 of 5</div>
+          <div class="quiz-q-text">What pace and intensity are you ready for?</div>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Intensive, structured, and highly practical</span></button>
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be challenged at a serious professional level</span></button>
+            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Balanced — serious but manageable alongside work</span></button>
+            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm looking for something light</span></button>
+          </div>
+        </div>
+
+        <div class="quiz-step" data-quiz-q="5">
+          <div class="quiz-q-num">Question 5 of 5</div>
+          <div class="quiz-q-text">Where do you want to operate?</div>
+          <div class="quiz-options">
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Globally — across countries and markets</span></button>
+            <button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>In emerging markets, building serious capability</span></button>
+            <button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>In my country, at a high professional level</span></button>
+            <button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I haven't decided</span></button>
+          </div>
+        </div>
+
+        <div class="quiz-result" id="quizResult">
+          <div class="qr-score" id="quizScore">15 / 15</div>
+          <h3 id="quizVerdict">This programme is built for you.</h3>
+          <p id="quizMessage">Your answers suggest this is exactly the kind of programme you're looking for. You're ready to apply.</p>
+          <div class="qr-actions">
+            <a href="#apply" class="btn btn-primary btn-lg">Apply Now <i class="fas fa-arrow-right"></i></a>
+            <button type="button" class="btn btn-outline-white btn-lg" id="quizRetake">Retake</button>
+          </div>
+        </div>
+
+        <div class="quiz-nav">
+          <button type="button" class="btn btn-outline-white btn-sm" id="quizPrev" style="visibility:hidden;">← Previous</button>
+          <button type="button" class="btn btn-primary btn-sm" id="quizNext" disabled>Next Question →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREER EXPLORER -->
+<section class="section section-alt" id="careers">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Career Explorer</span>
+      <h2>Where Graduates Go</h2>
+      <p>Click a career track to see the kinds of roles and industries this degree opens.</p>
+    </div>
+
+    <div class="career-tabs">
+      <button type="button" class="career-tab active" data-career="business">Business &amp; Strategy</button>
+      <button type="button" class="career-tab" data-career="tech">Technology &amp; AI</button>
+      <button type="button" class="career-tab" data-career="entrepreneurship">Entrepreneurship</button>
+      <button type="button" class="career-tab" data-career="finance">Finance &amp; Analytics</button>
+      <button type="button" class="career-tab" data-career="global">Global Operations</button>
+    </div>
+
+    <div class="career-panel active" data-career-panel="business">
+      <div class="career-content">
+        <h3>Business &amp; Strategy</h3>
+        <p>Graduates are prepared for roles that require business acumen, analytical judgement, and the ability to translate strategy into execution across organisations.</p>
+        <div class="career-roles">
+          <div class="career-role"><div class="cr-title">Business Analyst</div><div class="cr-industry">Consulting &amp; Corporate</div><p>Analyse business problems and design practical solutions.</p></div>
+          <div class="career-role"><div class="cr-title">Strategy Associate</div><div class="cr-industry">Corporate Strategy</div><p>Support strategic planning, market analysis, and execution.</p></div>
+          <div class="career-role"><div class="cr-title">Operations Manager</div><div class="cr-industry">Operations</div><p>Lead operations teams and improve business processes.</p></div>
+          <div class="career-role"><div class="cr-title">Management Consultant</div><div class="cr-industry">Consulting</div><p>Advise organisations on business and technology challenges.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="career-panel" data-career-panel="tech">
+      <div class="career-content">
+        <h3>Technology &amp; AI</h3>
+        <p>Graduates bridge business and technology — leading AI adoption, driving digital transformation, and translating emerging tech into business value.</p>
+        <div class="career-roles">
+          <div class="career-role"><div class="cr-title">AI Business Lead</div><div class="cr-industry">Technology &amp; AI</div><p>Identify and lead AI opportunities inside organisations.</p></div>
+          <div class="career-role"><div class="cr-title">Digital Transformation Manager</div><div class="cr-industry">Enterprise Technology</div><p>Lead technology-driven change programmes.</p></div>
+          <div class="career-role"><div class="cr-title">Product Manager</div><div class="cr-industry">Technology &amp; Product</div><p>Build and ship technology products with business impact.</p></div>
+          <div class="career-role"><div class="cr-title">FinTech Specialist</div><div class="cr-industry">Financial Services</div><p>Work at the intersection of finance and modern technology.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="career-panel" data-career-panel="entrepreneurship">
+      <div class="career-content">
+        <h3>Entrepreneurship</h3>
+        <p>Graduates leave with the tools, frameworks, and portfolio to build ventures — or join early-stage teams as operator-founders.</p>
+        <div class="career-roles">
+          <div class="career-role"><div class="cr-title">Founder / Co-Founder</div><div class="cr-industry">Startups</div><p>Build a new venture from concept to launch.</p></div>
+          <div class="career-role"><div class="cr-title">Early-Stage Operator</div><div class="cr-industry">Startups &amp; Scale-ups</div><p>Take on a leadership role at a fast-growing company.</p></div>
+          <div class="career-role"><div class="cr-title">Venture Analyst</div><div class="cr-industry">VC &amp; Private Equity</div><p>Evaluate investment opportunities and support portfolio companies.</p></div>
+          <div class="career-role"><div class="cr-title">Innovation Lead</div><div class="cr-industry">Corporate Innovation</div><p>Drive innovation programmes inside established organisations.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="career-panel" data-career-panel="finance">
+      <div class="career-content">
+        <h3>Finance &amp; Analytics</h3>
+        <p>Graduates apply technology and data to financial analysis, decision-making, and business intelligence.</p>
+        <div class="career-roles">
+          <div class="career-role"><div class="cr-title">Financial Analyst</div><div class="cr-industry">Corporate Finance</div><p>Analyse financial performance and support key decisions.</p></div>
+          <div class="career-role"><div class="cr-title">Data Analyst</div><div class="cr-industry">Data &amp; Analytics</div><p>Turn data into insight that drives business decisions.</p></div>
+          <div class="career-role"><div class="cr-title">Business Intelligence Analyst</div><div class="cr-industry">BI &amp; Reporting</div><p>Build reporting systems and dashboards for organisations.</p></div>
+          <div class="career-role"><div class="cr-title">Investment Associate</div><div class="cr-industry">Investment &amp; Capital Markets</div><p>Support investment analysis, due diligence, and portfolio work.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="career-panel" data-career-panel="global">
+      <div class="career-content">
+        <h3>Global Operations</h3>
+        <p>Graduates are prepared to operate across borders — in international markets, supply chains, and cross-cultural business environments.</p>
+        <div class="career-roles">
+          <div class="career-role"><div class="cr-title">International Business Manager</div><div class="cr-industry">Global Business</div><p>Lead cross-border business initiatives.</p></div>
+          <div class="career-role"><div class="cr-title">Supply Chain Analyst</div><div class="cr-industry">Operations &amp; Logistics</div><p>Optimise global supply chains using data and technology.</p></div>
+          <div class="career-role"><div class="cr-title">Global Marketing Manager</div><div class="cr-industry">Marketing</div><p>Lead marketing across multiple markets and cultures.</p></div>
+          <div class="career-role"><div class="cr-title">International Trade Analyst</div><div class="cr-industry">Trade &amp; Economics</div><p>Support trade strategy and cross-border business operations.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE TIMETABLE -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Sample Week</span>
+      <h2>What a Typical Week Looks Like</h2>
+      <p>Flexible enough to work alongside your life, structured enough to keep you on track.</p>
+    </div>
+    <div class="timetable">
+      <h3>Sample Weekly Timetable · Year 1</h3>
+      <p>Each week combines recorded lectures, one live seminar, one applied workshop, and structured study.</p>
+      <div class="tt-grid">
+        <div class="tt-day">
+          <div class="tt-name">Monday</div>
+          <div class="tt-item">Recorded lectures<small>Principles of Global Business</small></div>
+          <div class="tt-item">Reading + discussion<small>Business Communication</small></div>
+        </div>
+        <div class="tt-day">
+          <div class="tt-name">Tuesday</div>
+          <div class="tt-item">Problem set<small>Business Mathematics</small></div>
+          <div class="tt-item">Group prep<small>Virtual team</small></div>
+        </div>
+        <div class="tt-day">
+          <div class="tt-name">Wednesday</div>
+          <div class="tt-item">Live global seminar<small>60–90 mins · with faculty</small></div>
+          <div class="tt-item">Applied workshop<small>Entrepreneurship &amp; Innovation</small></div>
+        </div>
+        <div class="tt-day">
+          <div class="tt-name">Thursday</div>
+          <div class="tt-item">Case analysis<small>Financial Accounting</small></div>
+          <div class="tt-item">Recorded lectures<small>Digital Business Fundamentals</small></div>
+        </div>
+        <div class="tt-day">
+          <div class="tt-name">Friday</div>
+          <div class="tt-item">Project work<small>Business Concept Development</small></div>
+          <div class="tt-item">Mentor session (bi-weekly)<small>Industry mentor</small></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-alt" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <span class="section-tag">Self-Service FAQ</span>
+      <h2>Answers Without Waiting</h2>
+      <p>Everything you need to know, organised by category. No need to email or call.</p>
+    </div>
+
+    <div class="faq-categories">
+      <button type="button" class="faq-cat active" data-cat="all">All Questions</button>
+      <button type="button" class="faq-cat" data-cat="programme">Programme</button>
+      <button type="button" class="faq-cat" data-cat="scholarships">Scholarships</button>
+      <button type="button" class="faq-cat" data-cat="admissions">Admissions</button>
+      <button type="button" class="faq-cat" data-cat="fees">Fees</button>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item" data-cat="programme">
+        <button type="button" class="faq-q">Is this programme fully online? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>Yes — the Bachelor of Global Business &amp; Technology is delivered entirely online, built around weekly learning units, live global seminars, applied workshops, and collaborative projects. You can study from anywhere in the world.</p></div>
+      </div>
+      <div class="faq-item" data-cat="programme">
+        <button type="button" class="faq-q">How long does the programme take? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>Three academic years, structured as six semesters, totalling approximately 120–130 credits depending on the accreditation framework adopted.</p></div>
+      </div>
+      <div class="faq-item" data-cat="programme">
+        <button type="button" class="faq-q">What qualification will I receive? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>A Bachelor's Degree in Global Business &amp; Technology, awarded by Nolan University, alongside a professionally presented digital portfolio from your applied projects and capstone.</p></div>
+      </div>
+
+      <div class="faq-item" data-cat="scholarships">
+        <button type="button" class="faq-q">How much scholarship can I get? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>Scholarships range from 70% to 100% of tuition, depending on your academic record, entrepreneurial or leadership experience, financial need, and clarity of vision. Use the Scholarship Eligibility Checker on this page for an indicative estimate.</p>
+        <p><strong>70% scholarship:</strong> you pay K36,000 (≈ US$1,800) across 3 years.<br>
+        <strong>85% scholarship:</strong> you pay K18,000 (≈ US$900) across 3 years.<br>
+        <strong>100% scholarship:</strong> you pay K0 — full tuition covered.</p></div>
+      </div>
+      <div class="faq-item" data-cat="scholarships">
+        <button type="button" class="faq-q">How do I apply for a scholarship? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>Scholarships are considered as part of your main application. There is no separate scholarship application — simply indicate your interest during the application and complete the short scholarship assessment section.</p></div>
+      </div>
+      <div class="faq-item" data-cat="scholarships">
+        <button type="button" class="faq-q">Is the scholarship guaranteed if the eligibility checker says I qualify? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>No — the checker gives an indicative estimate only. Final scholarship decisions are made by the admissions committee, based on the full application including academic records, essays, and demonstrated fit.</p></div>
+      </div>
+
+      <div class="faq-item" data-cat="admissions">
+        <button type="button" class="faq-q">What are the entry requirements? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>You should have completed secondary education (or equivalent), or hold a diploma or partial degree. Beyond that, we look for motivation, clarity of purpose, and demonstrated capability — not just grades.</p></div>
+      </div>
+      <div class="faq-item" data-cat="admissions">
+        <button type="button" class="faq-q">Is there an application fee? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>Yes — a modest, non-refundable application fee. Candidates applying for scholarship consideration receive a reduced or waived application fee. Details are confirmed during the application process.</p></div>
+      </div>
+      <div class="faq-item" data-cat="admissions">
+        <button type="button" class="faq-q">Can I apply if I'm already working full time? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>Absolutely. The programme is designed for working professionals — with flexible weekly structure, recorded lectures, and live sessions scheduled to accommodate international time zones.</p></div>
+      </div>
+
+      <div class="faq-item" data-cat="fees">
+        <button type="button" class="faq-q">How much is the total tuition for the full programme? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>Total tuition for the full 3-year Bachelor of Global Business &amp; Technology is <strong>K120,000</strong> (≈ US$6,000). That works out at K40,000 per year, K20,000 per semester, or about K3,333 per month across 36 months — before any scholarship.</p></div>
+      </div>
+      <div class="faq-item" data-cat="fees">
+        <button type="button" class="faq-q">Can I pay in instalments? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>Yes. You can pay in full, in 3 yearly instalments, in 6 semester instalments, or in 36 monthly instalments depending on the payment plan you choose. Use the Cost Calculator on this page to see your options.</p></div>
+      </div>
+      <div class="faq-item" data-cat="fees">
+        <button type="button" class="faq-q">What payment methods do you accept? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>Mobile money (Airtel, MTN, Zamtel), card, bank transfer, and international payments for students outside Africa. USD payment is available for international students.</p></div>
+      </div>
+      <div class="faq-item" data-cat="fees">
+        <button type="button" class="faq-q">Are there any additional fees? <i class="fas fa-chevron-down"></i></button>
+        <div class="faq-a"><p>The K120,000 tuition covers the full programme. There is a modest application fee (reduced or waived for scholarship applicants). No hidden charges.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION -->
+<section class="apply-section" id="apply">
+  <div class="container">
+    <div class="apply-head">
+      <span class="section-tag">Central Application</span>
+      <h2>Apply to the Founding Cohort 2026</h2>
+      <p>Complete your application for the Bachelor of Global Business &amp; Technology directly below. Six short steps. Takes about 10 minutes.</p>
+    </div>
+
+    <div class="apply-progress" id="applyProgress">
+      <div class="apply-step active" data-apply-step="1"><div class="apply-step-circle">1</div><div class="apply-step-label">Personal</div></div>
+      <div class="apply-step" data-apply-step="2"><div class="apply-step-circle">2</div><div class="apply-step-label">Academic</div></div>
+      <div class="apply-step" data-apply-step="3"><div class="apply-step-circle">3</div><div class="apply-step-label">Scholarship</div></div>
+      <div class="apply-step" data-apply-step="4"><div class="apply-step-circle">4</div><div class="apply-step-label">Essays</div></div>
+      <div class="apply-step" data-apply-step="5"><div class="apply-step-circle">5</div><div class="apply-step-label">Documents</div></div>
+      <div class="apply-step" data-apply-step="6"><div class="apply-step-circle">6</div><div class="apply-step-label">Review</div></div>
+    </div>
+
+    <form class="apply-form" id="applyForm" novalidate>
+
+      <div class="apply-section-form active" data-apply-form="1">
+        <h3>Personal Information</h3>
+        <p class="as-sub">Tell us a little about yourself. All fields marked * are required.</p>
+
+        <div class="programme-locked">
+          <i class="fas fa-graduation-cap"></i>
+          <div class="pl-text">
+            <div class="pl-label">Programme (Locked)</div>
+            <div class="pl-name">Bachelor of Global Business &amp; Technology</div>
+            <div class="pl-meta">3 Years · Online · K120,000 (≈ US$6,000) · Founding Cohort 2026</div>
+          </div>
+        </div>
+
+        <div class="apply-form-grid" style="margin-top:22px;">
+          <div class="apply-form-group"><label>First Name <span class="req">*</span></label><input type="text" id="apFirstName"></div>
+          <div class="apply-form-group"><label>Last Name <span class="req">*</span></label><input type="text" id="apLastName"></div>
+          <div class="apply-form-group"><label>Email Address <span class="req">*</span></label><input type="email" id="apEmail"></div>
+          <div class="apply-form-group"><label>Phone Number <span class="req">*</span></label><input type="tel" id="apPhone"></div>
+          <div class="apply-form-group"><label>Date of Birth <span class="req">*</span></label><input type="date" id="apDob"></div>
+          <div class="apply-form-group">
+            <label>Country of Residence <span class="req">*</span></label>
+            <select id="apCountry">
+              <option value="">Select Country</option>
+              <option>Zambia</option><option>Zimbabwe</option><option>South Africa</option>
+              <option>Nigeria</option><option>Kenya</option><option>Ghana</option>
+              <option>Tanzania</option><option>Uganda</option><option>Rwanda</option>
+              <option>Botswana</option><option>Namibia</option><option>Mozambique</option>
+              <option>United States</option><option>United Kingdom</option>
+              <option>Canada</option><option>Australia</option>
+              <option>UAE / Dubai</option><option>Other</option>
+            </select>
+          </div>
+          <div class="apply-form-group full"><label>Current Address</label><input type="text" id="apAddress"></div>
+        </div>
+      </div>
+
+      <div class="apply-section-form" data-apply-form="2">
+        <h3>Academic Background</h3>
+        <p class="as-sub">Tell us about your education so far.</p>
+
+        <div class="apply-form-grid">
+          <div class="apply-form-group full"><label>Current or Most Recent Institution <span class="req">*</span></label><input type="text" id="apSchool"></div>
+          <div class="apply-form-group">
+            <label>Highest Qualification <span class="req">*</span></label>
+            <select id="apDegree">
+              <option value="">Select</option>
+              <option>Completed Secondary School</option>
+              <option>Completed Diploma</option>
+              <option>Partially Completed Degree</option>
+              <option>Completed Bachelor's Degree</option>
+              <option>Completed Master's Degree</option>
+              <option>Professional Qualification</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="apply-form-group"><label>Field of Study</label><input type="text" id="apField"></div>
+          <div class="apply-form-group"><label>Year Completed / Expected <span class="req">*</span></label><input type="number" id="apYear" min="1980" max="2030"></div>
+          <div class="apply-form-group"><label>Academic Performance</label><input type="text" id="apGpa" placeholder="e.g. 3.6/4.0 · Merit · Distinction"></div>
+          <div class="apply-form-group full"><label>Relevant Coursework or Training</label><textarea id="apCoursework" rows="3" placeholder="Any business, technology, finance, economics, or related courses."></textarea></div>
+        </div>
+      </div>
+
+      <div class="apply-section-form" data-apply-form="3">
+        <h3>Scholarship Assessment</h3>
+        <p class="as-sub">All applicants are considered for scholarships ranging from 70% to 100% of tuition. Answer honestly — this helps us place you correctly.</p>
+
+        <div class="scholarship-flag">
+          <i class="fas fa-percent"></i>
+          <div class="sf-text">
+            <strong>70–100% scholarships available for the Founding Cohort 2026.</strong>
+            <p>Full tuition is K120,000 (≈ US$6,000). With a 70% scholarship you'd pay K36,000 across 3 years. With 85% you'd pay K18,000. With 100% you'd pay K0. Complete this short assessment to be considered.</p>
+          </div>
+        </div>
+
+        <div class="apply-form-group">
+          <label>Are you applying for scholarship consideration? <span class="req">*</span></label>
+          <div class="apply-radio-grid" id="apScholarshipInterest">
+            <button type="button" class="apply-radio" data-value="yes">
+              <span class="ar-check"></span>
+              <div class="ar-content">
+                <div class="ar-title">Yes — I'd like to be considered for a scholarship</div>
+                <div class="ar-desc">You'll be assessed for a 70–100% scholarship based on merit, need, and potential.</div>
+              </div>
+            </button>
+            <button type="button" class="apply-radio" data-value="no">
+              <span class="ar-check"></span>
+              <div class="ar-content">
+                <div class="ar-title">No — I'll pay full tuition</div>
+                <div class="ar-desc">Proceed as a full-fee applicant. Payment plans still available.</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="apply-form-group">
+          <label>How would you describe your financial need? <span class="req">*</span></label>
+          <div class="apply-radio-grid" id="apFinancialNeed">
+            <button type="button" class="apply-radio" data-value="low"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">I can pay full tuition (K120,000)</div></div></button>
+            <button type="button" class="apply-radio" data-value="medium"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">I need partial support</div></div></button>
+            <button type="button" class="apply-radio" data-value="high"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Without scholarship, it would be difficult</div></div></button>
+            <button type="button" class="apply-radio" data-value="critical"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Without near-full scholarship, I cannot attend</div></div></button>
+          </div>
+        </div>
+
+        <div class="apply-form-group">
+          <label>What best describes your entrepreneurial or leadership experience? <span class="req">*</span></label>
+          <div class="apply-radio-grid" id="apLeadership">
+            <button type="button" class="apply-radio" data-value="none"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">None yet</div></div></button>
+            <button type="button" class="apply-radio" data-value="some"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Led a team or project</div></div></button>
+            <button type="button" class="apply-radio" data-value="strong"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Built a business, initiative or venture</div></div></button>
+            <button type="button" class="apply-radio" data-value="exceptional"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Founded or co-founded a notable venture</div></div></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="apply-section-form" data-apply-form="4">
+        <h3>Short Essays</h3>
+        <p class="as-sub">Help us understand you and your ambition. Keep it honest and specific.</p>
+
+        <div class="apply-form-group">
+          <label>Essay 1: Why this programme, and why now? <span class="req">*</span></label>
+          <textarea id="apEssay1" rows="6" placeholder="Tell us why the Bachelor of Global Business & Technology is the right programme for you at this point in your life. (150–300 words)"></textarea>
+          <div class="apply-helper">Minimum 150 words.</div>
+        </div>
+
+        <div class="apply-form-group">
+          <label>Essay 2: What will you build or do after graduation? <span class="req">*</span></label>
+          <textarea id="apEssay2" rows="6" placeholder="Describe the venture, role, or mission you're moving toward. (150–300 words)"></textarea>
+          <div class="apply-helper">Minimum 150 words.</div>
+        </div>
+      </div>
+
+      <div class="apply-section-form" data-apply-form="5">
+        <h3>Supporting Documents</h3>
+        <p class="as-sub">Upload your documents. PDF preferred.</p>
+
+        <div class="apply-form-group">
+          <label>Resume / CV <span class="req">*</span></label>
+          <input type="file" id="apResume" accept=".pdf,.doc,.docx">
+          <div class="apply-helper">PDF or DOC · max 5MB</div>
+        </div>
+        <div class="apply-form-group">
+          <label>Academic Record (Transcript, Certificate, or Results Slip) <span class="req">*</span></label>
+          <input type="file" id="apTranscript" accept=".pdf">
+          <div class="apply-helper">PDF · max 10MB</div>
+        </div>
+        <div class="apply-form-group">
+          <label>Supporting Document for Scholarship (Optional)</label>
+          <input type="file" id="apScholarshipDoc" accept=".pdf,.jpg,.png">
+          <div class="apply-helper">Optional — any document supporting your scholarship case (financial statement, recommendation, achievement record).</div>
+        </div>
+      </div>
+
+      <div class="apply-section-form" data-apply-form="6">
+        <h3>Review &amp; Submit</h3>
+        <p class="as-sub">Check everything is correct before submitting.</p>
+
+        <div class="apply-fee-panel" id="applyFeePanel">
+          <h4><i class="fas fa-credit-card"></i> Application Fee</h4>
+          <p>Standard application fee: <strong>K250</strong> (Local / African applicants) or <strong>US$25</strong> (International).</p>
+          <p id="applyFeeReduced" style="display:none;"><strong>Reduced application fee applies</strong> — K100 / US$10 for applicants requesting scholarship consideration.</p>
+          <p id="applyFeeWaived" style="display:none;color:var(--gold-dark);font-weight:700;"><i class="fas fa-check-circle"></i> Your application fee has been waived based on the financial need you indicated.</p>
+        </div>
+
+        <div id="applyReview"></div>
+
+        <div class="apply-checks">
+          <label><input type="checkbox" id="apAgreeTerms"> I certify that all information I have provided is complete and accurate.</label>
+          <label><input type="checkbox" id="apAgreeSubmit"> I understand that submitting false information may result in revocation of admission.</label>
+          <label><input type="checkbox" id="apAgreeUpdates"> Send me updates about Nolan Institute news and events.</label>
+        </div>
+      </div>
+
+      <div class="apply-nav">
+        <button type="button" class="btn btn-outline" id="apPrev" style="display:none;">← Previous</button>
+        <button type="button" class="btn btn-primary" id="apNext">Next →</button>
+        <button type="submit" class="btn btn-gold" id="apSubmit" style="display:none;background:var(--gold);color:var(--navy-dark);">Submit Application <i class="fas fa-check"></i></button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Your Next Chapter Could Start <span class="gold">Today.</span></h2>
+    <p>Learn the business. Master the technology. Build something real. Operate globally.</p>
+    <p style="font-size:14px;color:var(--gold-light);font-weight:500">Bachelor of Global Business &amp; Technology · K120,000 · 70–100% Scholarships · Founding Cohort 2026</p>
+    <div class="final-actions">
+      <a href="#apply" class="btn btn-primary btn-lg">Start Your Application <i class="fas fa-arrow-right"></i></a>
+      <a href="index.html" class="btn btn-outline-white btn-lg">Explore Nolan Institute</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name">Nolan Institute</div>
+        <div class="brand-tag">Learn. Innovate. Lead.</div>
+        <p>Technology-enabled education for the global economy. Part of the Nolan University digital platform.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.facebook.com/NolanInstituteof" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Flagship Degree</h4>
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#structure">3-Year Structure</a></li>
+          <li><a href="#capstone">Capstone</a></li>
+          <li><a href="#fees">Tuition &amp; Fees</a></li>
+          <li><a href="#scholarships">Scholarships</a></li>
+          <li><a href="#apply">Apply</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Self-Orientation</h4>
+        <ul>
+          <li><a href="#fees">Cost Calculator</a></li>
+          <li><a href="#eligibility">Scholarship Checker</a></li>
+          <li><a href="#quiz">Fit Assessment</a></li>
+          <li><a href="#careers">Career Explorer</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><i class="fas fa-phone"></i> +260 768 526 191</li>
+          <li><i class="fas fa-envelope"></i> admissions@nolaninstitute.org</li>
+          <li><i class="fas fa-map-marker-alt"></i> Lusaka, Zambia</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Nolan Institute of Global Business &amp; Technology. All rights reserved.</span>
+      <div style="display:flex;gap:20px;flex-wrap:wrap"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Accessibility</a></div>
+    </div>
+  </div>
+</footer>
+
+<div class="apply-toast" id="applyToast"><i class="fas fa-check-circle"></i><span id="applyToastMsg"></span></div>
+
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const USD_RATE = 20;
+const FULL_ZMW = 120000;
+
+/* ==============================
+   MOBILE MENU
+   ============================== */
+function toggleMobileMenu(force){
+  const nav = document.getElementById('mobileNav');
+  const btn = document.getElementById('mobileMenuBtn');
+  if(!nav || !btn) return;
+  const willShow = (typeof force === 'boolean') ? force : !nav.classList.contains('show');
+  nav.classList.toggle('show', willShow);
+  btn.setAttribute('aria-expanded', willShow ? 'true' : 'false');
+}
+document.addEventListener('click', function(e){
+  const btn = e.target.closest('#mobileMenuBtn');
+  if(btn){ e.preventDefault(); e.stopPropagation(); toggleMobileMenu(); }
+}, true);
+document.addEventListener('click', function(e){
+  const link = e.target.closest('#mobileNav a');
+  if(link){ const nav = document.getElementById('mobileNav'); if(nav) nav.classList.remove('show'); }
+});
+
+/* ==============================
+   STICKY HEADER
+   ============================== */
+const header = document.getElementById('mainHeader');
+if(header){
+  window.addEventListener('scroll', function(){
+    header.classList.toggle('scrolled', window.scrollY > 30);
+  }, { passive: true });
+}
+
+/* ==============================
+   SMOOTH SCROLL
+   ============================== */
+document.querySelectorAll('a[href^="#"]').forEach(function(anchor){
+  anchor.addEventListener('click', function(e){
+    const href = this.getAttribute('href');
+    if(!href || href === '#') return;
+    const target = document.querySelector(href);
+    if(target){
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const nav = document.getElementById('mobileNav');
+      if(nav) nav.classList.remove('show');
+    }
+  });
+});
+
+/* ==============================
+   STRUCTURE TABS
+   ============================== */
+document.querySelectorAll('.structure-tab').forEach(function(tab){
+  tab.addEventListener('click', function(){
+    const year = this.dataset.year;
+    document.querySelectorAll('.structure-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('.structure-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === year));
+  });
+});
+
+/* ==============================
+   COST CALCULATOR
+   ============================== */
+(function costCalculator(){
+  const tierSelect = document.getElementById('calcTier');
+  const planSelect = document.getElementById('calcPlan');
+  const currencySelect = document.getElementById('calcCurrency');
+
+  function fmt(n){ return n.toLocaleString('en-US'); }
+
+  function update(){
+    const tier = parseFloat(tierSelect.value);
+    const plan = parseInt(planSelect.value, 10);
+    const currency = currencySelect.value;
+
+    const fullTuition = currency === 'ZMW' ? FULL_ZMW : FULL_ZMW / USD_RATE;
+    const symbol = currency === 'ZMW' ? 'K' : 'US$';
+    const discount = fullTuition * (tier / 100);
+    const net = fullTuition - discount;
+    const perInstalment = net / plan;
+
+    document.getElementById('calcFull').textContent = symbol + fmt(Math.round(fullTuition));
+    document.getElementById('calcScholarshipLabel').textContent = tier > 0 ? tier + '% scholarship' : 'No scholarship';
+    document.getElementById('calcDiscount').textContent = tier > 0 ? '– ' + symbol + fmt(Math.round(discount)) : '—';
+    document.getElementById('calcNet').textContent = symbol + fmt(Math.round(net));
+    document.getElementById('calcTotal').textContent = symbol + fmt(Math.round(net));
+
+    let label = '';
+    if(plan === 1) label = 'Single payment';
+    else if(plan === 3) label = '3 yearly instalments';
+    else if(plan === 6) label = '6 semester instalments';
+    else label = '36 monthly instalments';
+
+    document.getElementById('calcMonthly').textContent = symbol + fmt(Math.round(perInstalment)) + (plan === 1 ? ' (single payment)' : ' / instalment');
+    document.getElementById('calcMonthlySub').textContent = label;
+  }
+
+  tierSelect.addEventListener('change', update);
+  planSelect.addEventListener('change', update);
+  currencySelect.addEventListener('change', update);
+  update();
+})();
+
+/* ==============================
+   ELIGIBILITY CHECKER
+   ============================== */
+(function eligibilityChecker(){
+  const questions = document.querySelectorAll('.elig-question');
+  const total = questions.length;
+  let current = 1;
+  let answers = {};
+  const nextBtn = document.getElementById('eligNext');
+  const prevBtn = document.getElementById('eligPrev');
+  const fill = document.getElementById('eligProgressFill');
+  const result = document.getElementById('eligResult');
+
+  function updateUI(){
+    questions.forEach(q => q.classList.toggle('active', parseInt(q.dataset.eligQ, 10) === current));
+    fill.style.width = ((current / total) * 100) + '%';
+    prevBtn.style.visibility = current === 1 ? 'hidden' : 'visible';
+    nextBtn.textContent = current === total ? 'See My Estimate →' : 'Next Question →';
+    nextBtn.disabled = !answers[current];
+  }
+
+  document.querySelectorAll('.elig-option').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      const parent = this.closest('.elig-question');
+      const qNum = parseInt(parent.dataset.eligQ, 10);
+      parent.querySelectorAll('.elig-option').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+      answers[qNum] = parseInt(this.dataset.value, 10);
+      nextBtn.disabled = false;
+    });
+  });
+
+  nextBtn.addEventListener('click', function(){
+    if(current === total){ showResult(); } else { current++; updateUI(); }
+  });
+  prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(); } });
+
+  function showResult(){
+    const sum = Object.values(answers).reduce((a,b) => a+b, 0);
+    let percent, tier, message;
+    if(sum >= 18){ percent = '100%'; tier = 'Founding Cohort Scholarship · Estimated'; message = 'Your responses suggest you may be a strong candidate for our highest tier scholarship (full tuition covered). This is an indicative estimate only — the final decision rests with the admissions committee.'; }
+    else if(sum >= 14){ percent = '85%'; tier = "Founder's Scholarship · Estimated"; message = 'Based on your responses, you could be considered for a strong scholarship — you would pay approximately K18,000 (≈ US$900) across 3 years. This is an indicative estimate only.'; }
+    else if(sum >= 10){ percent = '70%'; tier = 'Merit Scholarship · Estimated'; message = 'You may qualify for a merit-based scholarship — you would pay approximately K36,000 (≈ US$1,800) across 3 years. You\'ll be automatically considered when you submit your application.'; }
+    else { percent = 'TBD'; tier = 'Assessment Required'; message = 'Based on your responses, scholarship eligibility will require committee review. We encourage you to apply — other support may be available.'; }
+
+    document.getElementById('eligPercent').textContent = percent;
+    document.getElementById('eligTier').textContent = tier;
+    document.getElementById('eligMessage').textContent = message;
+
+    questions.forEach(q => q.classList.remove('active'));
+    result.classList.add('active');
+    nextBtn.style.display = 'none';
+    prevBtn.style.display = 'none';
+    fill.style.width = '100%';
+  }
+
+  document.getElementById('eligRetake').addEventListener('click', function(){
+    current = 1;
+    answers = {};
+    document.querySelectorAll('.elig-option').forEach(o => o.classList.remove('selected'));
+    result.classList.remove('active');
+    nextBtn.style.display = 'inline-flex';
+    prevBtn.style.display = 'inline-flex';
+    updateUI();
+  });
+
+  updateUI();
+})();
+
+/* ==============================
+   QUIZ
+   ============================== */
+(function selfAssessmentQuiz(){
+  const steps = document.querySelectorAll('.quiz-step');
+  const total = steps.length;
+  let current = 1;
+  let answers = {};
+  const nextBtn = document.getElementById('quizNext');
+  const prevBtn = document.getElementById('quizPrev');
+  const fill = document.getElementById('quizProgressFill');
+  const result = document.getElementById('quizResult');
+
+  function updateUI(){
+    steps.forEach(s => s.classList.toggle('active', parseInt(s.dataset.quizQ, 10) === current));
+    fill.style.width = ((current / total) * 100) + '%';
+    prevBtn.style.visibility = current === 1 ? 'hidden' : 'visible';
+    nextBtn.textContent = current === total ? 'See Results →' : 'Next →';
+    nextBtn.disabled = !answers[current];
+  }
+
+  document.querySelectorAll('.quiz-opt').forEach(function(opt){
+    opt.addEventListener('click', function(){
+      const parent = this.closest('.quiz-step');
+      const qNum = parseInt(parent.dataset.quizQ, 10);
+      parent.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+      answers[qNum] = parseInt(this.dataset.value, 10);
+      nextBtn.disabled = false;
+    });
+  });
+
+  nextBtn.addEventListener('click', function(){
+    if(current === total){ showResult(); } else { current++; updateUI(); }
+  });
+  prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(); } });
+
+  function showResult(){
+    const sum = Object.values(answers).reduce((a,b) => a+b, 0);
+    const max = total * 3;
+    let verdict, message;
+    if(sum >= max - 2){ verdict = "This programme is built for you."; message = "Your answers suggest this is exactly the kind of programme you're looking for. You're ready to apply."; }
+    else if(sum >= max - 5){ verdict = "Strong fit."; message = "This programme aligns well with your goals and how you like to learn. Consider applying to the Founding Cohort."; }
+    else { verdict = "Worth exploring further."; message = "You may still benefit greatly. Explore the programme structure, careers, and cost calculator above, then decide."; }
+
+    document.getElementById('quizScore').textContent = sum + ' / ' + max;
+    document.getElementById('quizVerdict').textContent = verdict;
+    document.getElementById('quizMessage').textContent = message;
+
+    steps.forEach(s => s.classList.remove('active'));
+    result.classList.add('active');
+    nextBtn.style.display = 'none';
+    prevBtn.style.display = 'none';
+    fill.style.width = '100%';
+  }
+
+  document.getElementById('quizRetake').addEventListener('click', function(){
+    current = 1;
+    answers = {};
+    document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+    result.classList.remove('active');
+    nextBtn.style.display = 'inline-flex';
+    prevBtn.style.display = 'inline-flex';
+    updateUI();
+  });
+
+  updateUI();
+})();
+
+/* ==============================
+   CAREER EXPLORER
+   ============================== */
+document.querySelectorAll('.career-tab').forEach(function(tab){
+  tab.addEventListener('click', function(){
+    const career = this.dataset.career;
+    document.querySelectorAll('.career-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('.career-panel').forEach(p => p.classList.toggle('active', p.dataset.careerPanel === career));
+  });
+});
+
+/* ==============================
+   FAQ
+   ============================== */
+document.querySelectorAll('.faq-q').forEach(function(q){
+  q.addEventListener('click', function(){
+    const item = this.closest('.faq-item');
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if(!wasOpen) item.classList.add('open');
+  });
+});
+document.querySelectorAll('.faq-cat').forEach(function(cat){
+  cat.addEventListener('click', function(){
+    const filter = this.dataset.cat;
+    document.querySelectorAll('.faq-cat').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('.faq-item').forEach(function(item){
+      item.style.display = (filter === 'all' || item.dataset.cat === filter) ? '' : 'none';
+    });
+  });
+});
+
+/* ==============================
+   APPLICATION
+   ============================== */
+(function embeddedApplication(){
+  const sections = document.querySelectorAll('.apply-section-form');
+  const totalSections = sections.length;
+  let current = 1;
+  const state = { scholarshipInterest: null, financialNeed: null, leadership: null };
+
+  const prevBtn = document.getElementById('apPrev');
+  const nextBtn = document.getElementById('apNext');
+  const submitBtn = document.getElementById('apSubmit');
+  const toast = document.getElementById('applyToast');
+  const toastMsg = document.getElementById('applyToastMsg');
+
+  function showToast(msg, type){
+    toastMsg.textContent = msg;
+    toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : '');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 3000);
+  }
+
+  function updateUI(){
+    sections.forEach((s, i) => s.classList.toggle('active', i + 1 === current));
+    document.querySelectorAll('.apply-step').forEach((s, i) => {
+      s.classList.toggle('active', i + 1 === current);
+      if(i + 1 < current) s.classList.add('completed');
+    });
+    prevBtn.style.display = current === 1 ? 'none' : 'inline-flex';
+    if(current === totalSections){
+      nextBtn.style.display = 'none';
+      submitBtn.style.display = 'inline-flex';
+      renderReview();
+    } else {
+      nextBtn.style.display = 'inline-flex';
+      submitBtn.style.display = 'none';
+    }
+    window.scrollTo({ top: document.getElementById('apply').offsetTop - 20, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('.apply-radio-grid').forEach(function(group){
+    group.querySelectorAll('.apply-radio').forEach(function(radio){
+      radio.addEventListener('click', function(){
+        group.querySelectorAll('.apply-radio').forEach(r => r.classList.remove('selected'));
+        this.classList.add('selected');
+        const groupId = group.id;
+        const value = this.dataset.value;
+        if(groupId === 'apScholarshipInterest') state.scholarshipInterest = value;
+        if(groupId === 'apFinancialNeed') state.financialNeed = value;
+        if(groupId === 'apLeadership') state.leadership = value;
+      });
+    });
+  });
+
+  function validate(n){
+    if(n === 1){
+      const req = ['apFirstName','apLastName','apEmail','apPhone','apDob','apCountry'];
+      for(const id of req){
+        const el = document.getElementById(id);
+        if(!el.value.trim()){ el.classList.add('err'); showToast('Please complete all required personal information.', 'error'); return false; }
+        el.classList.remove('err');
+      }
+      const email = document.getElementById('apEmail').value.trim();
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
+        document.getElementById('apEmail').classList.add('err');
+        showToast('Please enter a valid email address.', 'error');
+        return false;
+      }
+    }
+    if(n === 2){
+      const req = ['apSchool','apDegree','apYear'];
+      for(const id of req){
+        const el = document.getElementById(id);
+        if(!el.value.trim()){ el.classList.add('err'); showToast('Please complete the academic background section.', 'error'); return false; }
+        el.classList.remove('err');
+      }
+    }
+    if(n === 3){
+      if(!state.scholarshipInterest){ showToast('Please indicate whether you\'d like scholarship consideration.', 'error'); return false; }
+      if(!state.financialNeed){ showToast('Please answer the financial need question.', 'error'); return false; }
+      if(!state.leadership){ showToast('Please answer the leadership question.', 'error'); return false; }
+    }
+    if(n === 4){
+      const e1 = document.getElementById('apEssay1').value.trim();
+      const e2 = document.getElementById('apEssay2').value.trim();
+      if(e1.split(/\s+/).filter(Boolean).length < 150){
+        document.getElementById('apEssay1').classList.add('err');
+        showToast('Essay 1 should be at least 150 words.', 'error');
+        return false;
+      }
+      document.getElementById('apEssay1').classList.remove('err');
+      if(e2.split(/\s+/).filter(Boolean).length < 150){
+        document.getElementById('apEssay2').classList.add('err');
+        showToast('Essay 2 should be at least 150 words.', 'error');
+        return false;
+      }
+      document.getElementById('apEssay2').classList.remove('err');
+    }
+    if(n === 5){
+      const r = document.getElementById('apResume');
+      const t = document.getElementById('apTranscript');
+      if(!r.files.length){ showToast('Please upload your CV.', 'error'); return false; }
+      if(!t.files.length){ showToast('Please upload your academic record.', 'error'); return false; }
+    }
+    return true;
+  }
+
+  function updateFeePanel(){
+    const reduced = document.getElementById('applyFeeReduced');
+    const waived = document.getElementById('applyFeeWaived');
+    reduced.style.display = 'none';
+    waived.style.display = 'none';
+    if(state.scholarshipInterest === 'yes'){
+      if(state.financialNeed === 'critical'){ waived.style.display = 'block'; }
+      else { reduced.style.display = 'block'; }
+    }
+  }
+
+  function renderReview(){
+    updateFeePanel();
+    const fn = document.getElementById('apFirstName').value;
+    const ln = document.getElementById('apLastName').value;
+    const em = document.getElementById('apEmail').value;
+    const ph = document.getElementById('apPhone').value;
+    const country = document.getElementById('apCountry').value;
+    const school = document.getElementById('apSchool').value;
+    const degree = document.getElementById('apDegree').value;
+    const year = document.getElementById('apYear').value;
+
+    const leadershipLabel = {
+      none: 'None yet',
+      some: 'Led a team or project',
+      strong: 'Built a business, initiative or venture',
+      exceptional: 'Founded or co-founded a notable venture'
+    }[state.leadership] || '—';
+
+    const needLabel = {
+      low: 'I can pay full tuition (K120,000)',
+      medium: 'I need partial support',
+      high: 'Without scholarship, it would be difficult',
+      critical: 'Without near-full scholarship, I cannot attend'
+    }[state.financialNeed] || '—';
+
+    document.getElementById('applyReview').innerHTML = `
+      <div class="apply-review">
+        <h4><i class="fas fa-graduation-cap"></i> Programme</h4>
+        <div class="apply-review-item"><span class="arl">Programme:</span><span class="arv">Bachelor of Global Business &amp; Technology</span></div>
+        <div class="apply-review-item"><span class="arl">Duration:</span><span class="arv">3 Years · Online</span></div>
+        <div class="apply-review-item"><span class="arl">Total Tuition:</span><span class="arv">K120,000 (≈ US$6,000)</span></div>
+        <div class="apply-review-item"><span class="arl">Intake:</span><span class="arv">Founding Cohort 2026</span></div>
+      </div>
+      <div class="apply-review">
+        <h4><i class="fas fa-user"></i> Personal Information</h4>
+        <div class="apply-review-item"><span class="arl">Name:</span><span class="arv">${fn} ${ln}</span></div>
+        <div class="apply-review-item"><span class="arl">Email:</span><span class="arv">${em}</span></div>
+        <div class="apply-review-item"><span class="arl">Phone:</span><span class="arv">${ph}</span></div>
+        <div class="apply-review-item"><span class="arl">Country:</span><span class="arv">${country}</span></div>
+      </div>
+      <div class="apply-review">
+        <h4><i class="fas fa-book"></i> Academic Background</h4>
+        <div class="apply-review-item"><span class="arl">Institution:</span><span class="arv">${school}</span></div>
+        <div class="apply-review-item"><span class="arl">Qualification:</span><span class="arv">${degree}</span></div>
+        <div class="apply-review-item"><span class="arl">Year:</span><span class="arv">${year}</span></div>
+      </div>
+      <div class="apply-review">
+        <h4><i class="fas fa-percent"></i> Scholarship Assessment</h4>
+        <div class="apply-review-item"><span class="arl">Scholarship Interest:</span><span class="arv">${state.scholarshipInterest === 'yes' ? 'Yes' : 'No'}</span></div>
+        <div class="apply-review-item"><span class="arl">Financial Need:</span><span class="arv">${needLabel}</span></div>
+        <div class="apply-review-item"><span class="arl">Leadership:</span><span class="arv">${leadershipLabel}</span></div>
+      </div>
+    `;
+  }
+
+  nextBtn.addEventListener('click', function(){
+    if(!validate(current)) return;
+    if(current < totalSections){ current++; updateUI(); }
+  });
+  prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(); } });
+
+  document.querySelectorAll('.apply-step').forEach(function(step){
+    step.addEventListener('click', function(){
+      const target = parseInt(this.dataset.applyStep, 10);
+      if(target < current){ current = target; updateUI(); }
+      else if(target > current){
+        for(let i = current; i < target; i++){ if(!validate(i)) return; }
+        current = target;
+        updateUI();
+      }
+    });
+  });
+
+  document.getElementById('applyForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!document.getElementById('apAgreeTerms').checked || !document.getElementById('apAgreeSubmit').checked){
+      showToast('Please agree to the terms before submitting.', 'error');
+      return;
+    }
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+    setTimeout(function(){
+      showToast('Application submitted successfully. Check your email for confirmation.', 'success');
+      setTimeout(function(){ window.location.href = 'index.html'; }, 2500);
+    }, 1600);
+  });
+
+  updateUI();
+})();
+
+console.log('Nolan Institute — Bachelor of Global Business & Technology · Full flagship page loaded.');
+</script>
+</body>
+</html>
