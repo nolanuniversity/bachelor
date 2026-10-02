@@ -10,9 +10,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<!-- Receipt generation libraries -->
+
+<!-- Receipt generation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<!-- QR code -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" defer></script>
+<!-- EmailJS (optional) -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+<!-- Cloudflare Turnstile (optional) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5T7SGGC8LF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-5T7SGGC8LF');
+</script>
+
 <style>
 :root{
   color-scheme: light only;
@@ -20,8 +36,9 @@
   --gold:#C5A028;--gold-light:#D4B84A;--gold-dark:#A07F1F;--gold-10:rgba(197,160,40,0.1);
   --white:#fff;--off-white:#FAFAF8;--gray-light:#F5F5F5;--gray-mid:#E0E0E0;--gray-dark:#666;--gray-darker:#333;
   --success:#28A745;--error:#DC3545;--warning:#FFC107;
-  --airtel-red:#E40000;--mtn-yellow:#FFCC00;--scb-blue:#1B5E8C;--paypal-blue:#003087;--paypal-light:#009CDE;--crypto-orange:#F7931A;
+  --airtel-red:#E40000;--mtn-yellow:#FFCC00;--scb-blue:#1B5E8C;--paypal-blue:#003087;--crypto-orange:#F7931A;
   --whatsapp:#25D366;--whatsapp-dark:#1EBE5A;--whatsapp-deep:#075E54;
+  --info:#009CDE;--info-deep:#0A4D6E;
   --shadow-sm:0 2px 8px rgba(0,0,0,.05);--shadow-md:0 4px 12px rgba(0,0,0,.08);
   --shadow-lg:0 12px 32px rgba(0,0,0,.12);--shadow-xl:0 24px 48px rgba(10,28,58,.18);
   --transition:all .3s cubic-bezier(.4,0,.2,1);--radius:16px;--radius-sm:10px;
@@ -36,7 +53,6 @@ ul{list-style:none}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
 input,select,textarea{color-scheme:light only}
 .container{max-width:1240px;margin:0 auto;padding:0 24px;width:100%}
-.container-narrow{max-width:920px;margin:0 auto;padding:0 24px;width:100%}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;font-weight:600;font-size:14.5px;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:var(--transition);text-align:center;white-space:nowrap}
 .btn:active{transform:scale(.97)}
@@ -53,7 +69,6 @@ input,select,textarea{color-scheme:light only}
 .btn-lg{padding:15px 34px;font-size:15.5px}
 .btn-block{display:flex;width:100%}
 
-/* TOP BAR */
 .top-bar{background:var(--navy-dark);color:#cbd5e1;font-size:12.5px;padding:8px 0}
 .top-bar .container{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
 .top-bar-left{display:flex;gap:20px;flex-wrap:wrap;min-width:0}
@@ -63,7 +78,6 @@ input,select,textarea{color-scheme:light only}
 .top-bar-right a{color:#cbd5e1;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;font-size:12.5px}
 .top-bar-right a:hover{color:var(--gold)}
 
-/* HEADER */
 .main-header{background:#fff;box-shadow:var(--shadow-sm);position:sticky;top:0;z-index:1000;transition:var(--transition);width:100%}
 .main-header.scrolled{box-shadow:var(--shadow-md)}
 .main-header .container{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;gap:16px;min-width:0}
@@ -77,7 +91,6 @@ input,select,textarea{color-scheme:light only}
 .main-nav ul li a:hover::after{width:100%}
 .header-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .mobile-menu-btn{display:none;background:none;border:none;font-size:22px;color:var(--navy);padding:6px;flex-shrink:0}
-
 .mobile-nav{display:none;background:#fff;border-top:1px solid var(--gray-mid);overflow:hidden;max-height:0;transition:max-height .4s ease;width:100%}
 .mobile-nav.show{display:block;max-height:700px}
 .mobile-nav ul{padding:16px 20px 20px}
@@ -86,7 +99,6 @@ input,select,textarea{color-scheme:light only}
 .mobile-nav ul li a{display:block;font-size:15px;font-weight:500;color:var(--navy);padding:10px 4px;border-radius:6px}
 .mobile-nav ul li a:hover{color:var(--gold);background:var(--gray-light)}
 
-/* HERO */
 .flag-hero{position:relative;background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 55%,var(--navy-light) 100%);color:#fff;padding:80px 0 70px;overflow:hidden}
 .flag-hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3Cpattern id='p' x='0' y='0' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpolyline points='10,50 30,20 50,50' fill='none' stroke='%23C5A028' stroke-width='0.8' opacity='0.16'/%3E%3Ccircle cx='10' cy='10' r='1' fill='%23C5A028' opacity='0.16'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23p)'/%3E%3C/svg%3E");opacity:.6;pointer-events:none}
 .flag-hero .container{position:relative;z-index:2}
@@ -101,11 +113,9 @@ input,select,textarea{color-scheme:light only}
 .flag-microstats .ms i{color:var(--gold);font-size:14px}
 .flag-microstats .ms strong{color:#fff;font-weight:700}
 .flag-actions{display:flex;gap:14px;flex-wrap:wrap}
-
 .hero-visual{position:relative;width:100%;max-width:520px;margin-left:auto}
 .hero-image-frame{position:relative;width:100%;aspect-ratio:4/5;border-radius:20px;overflow:hidden;border:1px solid rgba(197,160,40,.4);box-shadow:0 30px 70px -25px rgba(0,0,0,.7);background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy-light) 100%)}
 .hero-image-frame img{width:100%;height:100%;object-fit:cover;display:block}
-
 .hero-slides{position:absolute;inset:0;z-index:1}
 .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;pointer-events:none}
 .hero-slide.active{opacity:1;pointer-events:auto}
@@ -116,14 +126,12 @@ input,select,textarea{color-scheme:light only}
 .hero-slider-dot.active{background:var(--gold);width:22px;border-radius:20px;box-shadow:0 0 8px var(--gold)}
 @media(max-width:600px){.hero-slider-dots{top:10px;right:10px;padding:6px 10px;gap:5px}.hero-slider-dot{width:7px;height:7px}.hero-slider-dot.active{width:18px}}
 
-/* STATS STRIP */
 .stats-strip{background:var(--navy);color:#fff;padding:26px 0;border-top:1px solid rgba(197,160,40,.2);border-bottom:1px solid rgba(197,160,40,.2)}
 .stats-strip .container{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px;align-items:center}
 .strip-stat{text-align:center}
 .strip-stat strong{display:block;font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.8vw,1.9rem);color:var(--gold);font-weight:800;line-height:1}
 .strip-stat span{display:block;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:600;margin-top:6px}
 
-/* SCHOLARSHIP BAR */
 .scholarship-bar{background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);color:var(--navy-dark);padding:18px 0;text-align:center;position:relative;overflow:hidden}
 .scholarship-bar::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,.08) 20px, rgba(255,255,255,.08) 40px);pointer-events:none}
 .scholarship-bar .container{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
@@ -132,7 +140,6 @@ input,select,textarea{color-scheme:light only}
 .scholarship-bar a{background:var(--navy-dark);color:#fff;padding:8px 18px;border-radius:50px;font-size:12.5px;font-weight:700;letter-spacing:.5px;transition:var(--transition)}
 .scholarship-bar a:hover{background:var(--navy);transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.25)}
 
-/* SECTIONS */
 .section{padding:80px 0;position:relative}
 .section-alt{background:var(--off-white)}
 .section-navy{background:var(--navy);color:#fff}
@@ -143,13 +150,11 @@ input,select,textarea{color-scheme:light only}
 .section-head p{font-size:15.5px;color:var(--gray-dark);line-height:1.75}
 .section-navy .section-head p{color:rgba(255,255,255,.78)}
 
-/* PHILOSOPHY */
 .philosophy-block{background:#fff;border-radius:var(--radius);padding:52px 44px;box-shadow:var(--shadow-lg);border-left:5px solid var(--gold);max-width:920px;margin:0 auto;text-align:center}
 .philosophy-quote{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2.3vw,1.55rem);color:var(--navy);font-style:italic;line-height:1.55;margin-bottom:26px}
 .philosophy-block p{font-size:15.5px;color:var(--gray-dark);line-height:1.8;margin-bottom:16px;text-align:left}
 .philosophy-block p.emphasis{font-weight:600;color:var(--navy);text-align:center;margin-top:26px;padding-top:26px;border-top:1px dashed var(--gray-mid)}
 
-/* STRUCTURE TABS */
 .structure-tabs{display:flex;justify-content:center;gap:8px;margin-bottom:36px;flex-wrap:wrap}
 .structure-tab{background:#fff;border:2px solid var(--gray-mid);padding:14px 26px;border-radius:12px;font-size:14px;font-weight:700;color:var(--navy);cursor:pointer;transition:var(--transition);font-family:inherit;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:180px}
 .structure-tab .st-year{font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dark);font-weight:800}
@@ -177,7 +182,6 @@ input,select,textarea{color-scheme:light only}
 .sp-project h4{color:#fff;font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2vw,1.35rem);margin-bottom:10px}
 .sp-project p{font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.7}
 
-/* CAPSTONE */
 .pathways-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:36px}
 .pathway-card{background:#fff;border-radius:var(--radius);padding:32px 26px;border:1px solid var(--gray-mid);transition:var(--transition);display:flex;flex-direction:column;position:relative;overflow:hidden}
 .pathway-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:var(--transition)}
@@ -188,7 +192,6 @@ input,select,textarea{color-scheme:light only}
 .pathway-card h3{font-family:'Playfair Display',serif;font-size:18px;color:var(--navy);margin-bottom:12px;line-height:1.3}
 .pathway-card p{font-size:13.5px;color:var(--gray-dark);line-height:1.65;flex:1}
 
-/* DELIVERY STATS */
 .delivery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-top:36px}
 .delivery-stat{background:#fff;border-radius:var(--radius);padding:28px 22px;text-align:center;border:1px solid var(--gray-mid);border-top:4px solid var(--gold);transition:var(--transition)}
 .delivery-stat:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
@@ -197,14 +200,12 @@ input,select,textarea{color-scheme:light only}
 .delivery-stat .ds-label{font-size:11px;font-weight:700;color:var(--gold-dark);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
 .delivery-stat p{font-size:12.5px;color:var(--gray-dark);line-height:1.55}
 
-/* LEARNING */
 .learning-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-top:34px}
 .learning-item{background:rgba(255,255,255,.04);border:1px solid rgba(197,160,40,.22);border-radius:12px;padding:18px 18px;display:flex;align-items:flex-start;gap:14px;transition:var(--transition)}
 .learning-item:hover{background:rgba(197,160,40,.1);border-color:var(--gold);transform:translateY(-3px)}
 .learning-item i{color:var(--gold);font-size:16px;flex-shrink:0;margin-top:4px;width:20px;text-align:center}
 .learning-item span{font-size:13px;color:rgba(255,255,255,.88);line-height:1.55;font-weight:500}
 
-/* GRADUATE OUTCOME */
 .outcome-compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:40px auto 0;max-width:1000px}
 .outcome-box{background:#fff;border-radius:var(--radius);padding:30px 26px;border:1px solid var(--gray-mid);position:relative}
 .outcome-box.bad{border-left:4px solid #D0D0D0}
@@ -216,7 +217,6 @@ input,select,textarea{color-scheme:light only}
 .outcome-box.bad .outcome-quote{color:#999}
 .outcome-box.good .outcome-quote{color:var(--navy);font-weight:600}
 
-/* TUITION */
 .fee-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:36px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;border-radius:20px;padding:48px 44px;margin-bottom:36px;box-shadow:var(--shadow-xl);position:relative;overflow:hidden}
 .fee-hero::before{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(197,160,40,.15) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
 .fee-hero-main{position:relative;z-index:2}
@@ -249,7 +249,6 @@ input,select,textarea{color-scheme:light only}
 .it-cell small{color:var(--gray-dark);font-size:12px;font-weight:500;margin-left:4px}
 .it-row.it-best .it-cell.it-strong{color:var(--success)}
 
-/* CALCULATOR */
 .calc-wrapper{display:grid;grid-template-columns:1.05fr 1fr;gap:32px;align-items:start;margin-top:36px}
 .calc-inputs{background:#fff;border-radius:var(--radius);padding:32px 28px;border:1px solid var(--gray-mid);box-shadow:var(--shadow-md)}
 .calc-inputs h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:22px}
@@ -274,7 +273,6 @@ input,select,textarea{color-scheme:light only}
 .calc-cta{margin-top:20px}
 .calc-cta .btn{width:100%}
 
-/* SCHOLARSHIP HERO */
 .scholarship-hero{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 60%,#E5C765 100%);color:var(--navy-dark);padding:70px 0;position:relative;overflow:hidden;text-align:center}
 .scholarship-hero::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255,255,255,.1) 30px, rgba(255,255,255,.1) 60px);pointer-events:none}
 .scholarship-hero .container{position:relative;z-index:2;max-width:900px}
@@ -300,7 +298,6 @@ input,select,textarea{color-scheme:light only}
 .st-tier-btn{background:var(--navy);color:#fff;padding:12px 22px;border-radius:8px;font-size:13.5px;font-weight:700;text-align:center;transition:var(--transition);border:none;cursor:pointer;width:100%}
 .st-tier-btn:hover{background:var(--navy-light);transform:translateY(-2px);box-shadow:0 8px 16px rgba(10,28,58,.2)}
 
-/* ELIGIBILITY */
 .eligibility-wrapper{background:#fff;border-radius:var(--radius);padding:44px 40px;box-shadow:var(--shadow-xl);border:2px solid var(--gold);margin-top:50px;max-width:900px;margin-left:auto;margin-right:auto;position:relative}
 .eligibility-wrapper::before{content:'ELIGIBILITY CHECK';position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--navy-dark);padding:6px 20px;border-radius:50px;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}
 .eligibility-wrapper h3{font-size:clamp(1.3rem,2.6vw,1.7rem);color:var(--navy);text-align:center;margin-bottom:10px;font-family:'Playfair Display',serif}
@@ -327,7 +324,6 @@ input,select,textarea{color-scheme:light only}
 .elig-result p{font-size:14.5px;color:var(--gray-dark);line-height:1.7;max-width:640px;margin:0 auto 22px}
 .elig-result .er-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-/* QUIZ */
 .quiz-wrapper{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);border-radius:var(--radius);padding:44px 38px;color:#fff;max-width:920px;margin:0 auto;position:relative;overflow:hidden}
 .quiz-wrapper::before{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(197,160,40,.15) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
 .quiz-inner{position:relative;z-index:2}
@@ -356,7 +352,6 @@ input,select,textarea{color-scheme:light only}
 .quiz-result p{font-size:15px;color:rgba(255,255,255,.82);line-height:1.75;max-width:640px;margin:0 auto 22px}
 .quiz-result .qr-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
-/* CAREER EXPLORER */
 .career-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:30px}
 .career-tab{background:#fff;border:2px solid var(--gray-mid);padding:10px 22px;border-radius:50px;font-size:13px;font-weight:700;color:var(--navy);cursor:pointer;transition:var(--transition);font-family:inherit}
 .career-tab:hover{border-color:var(--gold)}
@@ -373,7 +368,6 @@ input,select,textarea{color-scheme:light only}
 .career-role .cr-industry{font-size:11.5px;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold-dark);font-weight:700}
 .career-role p{font-size:12.5px;color:var(--gray-dark);margin-top:8px;line-height:1.55}
 
-/* TIMETABLE */
 .timetable{background:#fff;border-radius:var(--radius);padding:36px 32px;border:1px solid var(--gray-mid);box-shadow:var(--shadow-md)}
 .timetable h3{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:12px}
 .timetable > p{font-size:14px;color:var(--gray-dark);line-height:1.7;margin-bottom:26px}
@@ -384,26 +378,6 @@ input,select,textarea{color-scheme:light only}
 .tt-day .tt-item:last-child{border-bottom:none}
 .tt-day .tt-item small{display:block;font-size:10.5px;color:var(--gray-dark);margin-top:2px}
 
-@media(max-width:900px){
-  .tt-grid{grid-template-columns:repeat(2,1fr)}
-  .calc-wrapper{grid-template-columns:1fr}
-  .calc-result{position:static}
-  .fee-hero{grid-template-columns:1fr}
-  .it-row{grid-template-columns:1fr 1fr;gap:0}
-  .it-row.it-head .it-cell:nth-child(3),
-  .it-row.it-head .it-cell:nth-child(4),
-  .it-row.it-head .it-cell:nth-child(5){display:none}
-  .it-cell{padding:14px 16px}
-  .it-row .it-cell:nth-child(3),
-  .it-row .it-cell:nth-child(4),
-  .it-row .it-cell:nth-child(5){display:none}
-  .it-cell.it-tier{border-right:1px solid var(--gray-mid)}
-}
-@media(max-width:600px){
-  .tt-grid{grid-template-columns:1fr}
-}
-
-/* FAQ */
 .faq-categories{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:32px}
 .faq-cat{background:#fff;border:2px solid var(--gray-mid);padding:9px 20px;border-radius:50px;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer;transition:var(--transition);font-family:inherit}
 .faq-cat:hover{border-color:var(--gold)}
@@ -420,7 +394,6 @@ input,select,textarea{color-scheme:light only}
 .faq-a p{font-size:14px;color:var(--gray-dark);line-height:1.75}
 .faq-a p + p{margin-top:12px}
 
-/* APPLICATION */
 .apply-section{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 100%);color:#fff;padding:80px 0 90px;position:relative;overflow:hidden}
 .apply-section::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3Cpattern id='p' x='0' y='0' width='60' height='60' patternUnits='userSpaceOnUse'%3E%3Cpolyline points='10,50 30,20 50,50' fill='none' stroke='%23C5A028' stroke-width='0.8' opacity='0.15'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23p)'/%3E%3C/svg%3E");opacity:.5;pointer-events:none}
 .apply-section .container{position:relative;z-index:2}
@@ -458,11 +431,28 @@ input,select,textarea{color-scheme:light only}
 .apply-form-group label .req{color:var(--error);margin-left:3px}
 .apply-form-group input,.apply-form-group select,.apply-form-group textarea{width:100%;padding:12px 14px;border:2px solid var(--gray-mid);border-radius:8px;font-family:inherit;font-size:14px;color:var(--navy);background:#fff;transition:var(--transition)}
 .apply-form-group input:focus,.apply-form-group select:focus,.apply-form-group textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-10)}
-.apply-form-group input.err,.apply-form-group select.err,.apply-form-group textarea.err{border-color:var(--error)}
+.apply-form-group input.err,.apply-form-group select.err,.apply-form-group textarea.err{border-color:var(--error);background:#FFF5F5}
+.apply-form-group.has-error label{color:var(--error)}
 .apply-helper{font-size:11.5px;color:var(--gray-dark);margin-top:5px;font-style:italic}
+.inline-error{display:none;color:var(--error);font-size:11.5px;font-weight:600;margin-top:5px;align-items:center;gap:6px}
+.inline-error.show{display:flex}
+.inline-error i{font-size:12px}
+
+.draft-banner{background:linear-gradient(135deg,#E7F4FF 0%,#F0F9FF 100%);border-left:4px solid var(--info);border-radius:10px;padding:14px 18px;margin-bottom:20px;display:none;gap:12px;align-items:flex-start;font-size:12.5px;color:var(--info-deep);line-height:1.6}
+.draft-banner.show{display:flex}
+.draft-banner > i{color:var(--info);font-size:16px;flex-shrink:0;margin-top:1px}
+.draft-banner .draft-text{flex:1}
+.draft-banner .draft-actions{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.draft-banner button{font-size:11.5px;font-weight:700;color:var(--info-deep);background:none;border:1px solid var(--info);padding:5px 12px;border-radius:6px;cursor:pointer;font-family:inherit;transition:var(--transition)}
+.draft-banner button:hover{background:var(--info);color:#fff}
+
+.turnstile-wrap{margin:18px 0;display:flex;justify-content:center;min-height:65px}
+.turnstile-fallback{background:#FFF4E5;border-left:3px solid var(--warning);border-radius:8px;padding:12px 16px;font-size:12px;color:#7A5C10;line-height:1.55;text-align:left;display:none}
+.turnstile-fallback.show{display:block}
+.turnstile-fallback code{background:#fff;padding:1px 6px;border-radius:4px;font-size:11px}
 
 .apply-radio-grid{display:grid;grid-template-columns:1fr;gap:10px}
-.apply-radio{background:var(--off-white);border:2px solid var(--gray-mid);border-radius:10px;padding:14px 18px;cursor:pointer;transition:var(--transition);display:flex;align-items:flex-start;gap:14px;font-family:inherit;text-align:left}
+.apply-radio{background:var(--off-white);border:2px solid var(--gray-mid);border-radius:10px;padding:14px 18px;cursor:pointer;transition:var(--transition);display:flex;align-items:flex-start;gap:14px;font-family:inherit;text-align:left;width:100%}
 .apply-radio:hover{border-color:var(--gold)}
 .apply-radio.selected{border-color:var(--gold);background:var(--gold-10)}
 .apply-radio .ar-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--gray-mid);flex-shrink:0;margin-top:2px;transition:var(--transition)}
@@ -502,15 +492,19 @@ input,select,textarea{color-scheme:light only}
 .apply-toast.show{transform:translateY(0);opacity:1}
 .apply-toast.success{background:var(--success)}
 .apply-toast.error{background:var(--error)}
+.apply-toast.info{background:var(--info)}
 .apply-toast i{color:#fff;font-size:15px;flex-shrink:0}
 
-/* PAYMENT STEP */
-.pay-amount-banner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;border-radius:14px;padding:26px 28px;margin-bottom:26px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;position:relative;overflow:hidden}
+.pay-amount-banner{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;border-radius:14px;padding:26px 28px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;position:relative;overflow:hidden}
 .pay-amount-banner::before{content:'';position:absolute;top:-50%;right:-10%;width:280px;height:280px;background:radial-gradient(circle,rgba(197,160,40,.2) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
 .pay-amount-banner .pab-label{font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--gold-light);margin-bottom:6px;position:relative;z-index:2}
 .pay-amount-banner .pab-amount{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,2.6rem);font-weight:800;color:var(--gold);line-height:1;position:relative;z-index:2}
 .pay-amount-banner .pab-context{font-size:12.5px;color:rgba(255,255,255,.75);margin-top:8px;position:relative;z-index:2;max-width:380px;line-height:1.6}
 .pay-amount-banner .pab-icon{font-size:44px;color:var(--gold);opacity:.65;position:relative;z-index:2;flex-shrink:0}
+
+.fee-tier-note{background:linear-gradient(135deg,#E7F4FF 0%,#F0F9FF 100%);border-left:4px solid var(--info);border-radius:10px;padding:14px 18px;margin-bottom:22px;display:flex;gap:12px;align-items:flex-start;font-size:12.5px;color:var(--info-deep);line-height:1.65}
+.fee-tier-note i{color:var(--info);font-size:16px;flex-shrink:0;margin-top:2px}
+.fee-tier-note strong{color:#0A4D6E}
 
 .pay-methods-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-bottom:22px}
 .pay-method-card{background:#fff;border:2px solid var(--gray-mid);border-radius:14px;padding:18px 12px 16px;cursor:pointer;transition:var(--transition);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;font-family:inherit;position:relative;overflow:hidden}
@@ -566,33 +560,36 @@ input,select,textarea{color-scheme:light only}
 .pdp-warning i{color:#D89400;font-size:16px;flex-shrink:0;margin-top:2px}
 .pdp-warning strong{color:#5C4508}
 
+.ussd-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ussd-link{display:inline-flex;align-items:center;gap:7px;background:var(--navy);color:#fff;padding:10px 14px;border-radius:8px;font-size:12px;font-weight:700;transition:var(--transition);text-decoration:none;border:1px solid var(--navy);cursor:pointer}
+.ussd-link:hover{background:var(--navy-light);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.ussd-link i{font-size:12px}
+.ussd-link.ussd-airtel{background:#E40000;border-color:#E40000}
+.ussd-link.ussd-airtel:hover{background:#C20000;border-color:#C20000}
+.ussd-link.ussd-mtn{background:#FFCC00;border-color:#FFCC00;color:#000}
+.ussd-link.ussd-mtn:hover{background:#E6B800;border-color:#E6B800}
+
 .pay-confirm-form{margin-top:22px;padding-top:22px;border-top:1px dashed var(--gray-mid)}
 .pay-confirm-form h4{font-family:'Inter',sans-serif;font-size:13px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .pay-confirm-form h4 i{color:var(--gold-dark)}
 
-/* ============================================================
-   PAYMENT SUCCESS — receipt generation
-   ============================================================ */
 .payment-success{background:linear-gradient(135deg,#EAF7EE 0%,#F0FBF4 100%);border:2px solid var(--success);border-radius:14px;padding:26px 24px;text-align:center;margin-top:8px}
 .payment-success i.ps-icon{font-size:56px;color:var(--success);margin-bottom:10px;display:block}
 .payment-success h4{font-family:'Playfair Display',serif;font-size:22px;color:var(--navy);margin-bottom:8px}
 .payment-success > p{font-size:13.5px;color:var(--gray-dark);margin-bottom:6px;line-height:1.65}
 .payment-success > p strong{color:var(--navy);font-weight:700}
-.payment-success .ps-ref{display:inline-block;background:#fff;border:1px dashed var(--success);padding:8px 16px;border-radius:8px;font-family:'SFMono-Regular',Consolas,monospace;font-size:13px;color:var(--navy);margin-top:8px;letter-spacing:1.5px;font-weight:700}
 
-/* WhatsApp block */
 .ps-whatsapp-block{background:#fff;border:1px dashed var(--whatsapp);border-radius:12px;padding:18px;margin-top:20px;text-align:left}
 .ps-whatsapp-block .psw-title{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:800;letter-spacing:.6px;color:var(--whatsapp-deep);margin-bottom:8px;display:flex;align-items:center;gap:8px;text-transform:uppercase}
 .ps-whatsapp-block .psw-title i{color:var(--whatsapp);font-size:16px}
 .ps-whatsapp-block p{font-size:12.5px;color:var(--gray-dark);line-height:1.6;margin-bottom:12px}
-.btn-whatsapp{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--whatsapp);color:#fff;padding:13px 22px;border-radius:10px;font-size:14px;font-weight:700;width:100%;transition:var(--transition);border:none;cursor:pointer;font-family:inherit}
+.btn-whatsapp{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--whatsapp);color:#fff;padding:13px 22px;border-radius:10px;font-size:14px;font-weight:700;width:100%;transition:var(--transition);border:none;cursor:pointer;font-family:inherit;text-decoration:none}
 .btn-whatsapp:hover{background:var(--whatsapp-dark);transform:translateY(-2px);box-shadow:0 8px 20px rgba(37,211,102,.35)}
 .btn-whatsapp i{font-size:18px}
 .psw-note{font-size:11.5px;color:var(--gray-dark);margin-top:10px;font-style:italic;line-height:1.55;text-align:center}
 .psw-sent{background:#E7F7EC;border:1px solid var(--whatsapp);color:var(--whatsapp-deep);font-size:12.5px;font-weight:600;padding:10px 14px;border-radius:8px;margin-top:12px;display:none;align-items:center;gap:8px}
 .psw-sent.show{display:flex}
 
-/* Receipt section */
 .receipt-section{margin-top:22px;text-align:left}
 .receipt-section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;padding:0 4px}
 .receipt-section-head h5{font-family:'Playfair Display',serif;font-size:16px;color:var(--navy);font-weight:700}
@@ -605,156 +602,69 @@ input,select,textarea{color-scheme:light only}
 .receipt-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
 .receipt-btn i{font-size:13px}
 
-/* THE RECEIPT DOCUMENT — plain CSS for reliable PDF rendering */
-.nolan-receipt{
-  background:#ffffff;
-  border:1px solid #D0D0D0;
-  border-radius:6px;
-  padding:28px 30px;
-  font-family:'Inter', Arial, sans-serif;
-  color:#222222;
-  font-size:12.5px;
-  line-height:1.55;
-  margin-top:10px;
-  max-width:640px;
-}
+.nolan-receipt{background:#ffffff;border:1px solid #D0D0D0;border-radius:6px;padding:28px 30px;font-family:'Inter', Arial, sans-serif;color:#222222;font-size:12.5px;line-height:1.55;margin-top:10px;max-width:640px}
 .nolan-receipt *{box-sizing:border-box}
-.nolan-receipt .nr-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-start;
-  gap:16px;
-  padding-bottom:16px;
-  border-bottom:3px solid #0A1C3A;
-  margin-bottom:16px;
-  flex-wrap:wrap;
-}
-.nolan-receipt .nr-brand{
-  font-family:'Playfair Display', Georgia, serif;
-  font-size:19px;
-  font-weight:800;
-  color:#0A1C3A;
-  letter-spacing:1px;
-  line-height:1.1;
-}
-.nolan-receipt .nr-brand-sub{
-  font-size:9.5px;
-  color:#A07F1F;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  font-weight:700;
-  margin-top:4px;
-}
-.nolan-receipt .nr-doc-type{
-  font-family:'Playfair Display', Georgia, serif;
-  font-size:14px;
-  font-weight:800;
-  color:#C5A028;
-  letter-spacing:1.5px;
-  text-align:right;
-  line-height:1.2;
-}
-.nolan-receipt .nr-status{
-  display:inline-block;
-  font-size:9px;
-  font-weight:800;
-  letter-spacing:1.2px;
-  padding:4px 10px;
-  border-radius:50px;
-  background:#FFF3CD;
-  color:#856404;
-  border:1px solid #FFE69C;
-  margin-top:6px;
-}
-.nolan-receipt .nr-meta{
-  display:flex;
-  justify-content:space-between;
-  gap:16px;
-  flex-wrap:wrap;
-  font-size:11.5px;
-  padding:12px 14px;
-  background:#FAFAF8;
-  border-radius:6px;
-  margin-bottom:16px;
-}
+.nolan-receipt .nr-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:16px;border-bottom:3px solid #0A1C3A;margin-bottom:16px;flex-wrap:wrap}
+.nolan-receipt .nr-brand{font-family:'Playfair Display', Georgia, serif;font-size:19px;font-weight:800;color:#0A1C3A;letter-spacing:1px;line-height:1.1}
+.nolan-receipt .nr-brand-sub{font-size:9.5px;color:#A07F1F;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-top:4px}
+.nolan-receipt .nr-doc-type{font-family:'Playfair Display', Georgia, serif;font-size:14px;font-weight:800;color:#C5A028;letter-spacing:1.5px;text-align:right;line-height:1.2}
+.nolan-receipt .nr-status{display:inline-block;font-size:9px;font-weight:800;letter-spacing:1.2px;padding:4px 10px;border-radius:50px;margin-top:6px}
+.nolan-receipt .nr-status.status-pending{background:#FFF3CD;color:#856404;border:1px solid #FFE69C}
+.nolan-receipt .nr-status.status-verified{background:#D4EDDA;color:#155724;border:1px solid #C3E6CB}
+.nolan-receipt .nr-meta{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;padding:12px 14px;background:#FAFAF8;border-radius:6px;margin-bottom:16px}
 .nolan-receipt .nr-meta > div{flex:1;min-width:140px}
 .nolan-receipt .nr-lbl{color:#666666;font-weight:600}
 .nolan-receipt .nr-meta strong,
 .nolan-receipt .nr-grid-2 strong{color:#0A1C3A;font-weight:700}
-.nolan-receipt .nr-section{
-  padding:12px 0;
-  border-bottom:1px dashed #E0E0E0;
-}
+.nolan-receipt .nr-section{padding:12px 0;border-bottom:1px dashed #E0E0E0}
 .nolan-receipt .nr-section:last-of-type{border-bottom:none}
-.nolan-receipt .nr-section-title{
-  font-size:9.5px;
-  font-weight:800;
-  letter-spacing:1.5px;
-  color:#A07F1F;
-  text-transform:uppercase;
-  margin-bottom:8px;
-}
-.nolan-receipt .nr-grid-2{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:5px 24px;
-  font-size:12px;
-}
-.nolan-receipt .nr-footer{
-  margin-top:16px;
-  padding-top:14px;
-  border-top:2px solid #0A1C3A;
-  font-size:10.5px;
-  color:#666666;
-}
-.nolan-receipt .nr-footer-note{
-  font-style:italic;
-  margin-bottom:8px;
-  line-height:1.5;
-}
+.nolan-receipt .nr-section-title{font-size:9.5px;font-weight:800;letter-spacing:1.5px;color:#A07F1F;text-transform:uppercase;margin-bottom:8px}
+.nolan-receipt .nr-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:5px 24px;font-size:12px}
+.nolan-receipt .nr-footer{margin-top:16px;padding-top:14px;border-top:2px solid #0A1C3A;font-size:10.5px;color:#666666}
+.nolan-receipt .nr-footer-note{font-style:italic;margin-bottom:8px;line-height:1.5}
 .nolan-receipt .nr-footer-contact{font-size:10.5px;color:#333333}
 .nolan-receipt .nr-footer-contact strong{color:#0A1C3A;font-weight:700}
-.nolan-receipt .nr-highlight-amount{
-  background:#FFF9E6;
-  border:1px solid #F0E0A0;
-  border-radius:8px;
-  padding:12px 16px;
-  margin:14px 0;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:14px;
-  flex-wrap:wrap;
-}
-.nolan-receipt .nr-highlight-amount .nr-ha-lbl{
-  font-size:9.5px;
-  letter-spacing:1.5px;
-  text-transform:uppercase;
-  color:#A07F1F;
-  font-weight:800;
-}
-.nolan-receipt .nr-highlight-amount .nr-ha-val{
-  font-family:'Playfair Display', Georgia, serif;
-  font-size:22px;
-  font-weight:800;
-  color:#0A1C3A;
-  line-height:1;
-}
+.nolan-receipt .nr-highlight-amount{background:#FFF9E6;border:1px solid #F0E0A0;border-radius:8px;padding:12px 16px;margin:14px 0;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.nolan-receipt .nr-highlight-amount .nr-ha-lbl{font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:#A07F1F;font-weight:800}
+.nolan-receipt .nr-highlight-amount .nr-ha-val{font-family:'Playfair Display', Georgia, serif;font-size:22px;font-weight:800;color:#0A1C3A;line-height:1}
+.nolan-receipt .nr-amount-words{font-size:10.5px;color:#555;font-style:italic;margin-top:6px;width:100%}
+
+.nr-qr-block{display:flex;gap:16px;align-items:center;padding:12px 14px;background:#F7F9FB;border-radius:8px;margin:14px 0;border:1px solid #E8EEF3}
+.nr-qr-canvas-wrap{background:#fff;padding:6px;border-radius:6px;border:1px solid #E0E0E0;flex-shrink:0}
+.nr-qr-canvas-wrap canvas{display:block;width:92px!important;height:92px!important}
+.nr-qr-text{flex:1;font-size:10.5px;color:#555;line-height:1.55}
+.nr-qr-text strong{color:#0A1C3A;display:block;margin-bottom:3px;font-size:11px}
+.nr-qr-text code{background:#fff;padding:2px 6px;border-radius:4px;font-size:10px;color:#0A1C3A;border:1px solid #E0E0E0;display:inline-block;margin-top:4px;word-break:break-all}
+
+.nr-signature{margin-top:18px;padding-top:14px;border-top:1px solid #E0E0E0;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.nr-signature .nr-sig-block{flex:1;min-width:180px}
+.nr-signature .nr-sig-line{border-bottom:1px solid #333;height:34px;margin-bottom:6px}
+.nr-signature .nr-sig-lbl{font-size:10px;color:#666;font-weight:600}
 
 @media print {
   body.print-receipt-mode * { visibility: hidden !important; }
   body.print-receipt-mode #apReceipt,
   body.print-receipt-mode #apReceipt * { visibility: visible !important; }
-  body.print-receipt-mode #apReceipt {
-    position: absolute;
-    left: 0; top: 0;
-    width: 100%;
-    padding: 20px;
-    box-shadow: none;
-  }
+  body.print-receipt-mode #apReceipt { position: absolute; left:0; top:0; width:100%; padding:20px; box-shadow:none; }
 }
 
-/* FILE UPLOAD */
+.receipt-check{background:linear-gradient(135deg,#F3F0FF 0%,#FAF7FF 100%);border:1px solid #D6CCF0;border-radius:12px;padding:18px 20px;margin-top:18px;text-align:left}
+.receipt-check h6{font-family:'Inter',sans-serif;font-size:12px;font-weight:800;letter-spacing:.6px;color:#4A3580;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.receipt-check h6 i{font-size:14px}
+.receipt-check-row{display:flex;gap:8px;flex-wrap:wrap}
+.receipt-check-row input{flex:1;min-width:160px;padding:10px 14px;border:2px solid #D6CCF0;border-radius:8px;font-family:inherit;font-size:13.5px;color:#4A3580;background:#fff}
+.receipt-check-row input:focus{outline:none;border-color:#7C5FCC;box-shadow:0 0 0 3px rgba(124,95,204,.15)}
+.receipt-check-result{font-size:12.5px;color:#4A3580;margin-top:10px;padding:10px 14px;border-radius:8px;background:#fff;border-left:3px solid #7C5FCC;display:none}
+.receipt-check-result.show{display:block}
+
+.submit-success-panel{display:none;text-align:center;padding:26px 20px}
+.submit-success-panel.show{display:block;animation:fadeIn .5s ease}
+.submit-success-panel .ssp-icon{font-size:64px;color:var(--success);margin-bottom:14px;display:block}
+.submit-success-panel h3{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.6vw,1.8rem);color:var(--navy);margin-bottom:12px}
+.submit-success-panel p{font-size:14.5px;color:var(--gray-dark);line-height:1.75;max-width:560px;margin:0 auto 14px}
+.submit-success-panel .ssp-ref{display:inline-block;background:#fff;border:1px dashed var(--success);padding:8px 16px;border-radius:8px;font-family:'SFMono-Regular',Consolas,monospace;font-size:13px;color:var(--navy);margin:10px 0;letter-spacing:1.5px;font-weight:700}
+.submit-success-panel .ssp-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+
 .upload-drop{position:relative;border:2px dashed var(--gray-mid);border-radius:12px;padding:22px 20px;text-align:center;cursor:pointer;transition:var(--transition);background:var(--off-white)}
 .upload-drop:hover{border-color:var(--gold);background:#fff}
 .upload-drop.dragover{border-color:var(--gold);background:var(--gold-10);transform:scale(1.01)}
@@ -772,7 +682,6 @@ input,select,textarea{color-scheme:light only}
 .upload-remove{background:transparent;border:none;color:var(--gray-dark);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition);flex-shrink:0}
 .upload-remove:hover{background:var(--gray-light);color:var(--error)}
 
-/* FINAL CTA */
 .final-cta{background:linear-gradient(135deg,var(--navy-dark) 0%,var(--navy) 60%,var(--navy-light) 100%);color:#fff;text-align:center;padding:80px 0;position:relative;overflow:hidden}
 .final-cta::before{content:'';position:absolute;top:-50%;left:-20%;width:700px;height:700px;background:radial-gradient(circle,rgba(197,160,40,.16) 0%,rgba(197,160,40,0) 70%);border-radius:50%;pointer-events:none}
 .final-cta .container{position:relative;z-index:2}
@@ -781,7 +690,6 @@ input,select,textarea{color-scheme:light only}
 .final-cta p{font-size:15.5px;color:rgba(255,255,255,.8);margin-bottom:12px;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.7}
 .final-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px}
 
-/* FOOTER */
 .footer{background:var(--navy-dark);color:#94a3b8;padding:56px 0 24px;font-size:13px}
 .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:36px;margin-bottom:40px}
 .footer-brand .brand-name{font-family:'Playfair Display',serif;font-size:17px;color:#fff;font-weight:700;margin-bottom:6px}
@@ -799,7 +707,6 @@ input,select,textarea{color-scheme:light only}
 .footer-bottom a{color:#64748b}
 .footer-bottom a:hover{color:var(--gold)}
 
-/* RESPONSIVE */
 @media(max-width:1000px){
   .flag-hero-grid{grid-template-columns:1fr;gap:44px;text-align:center}
   .flag-hero-inner{max-width:100%;margin:0 auto}
@@ -809,6 +716,19 @@ input,select,textarea{color-scheme:light only}
 }
 @media(max-width:900px){
   .outcome-compare{grid-template-columns:1fr}
+  .tt-grid{grid-template-columns:repeat(2,1fr)}
+  .calc-wrapper{grid-template-columns:1fr}
+  .calc-result{position:static}
+  .fee-hero{grid-template-columns:1fr}
+  .it-row{grid-template-columns:1fr 1fr;gap:0}
+  .it-row.it-head .it-cell:nth-child(3),
+  .it-row.it-head .it-cell:nth-child(4),
+  .it-row.it-head .it-cell:nth-child(5){display:none}
+  .it-cell{padding:14px 16px}
+  .it-row .it-cell:nth-child(3),
+  .it-row .it-cell:nth-child(4),
+  .it-row .it-cell:nth-child(5){display:none}
+  .it-cell.it-tier{border-right:1px solid var(--gray-mid)}
 }
 @media(max-width:768px){
   .main-nav{display:none}
@@ -892,7 +812,7 @@ input,select,textarea{color-scheme:light only}
       <span class="logo-name">NOLAN INSTITUTE</span>
       <span class="logo-tag">Learn. Innovate. Lead.</span>
     </a>
-    <nav class="main-nav">
+    <nav class="main-nav" aria-label="Main navigation">
       <ul>
         <li><a href="#overview">Overview</a></li>
         <li><a href="#structure">Structure</a></li>
@@ -904,7 +824,7 @@ input,select,textarea{color-scheme:light only}
     </nav>
     <div class="header-actions">
       <a href="#apply" class="btn btn-primary btn-sm">Apply Now</a>
-      <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu" aria-expanded="false"><i class="fas fa-bars" aria-hidden="true"></i></button>
     </div>
   </div>
 </header>
@@ -1001,12 +921,12 @@ input,select,textarea{color-scheme:light only}
       <h2>Three Years. Three Themes. One Trajectory.</h2>
       <p>Click any year to explore its courses, focus, and applied project.</p>
     </div>
-    <div class="structure-tabs">
-      <button type="button" class="structure-tab active" data-year="1"><span class="st-year">Year 1</span><span class="st-theme">Business Foundations</span></button>
-      <button type="button" class="structure-tab" data-year="2"><span class="st-year">Year 2</span><span class="st-theme">Technology &amp; Global Business</span></button>
-      <button type="button" class="structure-tab" data-year="3"><span class="st-year">Year 3</span><span class="st-theme">Innovation &amp; Leadership</span></button>
+    <div class="structure-tabs" role="tablist" aria-label="Programme year structure">
+      <button type="button" role="tab" aria-selected="true" class="structure-tab active" data-year="1"><span class="st-year">Year 1</span><span class="st-theme">Business Foundations</span></button>
+      <button type="button" role="tab" aria-selected="false" class="structure-tab" data-year="2"><span class="st-year">Year 2</span><span class="st-theme">Technology &amp; Global Business</span></button>
+      <button type="button" role="tab" aria-selected="false" class="structure-tab" data-year="3"><span class="st-year">Year 3</span><span class="st-theme">Innovation &amp; Leadership</span></button>
     </div>
-    <div class="structure-panel active" data-panel="1">
+    <div class="structure-panel active" data-panel="1" role="tabpanel">
       <div class="sp-header"><h3>Build the <span class="gold">Business Mindset</span></h3><p>Students establish a strong foundation in business and develop the ability to understand how organisations operate — across economics, finance, marketing, communication and entrepreneurship.</p></div>
       <div class="sp-courses-label"><i class="fas fa-book-open"></i> Core Courses</div>
       <div class="sp-courses">
@@ -1022,7 +942,7 @@ input,select,textarea{color-scheme:light only}
       </div>
       <div class="sp-project"><div class="sp-project-inner"><span class="sp-label"><i class="fas fa-lightbulb"></i> Year 1 Applied Project</span><h4>Business Concept Development Project</h4><p>Students develop, validate and present a viable business concept — demonstrating understanding of customers, markets, value propositions, basic financials and business models.</p></div></div>
     </div>
-    <div class="structure-panel" data-panel="2">
+    <div class="structure-panel" data-panel="2" role="tabpanel">
       <div class="sp-header"><h3>Become a <span class="gold">Technology-Enabled</span> Business Professional</h3><p>Year 2 is where the programme differentiates itself from a conventional BBA. Students learn how technology, data and digital platforms are transforming modern businesses and global markets.</p></div>
       <div class="sp-courses-label"><i class="fas fa-book-open"></i> Core Courses</div>
       <div class="sp-courses">
@@ -1038,7 +958,7 @@ input,select,textarea{color-scheme:light only}
       </div>
       <div class="sp-project"><div class="sp-project-inner"><span class="sp-label"><i class="fas fa-cogs"></i> Year 2 Applied Project</span><h4>Technology &amp; Business Problem-Solving Project</h4><p>Students identify a real business problem and use data, technology and analytical methods to develop and present a practical solution.</p></div></div>
     </div>
-    <div class="structure-panel" data-panel="3">
+    <div class="structure-panel" data-panel="3" role="tabpanel">
       <div class="sp-header"><h3>Become a <span class="gold">Global Business Builder</span></h3><p>The final year is highly applied, strategic and entrepreneurial. Students move from understanding business to building, managing and transforming businesses — with a substantial capstone outcome.</p></div>
       <div class="sp-courses-label"><i class="fas fa-book-open"></i> Core Courses</div>
       <div class="sp-courses">
@@ -1155,9 +1075,9 @@ input,select,textarea{color-scheme:light only}
     <div class="calc-wrapper">
       <div class="calc-inputs">
         <h3>Your Estimate</h3>
-        <div class="calc-group"><label>Scholarship Tier</label><select id="calcTier"><option value="0">No scholarship — full tuition</option><option value="70">70% — Merit Scholarship</option><option value="85" selected>85% — Founder's Scholarship</option><option value="100">100% — Founding Cohort Scholarship</option></select></div>
-        <div class="calc-group"><label>Payment Plan</label><select id="calcPlan"><option value="1">Pay in full (single payment)</option><option value="3" selected>3 yearly instalments</option><option value="6">6 semester instalments</option><option value="36">36 monthly instalments</option></select></div>
-        <div class="calc-group"><label>Currency</label><select id="calcCurrency"><option value="ZMW" selected>Zambian Kwacha (K)</option><option value="USD">US Dollars ($)</option></select></div>
+        <div class="calc-group"><label for="calcTier">Scholarship Tier</label><select id="calcTier"><option value="0">No scholarship — full tuition</option><option value="70">70% — Merit Scholarship</option><option value="85" selected>85% — Founder's Scholarship</option><option value="100">100% — Founding Cohort Scholarship</option></select></div>
+        <div class="calc-group"><label for="calcPlan">Payment Plan</label><select id="calcPlan"><option value="1">Pay in full (single payment)</option><option value="3" selected>3 yearly instalments</option><option value="6">6 semester instalments</option><option value="36">36 monthly instalments</option></select></div>
+        <div class="calc-group"><label for="calcCurrency">Currency</label><select id="calcCurrency"><option value="ZMW" selected>Zambian Kwacha (K)</option><option value="USD">US Dollars ($)</option></select></div>
         <p style="font-size:12.5px;color:var(--gray-dark);line-height:1.6;margin-top:20px;padding-top:20px;border-top:1px dashed var(--gray-mid);font-style:italic;"><i class="fas fa-info-circle" style="color:var(--gold-dark);margin-right:6px;"></i>This is an indicative estimate. Actual fees confirmed upon offer.</p>
       </div>
       <div class="calc-result">
@@ -1199,11 +1119,56 @@ input,select,textarea{color-scheme:light only}
       <h3>Scholarship Eligibility Checker</h3>
       <p>Answer 5 quick questions to see what scholarship tier you may qualify for. This is an indicative estimate — the final decision rests with the admissions committee.</p>
       <div class="eligibility-progress"><div class="eligibility-progress-fill" id="eligProgressFill"></div></div>
-      <div class="elig-question active" data-elig-q="1"><div class="elig-q-num">Question 1 of 5</div><div class="elig-q-text">What best describes your most recent academic achievement?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I completed secondary school with average results.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I completed secondary school with strong results.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I hold a diploma or partial degree with good performance.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I hold a completed degree or top-tier diploma with excellent results.</span></button></div></div>
-      <div class="elig-question" data-elig-q="2"><div class="elig-q-num">Question 2 of 5</div><div class="elig-q-text">Have you ever started, led, or built anything?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>Not yet — this programme will be my first major step.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have led a team or a small project.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have built something — a business, initiative, or side project.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have founded or co-founded a business or notable venture.</span></button></div></div>
-      <div class="elig-question" data-elig-q="3"><div class="elig-q-num">Question 3 of 5</div><div class="elig-q-text">How would you describe your financial need?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I can comfortably pay full tuition.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I need partial support to make it work.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>Without scholarship support, I would find it difficult.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>Without a near-full scholarship, I cannot attend.</span></button></div></div>
-      <div class="elig-question" data-elig-q="4"><div class="elig-q-num">Question 4 of 5</div><div class="elig-q-text">How strong is your vision for what you will do after this degree?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>I'm still figuring it out.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have a general direction.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have a clear plan I'm pursuing.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have a specific venture, role, or mission I'm building toward.</span></button></div></div>
-      <div class="elig-question" data-elig-q="5"><div class="elig-q-num">Question 5 of 5</div><div class="elig-q-text">How would you describe your global or cross-cultural experience?</div><div class="elig-options"><button type="button" class="elig-option" data-value="1"><span class="eo-check"></span><span>Limited so far.</span></button><button type="button" class="elig-option" data-value="2"><span class="eo-check"></span><span>I've worked with people from different backgrounds.</span></button><button type="button" class="elig-option" data-value="3"><span class="eo-check"></span><span>I've worked or studied across multiple countries or cultures.</span></button><button type="button" class="elig-option" data-value="4"><span class="eo-check"></span><span>I'm already operating globally.</span></button></div></div>
+      <div class="elig-question active" data-elig-q="1" role="radiogroup" aria-label="Question 1">
+        <div class="elig-q-num">Question 1 of 5</div>
+        <div class="elig-q-text">What best describes your most recent academic achievement?</div>
+        <div class="elig-options">
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="1"><span class="eo-check"></span><span>I completed secondary school with average results.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="2"><span class="eo-check"></span><span>I completed secondary school with strong results.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="3"><span class="eo-check"></span><span>I hold a diploma or partial degree with good performance.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="4"><span class="eo-check"></span><span>I hold a completed degree or top-tier diploma with excellent results.</span></button>
+        </div>
+      </div>
+      <div class="elig-question" data-elig-q="2" role="radiogroup" aria-label="Question 2">
+        <div class="elig-q-num">Question 2 of 5</div>
+        <div class="elig-q-text">Have you ever started, led, or built anything?</div>
+        <div class="elig-options">
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="1"><span class="eo-check"></span><span>Not yet — this programme will be my first major step.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have led a team or a small project.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have built something — a business, initiative, or side project.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have founded or co-founded a business or notable venture.</span></button>
+        </div>
+      </div>
+      <div class="elig-question" data-elig-q="3" role="radiogroup" aria-label="Question 3">
+        <div class="elig-q-num">Question 3 of 5</div>
+        <div class="elig-q-text">How would you describe your financial need?</div>
+        <div class="elig-options">
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="1"><span class="eo-check"></span><span>I can comfortably pay full tuition.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="2"><span class="eo-check"></span><span>I need partial support to make it work.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="3"><span class="eo-check"></span><span>Without scholarship support, I would find it difficult.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="4"><span class="eo-check"></span><span>Without a near-full scholarship, I cannot attend.</span></button>
+        </div>
+      </div>
+      <div class="elig-question" data-elig-q="4" role="radiogroup" aria-label="Question 4">
+        <div class="elig-q-num">Question 4 of 5</div>
+        <div class="elig-q-text">How strong is your vision for what you will do after this degree?</div>
+        <div class="elig-options">
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="1"><span class="eo-check"></span><span>I'm still figuring it out.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="2"><span class="eo-check"></span><span>I have a general direction.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="3"><span class="eo-check"></span><span>I have a clear plan I'm pursuing.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="4"><span class="eo-check"></span><span>I have a specific venture, role, or mission I'm building toward.</span></button>
+        </div>
+      </div>
+      <div class="elig-question" data-elig-q="5" role="radiogroup" aria-label="Question 5">
+        <div class="elig-q-num">Question 5 of 5</div>
+        <div class="elig-q-text">How would you describe your global or cross-cultural experience?</div>
+        <div class="elig-options">
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="1"><span class="eo-check"></span><span>Limited so far.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="2"><span class="eo-check"></span><span>I've worked with people from different backgrounds.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="3"><span class="eo-check"></span><span>I've worked or studied across multiple countries or cultures.</span></button>
+          <button type="button" role="radio" aria-checked="false" class="elig-option" data-value="4"><span class="eo-check"></span><span>I'm already operating globally.</span></button>
+        </div>
+      </div>
       <div class="elig-result" id="eligResult">
         <div class="er-percent" id="eligPercent">85%</div>
         <div class="er-tier" id="eligTier">Founder's Scholarship · Estimated</div>
@@ -1216,7 +1181,7 @@ input,select,textarea{color-scheme:light only}
   </div>
 </section>
 
-<!-- SELF-ORIENTATION HUB -->
+<!-- SELF-ORIENTATION -->
 <section class="section" id="orientation">
   <div class="container">
     <div class="section-head"><span class="section-tag">Self-Orientation Hub</span><h2>Everything You Need to Decide</h2><p>No calls required. Use these interactive tools to orient yourself — then apply when you're ready.</p></div>
@@ -1224,11 +1189,56 @@ input,select,textarea{color-scheme:light only}
       <div class="quiz-inner">
         <div class="quiz-head"><div class="qh-icon"><i class="fas fa-compass"></i></div><h3>Is This Programme Right for You?</h3><p>Answer 5 questions. Get an honest read on whether the Bachelor of Global Business &amp; Technology fits where you're heading.</p></div>
         <div class="quiz-progress"><div class="quiz-progress-fill" id="quizProgressFill"></div></div>
-        <div class="quiz-step active" data-quiz-q="1"><div class="quiz-q-num">Question 1 of 5</div><div class="quiz-q-text">What is your main goal over the next 3 years?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Build my own venture or business</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Grow into a business or technology leadership role</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Develop practical business and technology skills</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm still exploring what I want to do</span></button></div></div>
-        <div class="quiz-step" data-quiz-q="2"><div class="quiz-q-num">Question 2 of 5</div><div class="quiz-q-text">How do you feel about AI, data, and technology in business?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to lead the way technology transforms business</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be highly competent in tech-enabled work</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>I want to understand it well enough to lead</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm more interested in the business side</span></button></div></div>
-        <div class="quiz-step" data-quiz-q="3"><div class="quiz-q-num">Question 3 of 5</div><div class="quiz-q-text">How do you learn best?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By building, testing, and pitching real projects</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By applying ideas to real business problems</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>By combining theory with practice</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>Mostly by reading and studying theory first</span></button></div></div>
-        <div class="quiz-step" data-quiz-q="4"><div class="quiz-q-num">Question 4 of 5</div><div class="quiz-q-text">What pace and intensity are you ready for?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Intensive, structured, and highly practical</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be challenged at a serious professional level</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Balanced — serious but manageable alongside work</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm looking for something light</span></button></div></div>
-        <div class="quiz-step" data-quiz-q="5"><div class="quiz-q-num">Question 5 of 5</div><div class="quiz-q-text">Where do you want to operate?</div><div class="quiz-options"><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Globally — across countries and markets</span></button><button type="button" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>In emerging markets, building serious capability</span></button><button type="button" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>In my country, at a high professional level</span></button><button type="button" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I haven't decided</span></button></div></div>
+        <div class="quiz-step active" data-quiz-q="1" role="radiogroup" aria-label="Question 1">
+          <div class="quiz-q-num">Question 1 of 5</div>
+          <div class="quiz-q-text">What is your main goal over the next 3 years?</div>
+          <div class="quiz-options">
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Build my own venture or business</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Grow into a business or technology leadership role</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Develop practical business and technology skills</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm still exploring what I want to do</span></button>
+          </div>
+        </div>
+        <div class="quiz-step" data-quiz-q="2" role="radiogroup" aria-label="Question 2">
+          <div class="quiz-q-num">Question 2 of 5</div>
+          <div class="quiz-q-text">How do you feel about AI, data, and technology in business?</div>
+          <div class="quiz-options">
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to lead the way technology transforms business</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be highly competent in tech-enabled work</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>I want to understand it well enough to lead</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm more interested in the business side</span></button>
+          </div>
+        </div>
+        <div class="quiz-step" data-quiz-q="3" role="radiogroup" aria-label="Question 3">
+          <div class="quiz-q-num">Question 3 of 5</div>
+          <div class="quiz-q-text">How do you learn best?</div>
+          <div class="quiz-options">
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By building, testing, and pitching real projects</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>By applying ideas to real business problems</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>By combining theory with practice</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>Mostly by reading and studying theory first</span></button>
+          </div>
+        </div>
+        <div class="quiz-step" data-quiz-q="4" role="radiogroup" aria-label="Question 4">
+          <div class="quiz-q-num">Question 4 of 5</div>
+          <div class="quiz-q-text">What pace and intensity are you ready for?</div>
+          <div class="quiz-options">
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Intensive, structured, and highly practical</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>I want to be challenged at a serious professional level</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>Balanced — serious but manageable alongside work</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I'm looking for something light</span></button>
+          </div>
+        </div>
+        <div class="quiz-step" data-quiz-q="5" role="radiogroup" aria-label="Question 5">
+          <div class="quiz-q-num">Question 5 of 5</div>
+          <div class="quiz-q-text">Where do you want to operate?</div>
+          <div class="quiz-options">
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>Globally — across countries and markets</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="3"><span class="qo-check"></span><span>In emerging markets, building serious capability</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="2"><span class="qo-check"></span><span>In my country, at a high professional level</span></button>
+            <button type="button" role="radio" aria-checked="false" class="quiz-opt" data-value="1"><span class="qo-check"></span><span>I haven't decided</span></button>
+          </div>
+        </div>
         <div class="quiz-result" id="quizResult">
           <div class="qr-score" id="quizScore">15 / 15</div>
           <h3 id="quizVerdict">This programme is built for you.</h3>
@@ -1245,18 +1255,18 @@ input,select,textarea{color-scheme:light only}
 <section class="section section-alt" id="careers">
   <div class="container">
     <div class="section-head"><span class="section-tag">Career Explorer</span><h2>Where Graduates Go</h2><p>Click a career track to see the kinds of roles and industries this degree opens.</p></div>
-    <div class="career-tabs">
-      <button type="button" class="career-tab active" data-career="business">Business &amp; Strategy</button>
-      <button type="button" class="career-tab" data-career="tech">Technology &amp; AI</button>
-      <button type="button" class="career-tab" data-career="entrepreneurship">Entrepreneurship</button>
-      <button type="button" class="career-tab" data-career="finance">Finance &amp; Analytics</button>
-      <button type="button" class="career-tab" data-career="global">Global Operations</button>
+    <div class="career-tabs" role="tablist">
+      <button type="button" role="tab" aria-selected="true" class="career-tab active" data-career="business">Business &amp; Strategy</button>
+      <button type="button" role="tab" aria-selected="false" class="career-tab" data-career="tech">Technology &amp; AI</button>
+      <button type="button" role="tab" aria-selected="false" class="career-tab" data-career="entrepreneurship">Entrepreneurship</button>
+      <button type="button" role="tab" aria-selected="false" class="career-tab" data-career="finance">Finance &amp; Analytics</button>
+      <button type="button" role="tab" aria-selected="false" class="career-tab" data-career="global">Global Operations</button>
     </div>
-    <div class="career-panel active" data-career-panel="business"><div class="career-content"><h3>Business &amp; Strategy</h3><p>Graduates are prepared for roles that require business acumen, analytical judgement, and the ability to translate strategy into execution across organisations.</p><div class="career-roles"><div class="career-role"><div class="cr-title">Business Analyst</div><div class="cr-industry">Consulting &amp; Corporate</div><p>Analyse business problems and design practical solutions.</p></div><div class="career-role"><div class="cr-title">Strategy Associate</div><div class="cr-industry">Corporate Strategy</div><p>Support strategic planning, market analysis, and execution.</p></div><div class="career-role"><div class="cr-title">Operations Manager</div><div class="cr-industry">Operations</div><p>Lead operations teams and improve business processes.</p></div><div class="career-role"><div class="cr-title">Management Consultant</div><div class="cr-industry">Consulting</div><p>Advise organisations on business and technology challenges.</p></div></div></div></div>
-    <div class="career-panel" data-career-panel="tech"><div class="career-content"><h3>Technology &amp; AI</h3><p>Graduates bridge business and technology — leading AI adoption, driving digital transformation, and translating emerging tech into business value.</p><div class="career-roles"><div class="career-role"><div class="cr-title">AI Business Lead</div><div class="cr-industry">Technology &amp; AI</div><p>Identify and lead AI opportunities inside organisations.</p></div><div class="career-role"><div class="cr-title">Digital Transformation Manager</div><div class="cr-industry">Enterprise Technology</div><p>Lead technology-driven change programmes.</p></div><div class="career-role"><div class="cr-title">Product Manager</div><div class="cr-industry">Technology &amp; Product</div><p>Build and ship technology products with business impact.</p></div><div class="career-role"><div class="cr-title">FinTech Specialist</div><div class="cr-industry">Financial Services</div><p>Work at the intersection of finance and modern technology.</p></div></div></div></div>
-    <div class="career-panel" data-career-panel="entrepreneurship"><div class="career-content"><h3>Entrepreneurship</h3><p>Graduates leave with the tools, frameworks, and portfolio to build ventures — or join early-stage teams as operator-founders.</p><div class="career-roles"><div class="career-role"><div class="cr-title">Founder / Co-Founder</div><div class="cr-industry">Startups</div><p>Build a new venture from concept to launch.</p></div><div class="career-role"><div class="cr-title">Early-Stage Operator</div><div class="cr-industry">Startups &amp; Scale-ups</div><p>Take on a leadership role at a fast-growing company.</p></div><div class="career-role"><div class="cr-title">Venture Analyst</div><div class="cr-industry">VC &amp; Private Equity</div><p>Evaluate investment opportunities and support portfolio companies.</p></div><div class="career-role"><div class="cr-title">Innovation Lead</div><div class="cr-industry">Corporate Innovation</div><p>Drive innovation programmes inside established organisations.</p></div></div></div></div>
-    <div class="career-panel" data-career-panel="finance"><div class="career-content"><h3>Finance &amp; Analytics</h3><p>Graduates apply technology and data to financial analysis, decision-making, and business intelligence.</p><div class="career-roles"><div class="career-role"><div class="cr-title">Financial Analyst</div><div class="cr-industry">Corporate Finance</div><p>Analyse financial performance and support key decisions.</p></div><div class="career-role"><div class="cr-title">Data Analyst</div><div class="cr-industry">Data &amp; Analytics</div><p>Turn data into insight that drives business decisions.</p></div><div class="career-role"><div class="cr-title">Business Intelligence Analyst</div><div class="cr-industry">BI &amp; Reporting</div><p>Build reporting systems and dashboards for organisations.</p></div><div class="career-role"><div class="cr-title">Investment Associate</div><div class="cr-industry">Investment &amp; Capital Markets</div><p>Support investment analysis, due diligence, and portfolio work.</p></div></div></div></div>
-    <div class="career-panel" data-career-panel="global"><div class="career-content"><h3>Global Operations</h3><p>Graduates are prepared to operate across borders — in international markets, supply chains, and cross-cultural business environments.</p><div class="career-roles"><div class="career-role"><div class="cr-title">International Business Manager</div><div class="cr-industry">Global Business</div><p>Lead cross-border business initiatives.</p></div><div class="career-role"><div class="cr-title">Supply Chain Analyst</div><div class="cr-industry">Operations &amp; Logistics</div><p>Optimise global supply chains using data and technology.</p></div><div class="career-role"><div class="cr-title">Global Marketing Manager</div><div class="cr-industry">Marketing</div><p>Lead marketing across multiple markets and cultures.</p></div><div class="career-role"><div class="cr-title">International Trade Analyst</div><div class="cr-industry">Trade &amp; Economics</div><p>Support trade strategy and cross-border business operations.</p></div></div></div></div>
+    <div class="career-panel active" data-career-panel="business" role="tabpanel"><div class="career-content"><h3>Business &amp; Strategy</h3><p>Graduates are prepared for roles that require business acumen, analytical judgement, and the ability to translate strategy into execution across organisations.</p><div class="career-roles"><div class="career-role"><div class="cr-title">Business Analyst</div><div class="cr-industry">Consulting &amp; Corporate</div><p>Analyse business problems and design practical solutions.</p></div><div class="career-role"><div class="cr-title">Strategy Associate</div><div class="cr-industry">Corporate Strategy</div><p>Support strategic planning, market analysis, and execution.</p></div><div class="career-role"><div class="cr-title">Operations Manager</div><div class="cr-industry">Operations</div><p>Lead operations teams and improve business processes.</p></div><div class="career-role"><div class="cr-title">Management Consultant</div><div class="cr-industry">Consulting</div><p>Advise organisations on business and technology challenges.</p></div></div></div></div>
+    <div class="career-panel" data-career-panel="tech" role="tabpanel"><div class="career-content"><h3>Technology &amp; AI</h3><p>Graduates bridge business and technology — leading AI adoption, driving digital transformation, and translating emerging tech into business value.</p><div class="career-roles"><div class="career-role"><div class="cr-title">AI Business Lead</div><div class="cr-industry">Technology &amp; AI</div><p>Identify and lead AI opportunities inside organisations.</p></div><div class="career-role"><div class="cr-title">Digital Transformation Manager</div><div class="cr-industry">Enterprise Technology</div><p>Lead technology-driven change programmes.</p></div><div class="career-role"><div class="cr-title">Product Manager</div><div class="cr-industry">Technology &amp; Product</div><p>Build and ship technology products with business impact.</p></div><div class="career-role"><div class="cr-title">FinTech Specialist</div><div class="cr-industry">Financial Services</div><p>Work at the intersection of finance and modern technology.</p></div></div></div></div>
+    <div class="career-panel" data-career-panel="entrepreneurship" role="tabpanel"><div class="career-content"><h3>Entrepreneurship</h3><p>Graduates leave with the tools, frameworks, and portfolio to build ventures — or join early-stage teams as operator-founders.</p><div class="career-roles"><div class="career-role"><div class="cr-title">Founder / Co-Founder</div><div class="cr-industry">Startups</div><p>Build a new venture from concept to launch.</p></div><div class="career-role"><div class="cr-title">Early-Stage Operator</div><div class="cr-industry">Startups &amp; Scale-ups</div><p>Take on a leadership role at a fast-growing company.</p></div><div class="career-role"><div class="cr-title">Venture Analyst</div><div class="cr-industry">VC &amp; Private Equity</div><p>Evaluate investment opportunities and support portfolio companies.</p></div><div class="career-role"><div class="cr-title">Innovation Lead</div><div class="cr-industry">Corporate Innovation</div><p>Drive innovation programmes inside established organisations.</p></div></div></div></div>
+    <div class="career-panel" data-career-panel="finance" role="tabpanel"><div class="career-content"><h3>Finance &amp; Analytics</h3><p>Graduates apply technology and data to financial analysis, decision-making, and business intelligence.</p><div class="career-roles"><div class="career-role"><div class="cr-title">Financial Analyst</div><div class="cr-industry">Corporate Finance</div><p>Analyse financial performance and support key decisions.</p></div><div class="career-role"><div class="cr-title">Data Analyst</div><div class="cr-industry">Data &amp; Analytics</div><p>Turn data into insight that drives business decisions.</p></div><div class="career-role"><div class="cr-title">Business Intelligence Analyst</div><div class="cr-industry">BI &amp; Reporting</div><p>Build reporting systems and dashboards for organisations.</p></div><div class="career-role"><div class="cr-title">Investment Associate</div><div class="cr-industry">Investment &amp; Capital Markets</div><p>Support investment analysis, due diligence, and portfolio work.</p></div></div></div></div>
+    <div class="career-panel" data-career-panel="global" role="tabpanel"><div class="career-content"><h3>Global Operations</h3><p>Graduates are prepared to operate across borders — in international markets, supply chains, and cross-cultural business environments.</p><div class="career-roles"><div class="career-role"><div class="cr-title">International Business Manager</div><div class="cr-industry">Global Business</div><p>Lead cross-border business initiatives.</p></div><div class="career-role"><div class="cr-title">Supply Chain Analyst</div><div class="cr-industry">Operations &amp; Logistics</div><p>Optimise global supply chains using data and technology.</p></div><div class="career-role"><div class="cr-title">Global Marketing Manager</div><div class="cr-industry">Marketing</div><p>Lead marketing across multiple markets and cultures.</p></div><div class="career-role"><div class="cr-title">International Trade Analyst</div><div class="cr-industry">Trade &amp; Economics</div><p>Support trade strategy and cross-border business operations.</p></div></div></div></div>
   </div>
 </section>
 
@@ -1297,12 +1307,13 @@ input,select,textarea{color-scheme:light only}
       <div class="faq-item" data-cat="scholarships"><button type="button" class="faq-q">How do I apply for a scholarship? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Scholarships are considered as part of your main application. Simply indicate your interest during the application and complete the short scholarship assessment section.</p></div></div>
       <div class="faq-item" data-cat="scholarships"><button type="button" class="faq-q">Is the scholarship guaranteed if the eligibility checker says I qualify? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>No — the checker gives an indicative estimate only. Final scholarship decisions are made by the admissions committee.</p></div></div>
       <div class="faq-item" data-cat="admissions"><button type="button" class="faq-q">What are the entry requirements? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>You should have completed secondary education (or equivalent), or hold a diploma or partial degree. Beyond that, we look for motivation, clarity of purpose, and demonstrated capability.</p></div></div>
-      <div class="faq-item" data-cat="admissions"><button type="button" class="faq-q">Is there an application fee? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Yes — a non-refundable application fee of <strong>K120</strong> (Zambian applicants) or <strong>US$10</strong> (international). Payable by Airtel Money, MTN MoMo, bank transfer / Visa, PayPal, or crypto. You'll be asked to send proof of payment to WhatsApp, and a downloadable receipt is generated for you.</p></div></div>
+      <div class="faq-item" data-cat="admissions"><button type="button" class="faq-q">Is there an application fee? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Yes — a non-refundable application fee. <strong>K120</strong> for applicants resident in Zambia, or <strong>US$10</strong> for all other applicants (including other African countries). The fee is settled before you can proceed past Step 2 of the application.</p></div></div>
+      <div class="faq-item" data-cat="admissions"><button type="button" class="faq-q">How do I submit my documents? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>You can upload your CV, academic record, and any supporting documents directly in the application. If for any reason an upload fails, simply email them to <strong>admissions@nolaninstitute.org</strong> with your application reference in the subject line — they will be added to your file.</p></div></div>
       <div class="faq-item" data-cat="admissions"><button type="button" class="faq-q">Can I apply if I'm already working full time? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Absolutely. The programme is designed for working professionals — with flexible weekly structure, recorded lectures, and live sessions across time zones.</p></div></div>
       <div class="faq-item" data-cat="fees"><button type="button" class="faq-q">How much is the total tuition? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Total tuition is <strong>K120,000</strong> (≈ US$6,000) — K40,000 per year, K20,000 per semester, or about K3,333 per month across 36 months — before any scholarship.</p></div></div>
       <div class="faq-item" data-cat="fees"><button type="button" class="faq-q">Can I pay in instalments? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Yes. Full payment, 3 yearly instalments, 6 semester instalments, or 36 monthly instalments. Use the Cost Calculator above.</p></div></div>
       <div class="faq-item" data-cat="fees"><button type="button" class="faq-q">What payment methods do you accept? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>Airtel Money, MTN MoMo, bank transfer / Visa via Standard Chartered Bank, PayPal, and cryptocurrency (BTC, ETH, USDT) for international applicants.</p></div></div>
-      <div class="faq-item" data-cat="fees"><button type="button" class="faq-q">Why do I have to send proof of payment to WhatsApp? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>To protect both you and Nolan Institute — it lets our team quickly verify every payment against our records, prevent errors, and confirm receipt before your application moves forward. You'll also receive a downloadable receipt for your own records.</p></div></div>
+      <div class="faq-item" data-cat="fees"><button type="button" class="faq-q">Why do I have to send proof of payment to WhatsApp? <i class="fas fa-chevron-down"></i></button><div class="faq-a"><p>To protect both you and Nolan Institute — it lets our team quickly verify every payment against our records, prevent errors, and confirm receipt before your application moves forward. You'll also receive a downloadable receipt.</p></div></div>
     </div>
   </div>
 </section>
@@ -1313,10 +1324,10 @@ input,select,textarea{color-scheme:light only}
     <div class="apply-head">
       <span class="section-tag">Central Application</span>
       <h2>Apply to Starting Now or 2027</h2>
-      <p>Complete your application for the Bachelor of Global Business &amp; Technology directly below. Seven short steps. Takes about 10 minutes.</p>
+      <p>Complete your application for the Bachelor of Global Business &amp; Technology directly below. Seven short steps. Your progress is saved automatically.</p>
     </div>
 
-    <div class="apply-progress" id="applyProgress">
+    <div class="apply-progress" id="applyProgress" role="tablist" aria-label="Application steps">
       <div class="apply-step active" data-apply-step="1"><div class="apply-step-circle">1</div><div class="apply-step-label">Personal</div></div>
       <div class="apply-step" data-apply-step="2"><div class="apply-step-circle">2</div><div class="apply-step-label">Payment</div></div>
       <div class="apply-step" data-apply-step="3"><div class="apply-step-circle">3</div><div class="apply-step-label">Academic</div></div>
@@ -1327,6 +1338,17 @@ input,select,textarea{color-scheme:light only}
     </div>
 
     <form class="apply-form" id="applyForm" novalidate enctype="multipart/form-data">
+
+      <div class="draft-banner" id="draftBanner" role="status">
+        <i class="fas fa-info-circle"></i>
+        <div class="draft-text">
+          <strong>We found a draft of your application on this device.</strong> You can pick up where you left off, or start fresh.
+        </div>
+        <div class="draft-actions">
+          <button type="button" id="draftKeep">Continue draft</button>
+          <button type="button" id="draftDiscard">Start fresh</button>
+        </div>
+      </div>
 
       <!-- STEP 1 · PERSONAL -->
       <div class="apply-section-form active" data-apply-form="1">
@@ -1341,14 +1363,14 @@ input,select,textarea{color-scheme:light only}
           </div>
         </div>
         <div class="apply-form-grid" style="margin-top:22px;">
-          <div class="apply-form-group"><label>First Name <span class="req">*</span></label><input type="text" id="apFirstName"></div>
-          <div class="apply-form-group"><label>Last Name <span class="req">*</span></label><input type="text" id="apLastName"></div>
-          <div class="apply-form-group"><label>Email Address <span class="req">*</span></label><input type="email" id="apEmail"></div>
-          <div class="apply-form-group"><label>Phone Number <span class="req">*</span></label><input type="tel" id="apPhone"></div>
-          <div class="apply-form-group"><label>Date of Birth <span class="req">*</span></label><input type="date" id="apDob"></div>
-          <div class="apply-form-group">
-            <label>Country of Residence <span class="req">*</span></label>
-            <select id="apCountry">
+          <div class="apply-form-group" data-field="apFirstName"><label for="apFirstName">First Name <span class="req" aria-hidden="true">*</span></label><input type="text" id="apFirstName" autocomplete="given-name" required><div class="inline-error" data-error-for="apFirstName"><i class="fas fa-exclamation-circle"></i><span>Please enter your first name.</span></div></div>
+          <div class="apply-form-group" data-field="apLastName"><label for="apLastName">Last Name <span class="req" aria-hidden="true">*</span></label><input type="text" id="apLastName" autocomplete="family-name" required><div class="inline-error" data-error-for="apLastName"><i class="fas fa-exclamation-circle"></i><span>Please enter your last name.</span></div></div>
+          <div class="apply-form-group" data-field="apEmail"><label for="apEmail">Email Address <span class="req" aria-hidden="true">*</span></label><input type="email" id="apEmail" autocomplete="email" required><div class="inline-error" data-error-for="apEmail"><i class="fas fa-exclamation-circle"></i><span>Please enter a valid email address.</span></div></div>
+          <div class="apply-form-group" data-field="apPhone"><label for="apPhone">Phone Number <span class="req" aria-hidden="true">*</span></label><input type="tel" id="apPhone" autocomplete="tel" required><div class="inline-error" data-error-for="apPhone"><i class="fas fa-exclamation-circle"></i><span>Please enter your phone number.</span></div></div>
+          <div class="apply-form-group" data-field="apDob"><label for="apDob">Date of Birth <span class="req" aria-hidden="true">*</span></label><input type="date" id="apDob" required><div class="inline-error" data-error-for="apDob"><i class="fas fa-exclamation-circle"></i><span>Please enter your date of birth.</span></div></div>
+          <div class="apply-form-group" data-field="apCountry">
+            <label for="apCountry">Country of Residence <span class="req" aria-hidden="true">*</span></label>
+            <select id="apCountry" required>
               <option value="">Select Country</option>
               <option>Zambia</option><option>Zimbabwe</option><option>South Africa</option>
               <option>Nigeria</option><option>Kenya</option><option>Ghana</option>
@@ -1358,8 +1380,9 @@ input,select,textarea{color-scheme:light only}
               <option>Canada</option><option>Australia</option>
               <option>UAE / Dubai</option><option>Other</option>
             </select>
+            <div class="inline-error" data-error-for="apCountry"><i class="fas fa-exclamation-circle"></i><span>Please select your country.</span></div>
           </div>
-          <div class="apply-form-group full"><label>Current Address</label><input type="text" id="apAddress"></div>
+          <div class="apply-form-group full"><label for="apAddress">Current Address</label><input type="text" id="apAddress" autocomplete="street-address"></div>
         </div>
       </div>
 
@@ -1368,97 +1391,70 @@ input,select,textarea{color-scheme:light only}
         <h3>Application Fee Payment</h3>
         <p class="as-sub">
           A non-refundable application fee is required before you can continue.
-          Choose your payment method, complete the transfer, then confirm below.
-          Your confirmation will be sent to admissions on WhatsApp, and a downloadable receipt will be generated for you.
+          Choose your payment method, complete the transfer, then confirm below. A downloadable receipt will be generated, and you will be asked to send proof to admissions on WhatsApp.
         </p>
 
         <div class="pay-amount-banner">
           <div>
             <div class="pab-label">Amount Due</div>
             <div class="pab-amount" id="apPayAmount">K120</div>
-            <div class="pab-context" id="apPayContext">For Zambian applicants. Non-refundable application fee.</div>
+            <div class="pab-context" id="apPayContext">For applicants resident in Zambia. Non-refundable application fee.</div>
           </div>
-          <i class="fas fa-shield-alt pab-icon"></i>
+          <i class="fas fa-shield-alt pab-icon" aria-hidden="true"></i>
         </div>
 
-        <div class="pay-methods-grid" id="apPayMethods">
-          <button type="button" class="pay-method-card pm-airtel" data-pm="airtel">
-            <div class="pm-logo">airtel</div>
-            <div class="pm-name">Airtel Money</div>
-            <div class="pm-desc">Fastest for Zambian applicants</div>
-          </button>
-          <button type="button" class="pay-method-card pm-mtn" data-pm="mtn">
-            <div class="pm-logo">MTN</div>
-            <div class="pm-name">MTN MoMo</div>
-            <div class="pm-desc">Mobile money</div>
-          </button>
-          <button type="button" class="pay-method-card pm-bank" data-pm="bank">
-            <div class="pm-logo"><i class="fas fa-university"></i></div>
-            <div class="pm-name">Bank / Visa</div>
-            <div class="pm-desc">Standard Chartered</div>
-          </button>
-          <button type="button" class="pay-method-card pm-paypal" data-pm="paypal">
-            <div class="pm-logo"><i class="fab fa-paypal"></i></div>
-            <div class="pm-name">PayPal</div>
-            <div class="pm-desc">For international applicants</div>
-          </button>
-          <button type="button" class="pay-method-card pm-crypto" data-pm="crypto">
-            <div class="pm-logo"><i class="fab fa-bitcoin"></i></div>
-            <div class="pm-name">Crypto</div>
-            <div class="pm-desc">BTC · ETH · USDT</div>
-          </button>
+        <div class="fee-tier-note" role="note">
+          <i class="fas fa-info-circle" aria-hidden="true"></i>
+          <div>
+            <strong>Fee tiers:</strong> Applicants resident in <strong>Zambia</strong> pay <strong>K120</strong>.
+            Applicants in <strong>all other countries</strong> (including the rest of Africa) pay <strong>US$10</strong> equivalent.
+            Your fee is set automatically by the country you selected in Step 1.
+          </div>
+        </div>
+
+        <div class="pay-methods-grid" id="apPayMethods" role="radiogroup" aria-label="Payment method">
+          <button type="button" role="radio" aria-checked="false" class="pay-method-card pm-airtel" data-pm="airtel"><div class="pm-logo">airtel</div><div class="pm-name">Airtel Money</div><div class="pm-desc">Fastest for Zambian applicants</div></button>
+          <button type="button" role="radio" aria-checked="false" class="pay-method-card pm-mtn" data-pm="mtn"><div class="pm-logo">MTN</div><div class="pm-name">MTN MoMo</div><div class="pm-desc">Mobile money</div></button>
+          <button type="button" role="radio" aria-checked="false" class="pay-method-card pm-bank" data-pm="bank"><div class="pm-logo"><i class="fas fa-university"></i></div><div class="pm-name">Bank / Visa</div><div class="pm-desc">Standard Chartered</div></button>
+          <button type="button" role="radio" aria-checked="false" class="pay-method-card pm-paypal" data-pm="paypal"><div class="pm-logo"><i class="fab fa-paypal"></i></div><div class="pm-name">PayPal</div><div class="pm-desc">For international applicants</div></button>
+          <button type="button" role="radio" aria-checked="false" class="pay-method-card pm-crypto" data-pm="crypto"><div class="pm-logo"><i class="fab fa-bitcoin"></i></div><div class="pm-name">Crypto</div><div class="pm-desc">BTC · ETH · USDT</div></button>
         </div>
 
         <div id="apPayDetails" style="display:none;"></div>
 
         <div class="pay-confirm-form" id="apPayConfirm" style="display:none;">
-          <h4><i class="fas fa-clipboard-check"></i> Confirm Your Payment</h4>
+          <h4><i class="fas fa-clipboard-check"></i> Confirm You Have Paid</h4>
           <p style="font-size:12.5px;color:var(--gray-dark);margin-bottom:16px;line-height:1.6;">
-            Once you have completed the transfer, confirm below. Your details will be sent to admissions on WhatsApp, and a receipt will be generated.
+            Once you have completed the transfer, confirm below. Your details will be sent to admissions on WhatsApp for verification, and a receipt will be generated for you to download.
           </p>
           <div class="apply-form-grid">
-            <div class="apply-form-group">
-              <label>Your Name (as on the payment) <span class="req">*</span></label>
-              <input type="text" id="apPaySenderName" placeholder="e.g. Mulenga Katyala">
-            </div>
-            <div class="apply-form-group">
-              <label>Phone / Email used to pay <span class="req">*</span></label>
-              <input type="text" id="apPaySenderContact" placeholder="e.g. 076 304 9144 or you@example.com">
-            </div>
-            <div class="apply-form-group full">
-              <label>Transaction Reference / Transaction ID <span class="req">*</span></label>
-              <input type="text" id="apPayRef" placeholder="e.g. 10683000119">
-              <div class="apply-helper">From your SMS confirmation, bank receipt, PayPal receipt, or blockchain TxID. <strong>Required</strong> — used to verify your payment and shown on your receipt.</div>
-            </div>
+            <div class="apply-form-group" data-field="apPaySenderName"><label for="apPaySenderName">Your Name (as on the payment) <span class="req" aria-hidden="true">*</span></label><input type="text" id="apPaySenderName" placeholder="e.g. Mulenga Katyala"><div class="inline-error" data-error-for="apPaySenderName"><i class="fas fa-exclamation-circle"></i><span>Please enter the name on the payment.</span></div></div>
+            <div class="apply-form-group" data-field="apPaySenderContact"><label for="apPaySenderContact">Phone / Email used to pay <span class="req" aria-hidden="true">*</span></label><input type="text" id="apPaySenderContact" placeholder="e.g. 076 304 9144 or you@example.com"><div class="inline-error" data-error-for="apPaySenderContact"><i class="fas fa-exclamation-circle"></i><span>Please enter the phone or email used to pay.</span></div></div>
+            <div class="apply-form-group full" data-field="apPayRef"><label for="apPayRef">Transaction Reference / Transaction ID <span class="req" aria-hidden="true">*</span></label><input type="text" id="apPayRef" placeholder="e.g. 10683000119"><div class="apply-helper">From your SMS confirmation, bank receipt, PayPal receipt, or blockchain TxID. <strong>Required</strong> — used to verify your payment and shown on your receipt.</div><div class="inline-error" data-error-for="apPayRef"><i class="fas fa-exclamation-circle"></i><span>Please enter your transaction reference.</span></div></div>
           </div>
           <div class="apply-checks" style="margin-top:6px;">
             <label><input type="checkbox" id="apPayConfirmed"> I confirm I have sent <strong id="apPayConfirmAmount">K120</strong> to the account shown above, and I agree my details will be shared with the admissions team via WhatsApp for verification.</label>
           </div>
           <button type="button" class="btn btn-primary btn-lg btn-block" id="apPaySubmit" style="margin-top:6px;">
-            <i class="fas fa-check-circle"></i> Confirm Payment &amp; Generate Receipt
+            <i class="fas fa-check-circle"></i> I Have Paid — Generate My Receipt
           </button>
         </div>
 
-        <!-- SUCCESS PANEL -->
         <div id="apPaymentSuccess" style="display:none;">
           <div class="payment-success">
-            <i class="fas fa-check-circle ps-icon"></i>
+            <i class="fas fa-check-circle ps-icon" aria-hidden="true"></i>
             <h4>Payment Recorded</h4>
-            <p>Receipt Reference: <strong id="apPaymentRef">NOL-XXXXXX</strong></p>
+            <p>Receipt Reference: <strong id="apPaymentRef">NOL-XXXX-XXXXXX</strong></p>
             <p style="font-size:12.5px;color:var(--gray-dark);margin-top:6px;">Your receipt has been generated below. Download it for your records.</p>
 
-            <!-- WhatsApp verification block -->
             <div class="ps-whatsapp-block" id="apWhatsappBlock">
-              <div class="psw-title"><i class="fab fa-whatsapp"></i> Step 1 — Send Proof to Admissions</div>
+              <div class="psw-title"><i class="fab fa-whatsapp" aria-hidden="true"></i> Step 1 — Send Proof to Admissions</div>
               <p>To confirm your payment, please send the confirmation below to our admissions team on WhatsApp <strong>+260 762 499 581</strong>. They will compare your details against our records and confirm receipt.</p>
-              <a href="#" class="btn-whatsapp" id="apWhatsappBtn" target="_blank" rel="noopener">
-                <i class="fab fa-whatsapp"></i> <span>Send Proof to WhatsApp</span>
-              </a>
+              <a href="#" class="btn-whatsapp" id="apWhatsappBtn" target="_blank" rel="noopener"><i class="fab fa-whatsapp" aria-hidden="true"></i> <span>Send Proof to WhatsApp</span></a>
               <div class="psw-note">If WhatsApp does not open automatically, tap the button above.</div>
               <div class="psw-sent" id="apWhatsappSent"><i class="fas fa-check-circle"></i> Confirmation ready — please tap <strong>Send</strong> in WhatsApp.</div>
             </div>
 
-            <!-- Receipt section -->
             <div class="receipt-section">
               <div class="receipt-section-head">
                 <div>
@@ -1466,12 +1462,8 @@ input,select,textarea{color-scheme:light only}
                   <div class="rsh-sub">Download or print for your records</div>
                 </div>
                 <div class="receipt-buttons">
-                  <button type="button" class="receipt-btn receipt-btn-gold" id="apDownloadReceiptBtn">
-                    <i class="fas fa-download"></i> Download PDF
-                  </button>
-                  <button type="button" class="receipt-btn" id="apPrintReceiptBtn">
-                    <i class="fas fa-print"></i> Print
-                  </button>
+                  <button type="button" class="receipt-btn receipt-btn-gold" id="apDownloadReceiptBtn"><i class="fas fa-download"></i> Download PDF</button>
+                  <button type="button" class="receipt-btn" id="apPrintReceiptBtn"><i class="fas fa-print"></i> Print</button>
                 </div>
               </div>
 
@@ -1482,21 +1474,19 @@ input,select,textarea{color-scheme:light only}
                     <div class="nr-brand-sub">Learn. Innovate. Lead.</div>
                   </div>
                   <div>
-                    <div class="nr-doc-type">PAYMENT RECEIPT</div>
-                    <div class="nr-status" id="nrStatus">PENDING VERIFICATION</div>
+                    <div class="nr-doc-type">PROVISIONAL PAYMENT RECEIPT</div>
+                    <div class="nr-status status-pending" id="nrStatus">PENDING VERIFICATION</div>
                   </div>
                 </div>
-
                 <div class="nr-meta">
                   <div><span class="nr-lbl">Receipt No:</span> <strong id="nrRef">—</strong></div>
                   <div><span class="nr-lbl">Date &amp; Time:</span> <strong id="nrDate">—</strong></div>
                 </div>
-
                 <div class="nr-highlight-amount">
                   <div class="nr-ha-lbl">Amount Received</div>
                   <div class="nr-ha-val" id="nrAmount">—</div>
+                  <div class="nr-amount-words" id="nrAmountWords">—</div>
                 </div>
-
                 <div class="nr-section">
                   <div class="nr-section-title">From — Payer / Sender</div>
                   <div class="nr-grid-2">
@@ -1504,7 +1494,6 @@ input,select,textarea{color-scheme:light only}
                     <div><span class="nr-lbl">Contact:</span> <strong id="nrSenderContact">—</strong></div>
                   </div>
                 </div>
-
                 <div class="nr-section">
                   <div class="nr-section-title">To — Recipient</div>
                   <div class="nr-grid-2">
@@ -1513,7 +1502,6 @@ input,select,textarea{color-scheme:light only}
                     <div><span class="nr-lbl">Account / Channel:</span> <strong id="nrRecipientAccount">—</strong></div>
                   </div>
                 </div>
-
                 <div class="nr-section">
                   <div class="nr-section-title">Payment Details</div>
                   <div class="nr-grid-2">
@@ -1523,7 +1511,6 @@ input,select,textarea{color-scheme:light only}
                     <div><span class="nr-lbl">Status:</span> <strong style="color:#856404;">Pending Verification</strong></div>
                   </div>
                 </div>
-
                 <div class="nr-section">
                   <div class="nr-section-title">Application</div>
                   <div class="nr-grid-2">
@@ -1533,16 +1520,38 @@ input,select,textarea{color-scheme:light only}
                     <div><span class="nr-lbl">Intake:</span> <strong>Founding Cohort 2026</strong></div>
                   </div>
                 </div>
-
+                <div class="nr-qr-block">
+                  <div class="nr-qr-canvas-wrap" id="nrQrWrap">
+                    <canvas id="nrQrCanvas" width="184" height="184" aria-label="Receipt verification QR code"></canvas>
+                  </div>
+                  <div class="nr-qr-text">
+                    <strong><i class="fas fa-qrcode"></i> Verify this receipt</strong>
+                    Scan the code, or visit the URL below, to check this receipt's status. Verification is completed by the admissions team after the payment is confirmed.
+                    <code id="nrVerifyUrl">https://nigbt.nolanuniversity.org/verify/…</code>
+                  </div>
+                </div>
                 <div class="nr-footer">
                   <div class="nr-footer-note">
-                    This receipt acknowledges the applicant's submission of payment details to Nolan Institute. Final confirmation is completed by the admissions team after verification on WhatsApp. If you have any questions, please contact us using the details below.
+                    <strong>This is a PROVISIONAL receipt.</strong> It acknowledges the applicant's submission of payment details to Nolan Institute. A final receipt will be issued once the payment has been verified against our records. This receipt is subject to actual receipt of funds into the nominated account, and Nolan Institute reserves the right to withdraw or amend this receipt in the event of a discrepancy.
                   </div>
-                  <div class="nr-footer-contact">
+                  <div class="nr-signature">
+                    <div class="nr-sig-block"><div class="nr-sig-line"></div><div class="nr-sig-lbl">Authorised Signature</div></div>
+                    <div class="nr-sig-block"><div class="nr-sig-line"></div><div class="nr-sig-lbl">Date</div></div>
+                  </div>
+                  <div class="nr-footer-contact" style="margin-top:14px;">
                     <strong>Nolan Institute of Global Business &amp; Technology</strong><br>
                     Lusaka, Zambia · admissions@nolaninstitute.org · +260 768 526 191
                   </div>
                 </div>
+              </div>
+
+              <div class="receipt-check">
+                <h6><i class="fas fa-search"></i> Check receipt status later</h6>
+                <div class="receipt-check-row">
+                  <input type="text" id="receiptCheckInput" placeholder="Enter your Receipt No (e.g. NOL-2026-000123)">
+                  <button type="button" class="btn btn-primary btn-sm" id="receiptCheckBtn">Check</button>
+                </div>
+                <div class="receipt-check-result" id="receiptCheckResult"></div>
               </div>
             </div>
 
@@ -1558,8 +1567,9 @@ input,select,textarea{color-scheme:light only}
         <h3>Academic Background</h3>
         <p class="as-sub">Tell us about your education so far.</p>
         <div class="apply-form-grid">
-          <div class="apply-form-group full"><label>Current or Most Recent Institution <span class="req">*</span></label><input type="text" id="apSchool"></div>
-          <div class="apply-form-group"><label>Highest Qualification <span class="req">*</span></label>
+          <div class="apply-form-group full" data-field="apSchool"><label for="apSchool">Current or Most Recent Institution <span class="req" aria-hidden="true">*</span></label><input type="text" id="apSchool"><div class="inline-error" data-error-for="apSchool"><i class="fas fa-exclamation-circle"></i><span>Please enter your institution.</span></div></div>
+          <div class="apply-form-group" data-field="apDegree">
+            <label for="apDegree">Highest Qualification <span class="req" aria-hidden="true">*</span></label>
             <select id="apDegree">
               <option value="">Select</option>
               <option>Completed Secondary School</option>
@@ -1570,11 +1580,12 @@ input,select,textarea{color-scheme:light only}
               <option>Professional Qualification</option>
               <option>Other</option>
             </select>
+            <div class="inline-error" data-error-for="apDegree"><i class="fas fa-exclamation-circle"></i><span>Please select your qualification.</span></div>
           </div>
-          <div class="apply-form-group"><label>Field of Study</label><input type="text" id="apField"></div>
-          <div class="apply-form-group"><label>Year Completed / Expected <span class="req">*</span></label><input type="number" id="apYear" min="1980" max="2030"></div>
-          <div class="apply-form-group"><label>Academic Performance</label><input type="text" id="apGpa" placeholder="e.g. 3.6/4.0 · Merit · Distinction"></div>
-          <div class="apply-form-group full"><label>Relevant Coursework or Training</label><textarea id="apCoursework" rows="3" placeholder="Any business, technology, finance, economics, or related courses."></textarea></div>
+          <div class="apply-form-group"><label for="apField">Field of Study</label><input type="text" id="apField"></div>
+          <div class="apply-form-group" data-field="apYear"><label for="apYear">Year Completed / Expected <span class="req" aria-hidden="true">*</span></label><input type="number" id="apYear" min="1980" max="2030"><div class="inline-error" data-error-for="apYear"><i class="fas fa-exclamation-circle"></i><span>Please enter a valid year.</span></div></div>
+          <div class="apply-form-group"><label for="apGpa">Academic Performance</label><input type="text" id="apGpa" placeholder="e.g. 3.6/4.0 · Merit · Distinction"></div>
+          <div class="apply-form-group full"><label for="apCoursework">Relevant Coursework or Training</label><textarea id="apCoursework" rows="3" placeholder="Any business, technology, finance, economics, or related courses."></textarea></div>
         </div>
       </div>
 
@@ -1590,28 +1601,28 @@ input,select,textarea{color-scheme:light only}
           </div>
         </div>
         <div class="apply-form-group">
-          <label>Are you applying for scholarship consideration? <span class="req">*</span></label>
-          <div class="apply-radio-grid" id="apScholarshipInterest">
-            <button type="button" class="apply-radio" data-value="yes"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Yes — I'd like to be considered for a scholarship</div><div class="ar-desc">You'll be assessed for a 70–100% scholarship based on merit, need, and potential.</div></div></button>
-            <button type="button" class="apply-radio" data-value="no"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">No — I'll pay full tuition</div><div class="ar-desc">Proceed as a full-fee applicant. Payment plans still available.</div></div></button>
+          <label>Are you applying for scholarship consideration? <span class="req" aria-hidden="true">*</span></label>
+          <div class="apply-radio-grid" id="apScholarshipInterest" role="radiogroup" aria-label="Scholarship interest">
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="yes"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Yes — I'd like to be considered for a scholarship</div><div class="ar-desc">You'll be assessed for a 70–100% scholarship based on merit, need, and potential.</div></div></button>
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="no"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">No — I'll pay full tuition</div><div class="ar-desc">Proceed as a full-fee applicant. Payment plans still available.</div></div></button>
           </div>
         </div>
         <div class="apply-form-group">
-          <label>How would you describe your financial need? <span class="req">*</span></label>
-          <div class="apply-radio-grid" id="apFinancialNeed">
-            <button type="button" class="apply-radio" data-value="low"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">I can pay full tuition (K120,000)</div></div></button>
-            <button type="button" class="apply-radio" data-value="medium"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">I need partial support</div></div></button>
-            <button type="button" class="apply-radio" data-value="high"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Without scholarship, it would be difficult</div></div></button>
-            <button type="button" class="apply-radio" data-value="critical"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Without near-full scholarship, I cannot attend</div></div></button>
+          <label>How would you describe your financial need? <span class="req" aria-hidden="true">*</span></label>
+          <div class="apply-radio-grid" id="apFinancialNeed" role="radiogroup" aria-label="Financial need">
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="low"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">I can pay full tuition (K120,000)</div></div></button>
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="medium"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">I need partial support</div></div></button>
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="high"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Without scholarship, it would be difficult</div></div></button>
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="critical"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Without near-full scholarship, I cannot attend</div></div></button>
           </div>
         </div>
         <div class="apply-form-group">
-          <label>What best describes your entrepreneurial or leadership experience? <span class="req">*</span></label>
-          <div class="apply-radio-grid" id="apLeadership">
-            <button type="button" class="apply-radio" data-value="none"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">None yet</div></div></button>
-            <button type="button" class="apply-radio" data-value="some"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Led a team or project</div></div></button>
-            <button type="button" class="apply-radio" data-value="strong"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Built a business, initiative or venture</div></div></button>
-            <button type="button" class="apply-radio" data-value="exceptional"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Founded or co-founded a notable venture</div></div></button>
+          <label>What best describes your entrepreneurial or leadership experience? <span class="req" aria-hidden="true">*</span></label>
+          <div class="apply-radio-grid" id="apLeadership" role="radiogroup" aria-label="Leadership experience">
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="none"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">None yet</div></div></button>
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="some"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Led a team or project</div></div></button>
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="strong"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Built a business, initiative or venture</div></div></button>
+            <button type="button" role="radio" aria-checked="false" class="apply-radio" data-value="exceptional"><span class="ar-check"></span><div class="ar-content"><div class="ar-title">Founded or co-founded a notable venture</div></div></button>
           </div>
         </div>
       </div>
@@ -1620,16 +1631,24 @@ input,select,textarea{color-scheme:light only}
       <div class="apply-section-form" data-apply-form="5">
         <h3>Short Essays</h3>
         <p class="as-sub">Help us understand you and your ambition. Keep it honest and specific.</p>
-        <div class="apply-form-group"><label>Essay 1: Why this programme, and why now? <span class="req">*</span></label><textarea id="apEssay1" rows="6" placeholder="Tell us why the Bachelor of Global Business & Technology is the right programme for you at this point in your life. (150–300 words)"></textarea><div class="apply-helper">Minimum 150 words.</div></div>
-        <div class="apply-form-group"><label>Essay 2: What will you build or do after graduation? <span class="req">*</span></label><textarea id="apEssay2" rows="6" placeholder="Describe the venture, role, or mission you're moving toward. (150–300 words)"></textarea><div class="apply-helper">Minimum 150 words.</div></div>
+        <div class="apply-form-group" data-field="apEssay1"><label for="apEssay1">Essay 1: Why this programme, and why now? <span class="req" aria-hidden="true">*</span></label><textarea id="apEssay1" rows="6" placeholder="Tell us why the Bachelor of Global Business & Technology is the right programme for you at this point in your life. (150–300 words)"></textarea><div class="apply-helper">Minimum 150 words.</div><div class="inline-error" data-error-for="apEssay1"><i class="fas fa-exclamation-circle"></i><span>Essay 1 should be at least 150 words.</span></div></div>
+        <div class="apply-form-group" data-field="apEssay2"><label for="apEssay2">Essay 2: What will you build or do after graduation? <span class="req" aria-hidden="true">*</span></label><textarea id="apEssay2" rows="6" placeholder="Describe the venture, role, or mission you're moving toward. (150–300 words)"></textarea><div class="apply-helper">Minimum 150 words.</div><div class="inline-error" data-error-for="apEssay2"><i class="fas fa-exclamation-circle"></i><span>Essay 2 should be at least 150 words.</span></div></div>
       </div>
 
       <!-- STEP 6 · DOCUMENTS -->
       <div class="apply-section-form" data-apply-form="6">
         <h3>Supporting Documents</h3>
         <p class="as-sub">Upload your documents. PDF preferred. Files are validated before being accepted to protect your device's memory.</p>
+        <div id="documentUploadNote" class="fee-tier-note" role="note" style="display:none;">
+          <i class="fas fa-envelope" aria-hidden="true"></i>
+          <div>
+            <strong>Heads up:</strong> online uploads aren't currently enabled on this page.
+            You can still submit your application — simply email your CV, academic record and any scholarship documents to
+            <strong>admissions@nolaninstitute.org</strong> with your full name and application reference in the subject line. We'll attach them to your file.
+          </div>
+        </div>
         <div class="apply-form-group">
-          <label>Resume / CV <span class="req">*</span></label>
+          <label>Resume / CV <span class="req" aria-hidden="true">*</span></label>
           <div class="upload-drop" data-upload-for="apResume">
             <input type="file" id="apResume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
             <div class="upload-empty"><i class="fas fa-cloud-upload-alt"></i><div class="upload-text">Tap to browse or drag &amp; drop</div><div class="upload-hint">PDF or DOC · max 5MB</div></div>
@@ -1638,7 +1657,7 @@ input,select,textarea{color-scheme:light only}
           <div class="apply-helper">PDF or DOC · max 5MB</div>
         </div>
         <div class="apply-form-group">
-          <label>Academic Record (Transcript, Certificate, or Results Slip) <span class="req">*</span></label>
+          <label>Academic Record (Transcript, Certificate, or Results Slip) <span class="req" aria-hidden="true">*</span></label>
           <div class="upload-drop" data-upload-for="apTranscript">
             <input type="file" id="apTranscript" accept=".pdf,application/pdf">
             <div class="upload-empty"><i class="fas fa-cloud-upload-alt"></i><div class="upload-text">Tap to browse or drag &amp; drop</div><div class="upload-hint">PDF · max 10MB</div></div>
@@ -1657,7 +1676,7 @@ input,select,textarea{color-scheme:light only}
         </div>
       </div>
 
-      <!-- STEP 7 · REVIEW -->
+      <!-- STEP 7 · REVIEW + SUBMIT -->
       <div class="apply-section-form" data-apply-form="7">
         <h3>Review &amp; Submit</h3>
         <p class="as-sub">Check everything is correct before submitting.</p>
@@ -1667,14 +1686,36 @@ input,select,textarea{color-scheme:light only}
           <p id="applyFeeDetailLine">Please return to Step 2 to complete payment.</p>
         </div>
         <div id="applyReview"></div>
+
+        <div class="turnstile-wrap">
+          <div id="turnstileWidget" class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-theme="light" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired" data-error-callback="onTurnstileError"></div>
+        </div>
+        <div class="turnstile-fallback" id="turnstileFallback">
+          <strong>Spam protection not loaded.</strong> If this keeps happening, please make sure JavaScript is enabled. If you're the site owner, replace <code>YOUR_TURNSTILE_SITE_KEY</code> with your Cloudflare Turnstile site key.
+        </div>
+
         <div class="apply-checks">
           <label><input type="checkbox" id="apAgreeTerms"> I certify that all information I have provided is complete and accurate.</label>
           <label><input type="checkbox" id="apAgreeSubmit"> I understand that submitting false information may result in revocation of admission.</label>
           <label><input type="checkbox" id="apAgreeUpdates"> Send me updates about Nolan Institute news and events.</label>
         </div>
+
+        <div id="applySuccess" class="submit-success-panel">
+          <i class="fas fa-check-circle ssp-icon" aria-hidden="true"></i>
+          <h3>Application Submitted</h3>
+          <p>Thank you. Your application has been received by Nolan Institute. A confirmation email has been sent to you.</p>
+          <div class="ssp-ref" id="applySuccessRef">APP-XXXX-XXXXXX</div>
+          <div id="applySuccessDocsNote" style="display:none;background:#FFF4E5;border-left:3px solid var(--warning);border-radius:8px;padding:12px 16px;font-size:13px;color:#7A5C10;line-height:1.6;text-align:left;max-width:560px;margin:14px auto;">
+            <strong><i class="fas fa-envelope"></i> One more step:</strong> please email your CV, academic record and any scholarship documents to <strong>admissions@nolaninstitute.org</strong> with your application reference in the subject line. We'll attach them to your file.
+          </div>
+          <p style="font-size:13px;color:var(--gray-dark);">You may now close this page. Our admissions team will be in touch.</p>
+          <div class="ssp-actions">
+            <a href="index.html" class="btn btn-primary btn-lg">Return to Nolan Institute <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
       </div>
 
-      <div class="apply-nav">
+      <div class="apply-nav" id="applyNav">
         <button type="button" class="btn btn-outline" id="apPrev" style="display:none;">← Previous</button>
         <button type="button" class="btn btn-primary" id="apNext">Next →</button>
         <button type="submit" class="btn btn-gold" id="apSubmit" style="display:none;background:var(--gold);color:var(--navy-dark);">Submit Application <i class="fas fa-check"></i></button>
@@ -1743,22 +1784,68 @@ input,select,textarea{color-scheme:light only}
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 Nolan Institute of Global Business &amp; Technology. All rights reserved.</span>
-      <div style="display:flex;gap:20px;flex-wrap:wrap"><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Accessibility</a></div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="accessibility.html">Accessibility</a>
+      </div>
     </div>
   </div>
 </footer>
 
-<div class="apply-toast" id="applyToast"><i class="fas fa-check-circle"></i><span id="applyToastMsg"></span></div>
+<div class="apply-toast" id="applyToast" role="status" aria-live="polite"><i class="fas fa-check-circle" aria-hidden="true"></i><span id="applyToastMsg"></span></div>
 
 <script>
-/* =============================================================
-   ADMIN WHATSAPP — where payment proofs are sent
-   Replace with your admissions WhatsApp if it changes.
-   Format: country code + number, no "+", no spaces.
-   ============================================================= */
+/* ============================================================
+   CONFIGURATION
+   ============================================================ */
 const ADMIN_WHATSAPP = '260762499581';
 
-/* PAGE ENTRY FIX */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyA_ocl1c1-zg4FQep1IpcC6cZLoMkeytGM",
+  authDomain: "nolanuniversity-c1e7a.firebaseapp.com",
+  projectId: "nolanuniversity-c1e7a",
+  storageBucket: "nolanuniversity-c1e7a.firebasestorage.app",
+  messagingSenderId: "423278769509",
+  appId: "1:423278769509:web:847a299a3b825049cb9d8c",
+  measurementId: "G-5T7SGGC8LF"
+};
+
+/* ============================================================
+   CLOUDINARY — optional, free file uploads (25GB no billing)
+   Sign up at https://cloudinary.com/ (free tier, no card).
+   Then: Settings → Upload → Add upload preset → Signing Mode: Unsigned.
+   Paste your Cloud Name and Preset below.
+   ============================================================ */
+const CLOUDINARY_CONFIG = {
+  cloudName: "YOUR_CLOUDINARY_CLOUD_NAME",
+  uploadPreset: "YOUR_UNSIGNED_UPLOAD_PRESET"
+};
+const IS_CLOUDINARY_CONFIGURED = !!(CLOUDINARY_CONFIG.cloudName && CLOUDINARY_CONFIG.cloudName.indexOf('YOUR_') !== 0 &&
+                                    CLOUDINARY_CONFIG.uploadPreset && CLOUDINARY_CONFIG.uploadPreset.indexOf('YOUR_') !== 0);
+
+const EMAILJS_CONFIG = {
+  publicKey: "YOUR_EMAILJS_PUBLIC_KEY",
+  serviceId: "YOUR_EMAILJS_SERVICE_ID",
+  templateId: "YOUR_EMAILJS_TEMPLATE_ID"
+};
+
+const TURNSTILE_SITE_KEY = "YOUR_TURNSTILE_SITE_KEY";
+
+const VERIFY_BASE_URL = "https://nigbt.nolanuniversity.org/verify";
+
+const DRAFT_KEY = 'nolan_application_draft_v1';
+
+/* ============================================================
+   CONFIGURATION CHECKS
+   ============================================================ */
+const IS_FIREBASE_CONFIGURED = !!(FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey.indexOf('YOUR_') !== 0);
+const IS_EMAILJS_CONFIGURED = !!(EMAILJS_CONFIG.publicKey && EMAILJS_CONFIG.publicKey.indexOf('YOUR_') !== 0);
+const IS_TURNSTILE_CONFIGURED = !!(TURNSTILE_SITE_KEY && TURNSTILE_SITE_KEY.indexOf('YOUR_') !== 0);
+
+/* ============================================================
+   PAGE ENTRY FIX
+   ============================================================ */
 (function pageEntryFix(){
   if ('scrollRestoration' in history) { try { history.scrollRestoration = 'manual'; } catch(e) {} }
   window.addEventListener('load', function(){
@@ -1768,12 +1855,16 @@ const ADMIN_WHATSAPP = '260762499581';
   });
 })();
 
-const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
 const USD_RATE = 20;
 const FULL_ZMW = 120000;
 
-/* MOBILE MENU */
+function trackEvent(name, params){
+  try { if (typeof gtag === 'function') gtag('event', name, params || {}); } catch(e) {}
+}
+
+/* ============================================================
+   MOBILE MENU
+   ============================================================ */
 function toggleMobileMenu(force){
   const nav = document.getElementById('mobileNav');
   const btn = document.getElementById('mobileMenuBtn');
@@ -1791,7 +1882,9 @@ document.addEventListener('click', function(e){
   if(link){ const nav = document.getElementById('mobileNav'); if(nav) nav.classList.remove('show'); }
 });
 
-/* STICKY HEADER */
+/* ============================================================
+   STICKY HEADER
+   ============================================================ */
 const header = document.getElementById('mainHeader');
 if(header){
   window.addEventListener('scroll', function(){
@@ -1799,7 +1892,9 @@ if(header){
   }, { passive: true });
 }
 
-/* SMOOTH SCROLL */
+/* ============================================================
+   SMOOTH SCROLL
+   ============================================================ */
 document.querySelectorAll('a[href^="#"]').forEach(function(anchor){
   anchor.addEventListener('click', function(e){
     const href = this.getAttribute('href');
@@ -1814,17 +1909,21 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor){
   });
 });
 
-/* STRUCTURE TABS */
+/* ============================================================
+   STRUCTURE TABS
+   ============================================================ */
 document.querySelectorAll('.structure-tab').forEach(function(tab){
   tab.addEventListener('click', function(){
     const year = this.dataset.year;
-    document.querySelectorAll('.structure-tab').forEach(t => t.classList.remove('active'));
-    this.classList.add('active');
+    document.querySelectorAll('.structure-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    this.classList.add('active'); this.setAttribute('aria-selected','true');
     document.querySelectorAll('.structure-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === year));
   });
 });
 
-/* COST CALCULATOR */
+/* ============================================================
+   COST CALCULATOR
+   ============================================================ */
 (function costCalculator(){
   const tierSelect = document.getElementById('calcTier');
   const planSelect = document.getElementById('calcPlan');
@@ -1858,7 +1957,9 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
   update();
 })();
 
-/* ELIGIBILITY CHECKER */
+/* ============================================================
+   ELIGIBILITY CHECKER
+   ============================================================ */
 (function eligibilityChecker(){
   const questions = document.querySelectorAll('.elig-question');
   const total = questions.length;
@@ -1879,8 +1980,8 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
     opt.addEventListener('click', function(){
       const parent = this.closest('.elig-question');
       const qNum = parseInt(parent.dataset.eligQ, 10);
-      parent.querySelectorAll('.elig-option').forEach(o => o.classList.remove('selected'));
-      this.classList.add('selected');
+      parent.querySelectorAll('.elig-option').forEach(o => { o.classList.remove('selected'); o.setAttribute('aria-checked','false'); });
+      this.classList.add('selected'); this.setAttribute('aria-checked','true');
       answers[qNum] = parseInt(this.dataset.value, 10);
       nextBtn.disabled = false;
     });
@@ -1901,10 +2002,11 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
     result.classList.add('active');
     nextBtn.style.display = 'none'; prevBtn.style.display = 'none';
     fill.style.width = '100%';
+    trackEvent('eligibility_check_complete', { tier: percent });
   }
   document.getElementById('eligRetake').addEventListener('click', function(){
     current = 1; answers = {};
-    document.querySelectorAll('.elig-option').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.elig-option').forEach(o => { o.classList.remove('selected'); o.setAttribute('aria-checked','false'); });
     result.classList.remove('active');
     nextBtn.style.display = 'inline-flex'; prevBtn.style.display = 'inline-flex';
     updateUI();
@@ -1912,7 +2014,9 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
   updateUI();
 })();
 
-/* QUIZ */
+/* ============================================================
+   QUIZ
+   ============================================================ */
 (function selfAssessmentQuiz(){
   const steps = document.querySelectorAll('.quiz-step');
   const total = steps.length;
@@ -1933,8 +2037,8 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
     opt.addEventListener('click', function(){
       const parent = this.closest('.quiz-step');
       const qNum = parseInt(parent.dataset.quizQ, 10);
-      parent.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
-      this.classList.add('selected');
+      parent.querySelectorAll('.quiz-opt').forEach(o => { o.classList.remove('selected'); o.setAttribute('aria-checked','false'); });
+      this.classList.add('selected'); this.setAttribute('aria-checked','true');
       answers[qNum] = parseInt(this.dataset.value, 10);
       nextBtn.disabled = false;
     });
@@ -1955,10 +2059,11 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
     result.classList.add('active');
     nextBtn.style.display = 'none'; prevBtn.style.display = 'none';
     fill.style.width = '100%';
+    trackEvent('fit_quiz_complete', { score: sum });
   }
   document.getElementById('quizRetake').addEventListener('click', function(){
     current = 1; answers = {};
-    document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('.quiz-opt').forEach(o => { o.classList.remove('selected'); o.setAttribute('aria-checked','false'); });
     result.classList.remove('active');
     nextBtn.style.display = 'inline-flex'; prevBtn.style.display = 'inline-flex';
     updateUI();
@@ -1966,17 +2071,21 @@ document.querySelectorAll('.structure-tab').forEach(function(tab){
   updateUI();
 })();
 
-/* CAREER EXPLORER */
+/* ============================================================
+   CAREER EXPLORER
+   ============================================================ */
 document.querySelectorAll('.career-tab').forEach(function(tab){
   tab.addEventListener('click', function(){
     const career = this.dataset.career;
-    document.querySelectorAll('.career-tab').forEach(t => t.classList.remove('active'));
-    this.classList.add('active');
+    document.querySelectorAll('.career-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+    this.classList.add('active'); this.setAttribute('aria-selected','true');
     document.querySelectorAll('.career-panel').forEach(p => p.classList.toggle('active', p.dataset.careerPanel === career));
   });
 });
 
-/* FAQ */
+/* ============================================================
+   FAQ
+   ============================================================ */
 document.querySelectorAll('.faq-q').forEach(function(q){
   q.addEventListener('click', function(){
     const item = this.closest('.faq-item');
@@ -1997,18 +2106,177 @@ document.querySelectorAll('.faq-cat').forEach(function(cat){
 });
 
 /* ============================================================
+   FIREBASE MODULAR SDK (v12.19.0) — Firestore only, no Storage
+   ============================================================ */
+let fbDb = null, FB = null;
+const firebaseReady = (async function initFirebase(){
+  if (!IS_FIREBASE_CONFIGURED) return null;
+  try {
+    const [appMod, fsMod] = await Promise.all([
+      import('https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js'),
+      import('https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js')
+    ]);
+    const app = appMod.initializeApp(FIREBASE_CONFIG);
+    fbDb = fsMod.getFirestore(app);
+    FB = {
+      doc: fsMod.doc, collection: fsMod.collection,
+      getDoc: fsMod.getDoc, setDoc: fsMod.setDoc,
+      runTransaction: fsMod.runTransaction, serverTimestamp: fsMod.serverTimestamp
+    };
+    console.log('[Nolan] Firebase Firestore ready');
+    return FB;
+  } catch(e) {
+    console.error('[Nolan] Firebase init error:', e);
+    return null;
+  }
+})();
+(function initEmailJS(){
+  if (!IS_EMAILJS_CONFIGURED) return;
+  if (typeof emailjs === 'undefined') return;
+  try { emailjs.init({ publicKey: EMAILJS_CONFIG.publicKey }); } catch(e) {}
+})();
+
+/* ============================================================
+   CLOUDINARY UPLOAD (unsigned)
+   ============================================================ */
+async function uploadToCloudinary(file, folder){
+  if (!IS_CLOUDINARY_CONFIGURED) return null;
+  const url = 'https://api.cloudinary.com/v1_1/' + CLOUDINARY_CONFIG.cloudName + '/auto/upload';
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+  if (folder) fd.append('folder', folder);
+  const res = await fetch(url, { method: 'POST', body: fd });
+  if (!res.ok) throw new Error('Cloudinary upload failed: ' + res.status);
+  const data = await res.json();
+  return data.secure_url || null;
+}
+
+/* ============================================================
+   TURNSTILE CALLBACKS
+   ============================================================ */
+window.__turnstileToken = null;
+window.onTurnstileSuccess = function(token){ window.__turnstileToken = token; };
+window.onTurnstileExpired = function(){ window.__turnstileToken = null; };
+window.onTurnstileError = function(){ window.__turnstileToken = null; };
+setTimeout(function(){
+  const widget = document.getElementById('turnstileWidget');
+  const fallback = document.getElementById('turnstileFallback');
+  if (!IS_TURNSTILE_CONFIGURED) {
+    if (fallback) fallback.classList.add('show');
+    if (widget) widget.style.display = 'none';
+  }
+}, 4000);
+
+/* ============================================================
+   AMOUNT-IN-WORDS
+   ============================================================ */
+function numberToWords(num){
+  const ones = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  const tens = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  if(num === 0) return 'Zero';
+  function chunk(n){
+    if(n < 20) return ones[n];
+    if(n < 100) return tens[Math.floor(n/10)] + (n%10 ? ' ' + ones[n%10] : '');
+    if(n < 1000) return ones[Math.floor(n/100)] + ' Hundred' + (n%100 ? ' ' + chunk(n%100) : '');
+    if(n < 1000000) return chunk(Math.floor(n/1000)) + ' Thousand' + (n%1000 ? ' ' + chunk(n%1000) : '');
+    return chunk(Math.floor(n/1000000)) + ' Million' + (n%1000000 ? ' ' + chunk(n%1000000) : '');
+  }
+  return chunk(num);
+}
+function amountInWords(amountStr, currency){
+  const num = parseFloat(String(amountStr).replace(/[^\d.]/g, '')) || 0;
+  const words = numberToWords(Math.round(num));
+  if (currency === 'USD') return 'US Dollars ' + words + ' Only';
+  return words + ' Kwacha Only';
+}
+
+/* ============================================================
+   SEQUENTIAL RECEIPT NUMBER (Firestore counter — modular SDK)
+   ============================================================ */
+async function generateReceiptNumber(){
+  const year = new Date().getFullYear();
+  const fb = await firebaseReady;
+  if (fb) {
+    try {
+      const counterRef = FB.doc(fbDb, 'counters', 'receipts_' + year);
+      const result = await FB.runTransaction(fbDb, async (tx) => {
+        const snap = await tx.get(counterRef);
+        const next = (snap.exists() && snap.data().value ? snap.data().value : 0) + 1;
+        tx.set(counterRef, { value: next, updatedAt: FB.serverTimestamp() }, { merge: true });
+        return next;
+      });
+      return 'NOL-' + year + '-' + String(result).padStart(6, '0');
+    } catch(e) { console.warn('[Nolan] Receipt counter failed, using random:', e); }
+  }
+  return 'NOL-' + year + '-' + String(Math.floor(Math.random() * 900000) + 100000);
+}
+
+/* ============================================================
+   RECEIPT STATUS CHECK
+   ============================================================ */
+(function receiptStatusCheck(){
+  const params = new URLSearchParams(window.location.search);
+  const receiptParam = params.get('receipt');
+  if (!receiptParam) return;
+  const input = document.getElementById('receiptCheckInput');
+  if (input) {
+    input.value = receiptParam;
+    setTimeout(() => input.scrollIntoView({ behavior:'smooth', block:'center' }), 800);
+  }
+})();
+
+async function lookupReceiptStatus(receiptNo){
+  const resultEl = document.getElementById('receiptCheckResult');
+  if (!resultEl) return;
+  if (!receiptNo || !receiptNo.trim()) {
+    resultEl.className = 'receipt-check-result show';
+    resultEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Please enter your receipt number.';
+    return;
+  }
+  const fb = await firebaseReady;
+  if (!fb) {
+    resultEl.className = 'receipt-check-result show';
+    resultEl.innerHTML = '<i class="fas fa-info-circle"></i> Verification service is not yet online. Please contact admissions@nolaninstitute.org with your receipt number.';
+    return;
+  }
+  resultEl.className = 'receipt-check-result show';
+  resultEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking…';
+  try {
+    const snap = await FB.getDoc(FB.doc(fbDb, 'receipts', receiptNo.trim().toUpperCase()));
+    if (!snap.exists()) {
+      resultEl.innerHTML = '<i class="fas fa-times-circle"></i> Receipt not found. Check the number, or contact admissions@nolaninstitute.org.';
+      return;
+    }
+    const data = snap.data();
+    const status = (data.status || 'pending').toLowerCase();
+    const statusHtml = status === 'verified'
+      ? '<strong style="color:#155724;">VERIFIED</strong> — your payment has been confirmed.'
+      : '<strong style="color:#856404;">PENDING</strong> — awaiting verification by our admissions team.';
+    resultEl.innerHTML = '<i class="fas fa-check-circle"></i> Receipt ' + receiptNo.toUpperCase() + ': ' + statusHtml;
+  } catch(e) {
+    resultEl.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Could not check right now. Please try again later.';
+  }
+}
+const rCheckBtn = document.getElementById('receiptCheckBtn');
+const rCheckInput = document.getElementById('receiptCheckInput');
+if (rCheckBtn && rCheckInput) {
+  rCheckBtn.addEventListener('click', function(){ lookupReceiptStatus(rCheckInput.value); });
+  rCheckInput.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') { e.preventDefault(); lookupReceiptStatus(this.value); }
+  });
+}
+
+/* ============================================================
    PAYMENT METHOD DATA
    ============================================================ */
 const PAYMENT_METHODS = {
   airtel: {
-    label: 'Airtel Money',
-    brandClass: 'brand-airtel',
-    icon: 'fa-mobile-alt',
-    title: 'Airtel Money',
-    sub: 'Pay via Airtel Money in Zambian Kwacha',
-    amountZMW: 'K120',
-    amountUSD: 'K120',
+    label: 'Airtel Money', brandClass: 'brand-airtel', icon: 'fa-mobile-alt',
+    title: 'Airtel Money', sub: 'Pay via Airtel Money in Zambian Kwacha',
+    amountZMW: 'K120', amountUSD: 'K120',
     recipientAccount: '+260 975 914 001 (Airtel)',
+    ussdCode: '*115#', ussdLabel: 'Open Airtel Menu',
     rows: [
       { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true },
       { label: 'Recipient Note',  value: 'Receiving on behalf of Nolan Institute', plain: true },
@@ -2025,14 +2293,11 @@ const PAYMENT_METHODS = {
     note: 'Airtel Money is available to all applicants. The recipient number is Zambian — if you are outside Zambia, use PayPal or Crypto below instead.'
   },
   mtn: {
-    label: 'MTN MoMo',
-    brandClass: 'brand-mtn',
-    icon: 'fa-mobile-alt',
-    title: 'MTN Mobile Money (MoMo)',
-    sub: 'Pay via MTN MoMo in Zambian Kwacha',
-    amountZMW: 'K120',
-    amountUSD: 'K120',
+    label: 'MTN MoMo', brandClass: 'brand-mtn', icon: 'fa-mobile-alt',
+    title: 'MTN Mobile Money (MoMo)', sub: 'Pay via MTN MoMo in Zambian Kwacha',
+    amountZMW: 'K120', amountUSD: 'K120',
     recipientAccount: '076 852 6191 (MTN MoMo)',
+    ussdCode: '*303#', ussdLabel: 'Open MTN Menu',
     rows: [
       { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true },
       { label: 'Recipient Note',  value: 'Receiving on behalf of Nolan Institute', plain: true },
@@ -2049,13 +2314,9 @@ const PAYMENT_METHODS = {
     note: 'MTN MoMo is available to all applicants. The recipient number is Zambian — if you are outside Zambia, use PayPal or Crypto below instead.'
   },
   bank: {
-    label: 'Bank / Visa',
-    brandClass: 'brand-bank',
-    icon: 'fa-university',
-    title: 'Bank Transfer or Visa Card',
-    sub: 'Standard Chartered Bank',
-    amountZMW: 'K120',
-    amountUSD: 'US$10',
+    label: 'Bank / Visa', brandClass: 'brand-bank', icon: 'fa-university',
+    title: 'Bank Transfer or Visa Card', sub: 'Standard Chartered Bank',
+    amountZMW: 'K120', amountUSD: 'US$10',
     recipientAccount: 'Standard Chartered · 0152502166700',
     rows: [
       { label: 'Bank', value: 'Standard Chartered Bank', plain: true },
@@ -2074,14 +2335,9 @@ const PAYMENT_METHODS = {
     note: 'For Visa card payments, use your bank\'s online card-to-account service to send to the Standard Chartered account above.'
   },
   paypal: {
-    label: 'PayPal',
-    brandClass: 'brand-paypal',
-    icon: 'fa-paypal',
-    iconSet: 'fab',
-    title: 'PayPal',
-    sub: 'Send to our verified PayPal account',
-    amountZMW: 'US$10',
-    amountUSD: 'US$10',
+    label: 'PayPal', brandClass: 'brand-paypal', icon: 'fa-paypal', iconSet: 'fab',
+    title: 'PayPal', sub: 'Send to our verified PayPal account',
+    amountZMW: 'US$10', amountUSD: 'US$10',
     recipientAccount: 'lewismwaba@gmail.com (PayPal)',
     rows: [
       { label: 'Recipient Email', value: 'lewismwaba@gmail.com', copy: true, copyValue: 'lewismwaba@gmail.com' },
@@ -2099,24 +2355,19 @@ const PAYMENT_METHODS = {
     note: 'PayPal is ideal for international applicants. Please always send in USD.'
   },
   crypto: {
-    label: 'Crypto',
-    brandClass: 'brand-crypto',
-    icon: 'fa-bitcoin',
-    iconSet: 'fab',
-    title: 'Cryptocurrency',
-    sub: 'For international applicants',
-    amountZMW: 'US$10 equivalent',
-    amountUSD: 'US$10 equivalent',
-    recipientAccount: 'User ID 14XXXXXXXXXX (crypto)',
+    label: 'Crypto', brandClass: 'brand-crypto', icon: 'fa-bitcoin', iconSet: 'fab',
+    title: 'Cryptocurrency', sub: 'For international applicants',
+    amountZMW: 'US$10 equivalent', amountUSD: 'US$10 equivalent',
+    recipientAccount: 'User ID: 809423171',
     rows: [
       { label: 'Accepted Coins', value: 'BTC · ETH · USDT (TRC20 / ERC20)', plain: true },
-      { label: 'User ID / Pay ID', value: '14XXXXXXXXXX', copy: true, copyValue: '14XXXXXXXXXX' },
+      { label: 'User ID / Pay ID', value: '809423171', copy: true, copyValue: '809423171' },
       { label: 'Recipient Name', value: 'Mwaba Lewis', plain: true }
     ],
     steps: [
       'Open your crypto wallet or exchange app (Binance, Bybit, Trust Wallet, etc.)',
       'Choose the coin you wish to use — <strong>BTC, ETH, or USDT</strong>',
-      'Send the <strong>US$10 equivalent</strong> to our User ID <strong>14XXXXXXXXXX</strong>',
+      'Send the <strong>US$10 equivalent</strong> to our User ID <strong>809423171</strong>',
       'Add a note with <strong>your full name + "Nolan"</strong> if your wallet allows',
       'Save the transaction hash (TxID) from your wallet',
       'Return here and paste the TxID as your reference'
@@ -2126,7 +2377,7 @@ const PAYMENT_METHODS = {
 };
 
 /* ============================================================
-   FILE UPLOAD VALIDATION
+   FILE UPLOAD VALIDATION (local only)
    ============================================================ */
 (function fileUploads(){
   const LIMITS = {
@@ -2142,9 +2393,9 @@ const PAYMENT_METHODS = {
     const msgEl = document.getElementById('applyToastMsg');
     if(!toast || !msgEl) return;
     msgEl.textContent = msg;
-    toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : '');
+    toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : type === 'info' ? ' info' : '');
     clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 4500);
+    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 5000);
   }
   document.querySelectorAll('.upload-drop').forEach(function(drop){
     const inputId = drop.dataset.uploadFor;
@@ -2177,7 +2428,7 @@ const PAYMENT_METHODS = {
     function validate(f){
       if(!f) return true;
       if(f.size === 0){ showToast('That file appears to be empty. Please choose a different file.', 'error'); return false; }
-      if(f.size > limits.max){ showToast(limits.label + ' is too large (' + fmtSize(f.size) + '). Maximum is ' + fmtSize(limits.max) + '. Please compress it, or email it to admissions@nolaninstitute.org.', 'error'); return false; }
+      if(f.size > limits.max){ showToast(limits.label + ' is too large (' + fmtSize(f.size) + '). Maximum is ' + fmtSize(limits.max) + '.', 'error'); return false; }
       const ext = getExt(f.name);
       const allowedByExt = limits.exts.length && limits.exts.includes(ext);
       const allowedByMime = limits.mimes.length && f.type && limits.mimes.includes(f.type);
@@ -2203,6 +2454,11 @@ const PAYMENT_METHODS = {
     });
     if(removeBtn){ removeBtn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); input.value = ''; render(); }); }
   });
+  // Show Cloudinary-related notice if not configured
+  if (!IS_CLOUDINARY_CONFIGURED) {
+    const note = document.getElementById('documentUploadNote');
+    if (note) note.style.display = 'flex';
+  }
 })();
 
 /* ============================================================
@@ -2223,6 +2479,7 @@ const PAYMENT_METHODS = {
     senderContact: null,
     whatsappUrl: null,
     receiptDate: null,
+    applicantTimezone: null,
     scholarshipInterest: null,
     financialNeed: null,
     leadership: null
@@ -2233,6 +2490,7 @@ const PAYMENT_METHODS = {
   const submitBtn = document.getElementById('apSubmit');
   const toast = document.getElementById('applyToast');
   const toastMsg = document.getElementById('applyToastMsg');
+  const draftBanner = document.getElementById('draftBanner');
 
   const countrySelect = document.getElementById('apCountry');
   const payAmountEl = document.getElementById('apPayAmount');
@@ -2245,10 +2503,11 @@ const PAYMENT_METHODS = {
 
   function isZambian(){ return (countrySelect.value || '').trim() === 'Zambia'; }
   function getFeeAmount(){ return isZambian() ? 'K120' : 'US$10'; }
+  function getFeeCurrency(){ return isZambian() ? 'ZMW' : 'USD'; }
   function getFeeContext(){
     return isZambian()
-      ? 'For Zambian applicants. Non-refundable application fee.'
-      : 'For international applicants. Non-refundable application fee.';
+      ? 'For applicants resident in Zambia. Non-refundable application fee.'
+      : 'For applicants outside Zambia. Non-refundable application fee.';
   }
   function getMethodLabel(v){
     return { airtel:'Airtel Money', mtn:'MTN MoMo', bank:'Bank / Visa', paypal:'PayPal', crypto:'Crypto' }[v] || '—';
@@ -2256,9 +2515,9 @@ const PAYMENT_METHODS = {
 
   function showToast(msg, type){
     toastMsg.textContent = msg;
-    toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : '');
+    toast.className = 'apply-toast show' + (type === 'error' ? ' error' : type === 'success' ? ' success' : type === 'info' ? ' info' : '');
     clearTimeout(showToast._t);
-    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 4200);
+    showToast._t = setTimeout(() => { toast.className = 'apply-toast'; }, 5000);
   }
 
   function copyText(text, btn){
@@ -2281,6 +2540,92 @@ const PAYMENT_METHODS = {
     try { document.execCommand('copy'); done(); } catch(e) {}
     document.body.removeChild(ta);
   }
+
+  function setInlineError(fieldId, show){
+    const input = document.getElementById(fieldId);
+    const group = document.querySelector('.apply-form-group[data-field="' + fieldId + '"]');
+    const errEl = document.querySelector('.inline-error[data-error-for="' + fieldId + '"]');
+    if(show){
+      if(input) input.classList.add('err');
+      if(group) group.classList.add('has-error');
+      if(errEl) errEl.classList.add('show');
+    } else {
+      if(input) input.classList.remove('err');
+      if(group) group.classList.remove('has-error');
+      if(errEl) errEl.classList.remove('show');
+    }
+  }
+  function clearAllInlineErrors(){
+    document.querySelectorAll('.apply-form-group.has-error').forEach(g => g.classList.remove('has-error'));
+    document.querySelectorAll('.inline-error.show').forEach(e => e.classList.remove('show'));
+    document.querySelectorAll('.apply-form-group input.err, .apply-form-group select.err, .apply-form-group textarea.err').forEach(el => el.classList.remove('err'));
+  }
+
+  /* ---------- Draft autosave ---------- */
+  function collectFormState(){
+    const fields = {};
+    ['apFirstName','apLastName','apEmail','apPhone','apDob','apCountry','apAddress',
+     'apSchool','apDegree','apField','apYear','apGpa','apCoursework',
+     'apEssay1','apEssay2'].forEach(function(id){
+      const el = document.getElementById(id);
+      if(el) fields[id] = el.value;
+    });
+    return {
+      fields: fields,
+      radio: { scholarshipInterest: state.scholarshipInterest, financialNeed: state.financialNeed, leadership: state.leadership },
+      current: current,
+      savedAt: Date.now()
+    };
+  }
+  function saveDraft(){
+    try { localStorage.setItem(DRAFT_KEY, JSON.stringify(collectFormState())); } catch(e) {}
+  }
+  function clearDraft(){ try { localStorage.removeItem(DRAFT_KEY); } catch(e) {} }
+  function restoreDraft(){
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if(!raw) return null;
+      const data = JSON.parse(raw);
+      if (data.savedAt && (Date.now() - data.savedAt) > 1000 * 60 * 60 * 24 * 30) { clearDraft(); return null; }
+      return data;
+    } catch(e) { return null; }
+  }
+  function applyDraft(data){
+    if(!data) return;
+    if(data.fields){
+      Object.keys(data.fields).forEach(function(id){
+        const el = document.getElementById(id);
+        if(el) el.value = data.fields[id];
+      });
+    }
+    if(data.radio){
+      if(data.radio.scholarshipInterest){ state.scholarshipInterest = data.radio.scholarshipInterest; markRadioSelected('apScholarshipInterest', data.radio.scholarshipInterest); }
+      if(data.radio.financialNeed){ state.financialNeed = data.radio.financialNeed; markRadioSelected('apFinancialNeed', data.radio.financialNeed); }
+      if(data.radio.leadership){ state.leadership = data.radio.leadership; markRadioSelected('apLeadership', data.radio.leadership); }
+    }
+  }
+  function markRadioSelected(groupId, value){
+    const group = document.getElementById(groupId);
+    if(!group) return;
+    group.querySelectorAll('.apply-radio').forEach(function(r){
+      const sel = r.dataset.value === value;
+      r.classList.toggle('selected', sel);
+      r.setAttribute('aria-checked', sel ? 'true' : 'false');
+    });
+  }
+  function checkDraftOnLoad(){
+    const draft = restoreDraft();
+    if(draft && draftBanner) draftBanner.classList.add('show');
+  }
+  let saveTimer = null;
+  document.getElementById('applyForm').addEventListener('input', function(){ clearTimeout(saveTimer); saveTimer = setTimeout(saveDraft, 2000); });
+  document.getElementById('applyForm').addEventListener('change', function(){ clearTimeout(saveTimer); saveTimer = setTimeout(saveDraft, 800); });
+  document.getElementById('draftKeep').addEventListener('click', function(){
+    applyDraft(restoreDraft()); draftBanner.classList.remove('show'); showToast('Draft restored. Continue where you left off.', 'info');
+  });
+  document.getElementById('draftDiscard').addEventListener('click', function(){
+    clearDraft(); draftBanner.classList.remove('show'); showToast('Draft discarded. You can start fresh.', 'info');
+  });
 
   /* ---------- Render method details ---------- */
   function renderPaymentDetails(){
@@ -2307,6 +2652,12 @@ const PAYMENT_METHODS = {
     let stepsHtml = '';
     m.steps.forEach(function(s){ stepsHtml += `<li>${s}</li>`; });
 
+    let ussdHtml = '';
+    if (m.ussdCode) {
+      const cls = state.paymentMethod === 'airtel' ? 'ussd-airtel' : (state.paymentMethod === 'mtn' ? 'ussd-mtn' : '');
+      ussdHtml = `<div class="ussd-links"><a class="ussd-link ${cls}" href="tel:${encodeURIComponent(m.ussdCode)}"><i class="fas fa-mobile-alt"></i> ${m.ussdLabel} (${m.ussdCode})</a></div>`;
+    }
+
     payDetails.innerHTML = `
       <div class="pay-details-panel ${m.brandClass}">
         <div class="pdp-header">
@@ -2321,7 +2672,8 @@ const PAYMENT_METHODS = {
             <div class="pab-l">Amount to Send</div>
             <div class="pab-v">${amount}</div>
           </div>
-          <div class="pdp-rows">${rowsHtml}</div>
+          ${ussdHtml}
+          <div class="pdp-rows" style="margin-top:14px;">${rowsHtml}</div>
           <div class="pdp-steps">
             <div class="pds-title"><i class="fas fa-list-ol"></i> How to Pay — Step by Step</div>
             <ol>${stepsHtml}</ol>
@@ -2332,24 +2684,22 @@ const PAYMENT_METHODS = {
     `;
     payDetails.style.display = 'block';
     payConfirm.style.display = 'block';
-
     payDetails.querySelectorAll('.pdr-copy').forEach(function(btn){
       btn.addEventListener('click', function(e){ e.preventDefault(); e.stopPropagation(); copyText(this.dataset.copy, this); });
     });
-
     const confirmAmount = document.getElementById('apPayConfirmAmount');
     if(confirmAmount) confirmAmount.textContent = amount;
-
     if(state.paymentStatus !== 'confirmed') paySuccess.style.display = 'none';
   }
 
   document.querySelectorAll('#apPayMethods .pay-method-card').forEach(function(card){
     card.addEventListener('click', function(){
       if(state.paymentStatus === 'confirmed') return;
-      document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => c.classList.remove('selected'));
-      this.classList.add('selected');
+      document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => { c.classList.remove('selected'); c.setAttribute('aria-checked','false'); });
+      this.classList.add('selected'); this.setAttribute('aria-checked','true');
       state.paymentMethod = this.dataset.pm;
       renderPaymentDetails();
+      trackEvent('payment_method_selected', { method: state.paymentMethod });
       setTimeout(() => {
         const panel = payDetails.querySelector('.pay-details-panel');
         if(panel) panel.scrollIntoView({ behavior:'smooth', block:'center' });
@@ -2357,20 +2707,15 @@ const PAYMENT_METHODS = {
     });
   });
 
-  /* ---------- Populate receipt ---------- */
   function populateReceipt(){
     const fn = document.getElementById('apFirstName').value.trim();
     const ln = document.getElementById('apLastName').value.trim();
     const em = document.getElementById('apEmail').value.trim();
     const m = PAYMENT_METHODS[state.paymentMethod] || {};
-    const dateStr = state.receiptDate || new Date().toLocaleString('en-GB', {
-      year:'numeric', month:'short', day:'2-digit', hour:'2-digit', minute:'2-digit'
-    });
 
     const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val || '—'; };
-
     set('nrRef', state.paymentRef);
-    set('nrDate', dateStr);
+    set('nrDate', state.receiptDate);
     set('nrSenderName', state.senderName);
     set('nrSenderContact', state.senderContact);
     set('nrAmount', state.paidAmount);
@@ -2380,49 +2725,47 @@ const PAYMENT_METHODS = {
     set('nrRecipientAccount', m.recipientAccount || '—');
     set('nrApplicant', (fn + ' ' + ln).trim());
     set('nrEmail', em);
+    const wordsEl = document.getElementById('nrAmountWords');
+    if (wordsEl) wordsEl.textContent = amountInWords(state.paidAmount, getFeeCurrency());
+    const vurl = document.getElementById('nrVerifyUrl');
+    const verifyUrl = VERIFY_BASE_URL + '/' + (state.paymentRef || '');
+    if (vurl) vurl.textContent = verifyUrl;
+    const canvas = document.getElementById('nrQrCanvas');
+    if (canvas && typeof QRCode !== 'undefined') {
+      QRCode.toCanvas(canvas, verifyUrl, { width: 184, margin: 1, color: { dark: '#0A1C3A', light: '#FFFFFF' } }, function(err){ if (err) console.warn('QR failed', err); });
+    }
   }
 
-  /* ---------- Build WhatsApp message ---------- */
   function buildWhatsappMessage(){
-    const dateStr = state.receiptDate || new Date().toLocaleString('en-GB', {
-      year:'numeric', month:'short', day:'2-digit', hour:'2-digit', minute:'2-digit'
-    });
     const fn = document.getElementById('apFirstName').value.trim();
     const ln = document.getElementById('apLastName').value.trim();
     const em = document.getElementById('apEmail').value.trim();
     const ph = document.getElementById('apPhone').value.trim();
     const country = document.getElementById('apCountry').value;
-
     const lines = [
-      '*NOLAN INSTITUTE — PAYMENT PROOF*',
-      '',
+      '*NOLAN INSTITUTE — PAYMENT PROOF*', '',
       '*Receipt No:* ' + state.paymentRef,
-      '*Date & Time:* ' + dateStr,
-      '',
-      '*APPLICANT*',
+      '*Date & Time:* ' + state.receiptDate + (state.applicantTimezone ? ' (' + state.applicantTimezone + ')' : ''),
+      '', '*APPLICANT*',
       'Name: ' + fn + ' ' + ln,
       'Email: ' + em,
       'Phone: ' + ph,
       'Country: ' + country,
-      '',
-      '*PROGRAMME*',
+      '', '*PROGRAMME*',
       'Bachelor of Global Business & Technology',
       'Founding Cohort 2026',
-      '',
-      '*PAYMENT DETAILS*',
+      '', '*PAYMENT DETAILS*',
       'Method: ' + getMethodLabel(state.paymentMethod),
       'Amount: ' + state.paidAmount,
       'Sender Name: ' + state.senderName,
       'Sender Contact: ' + state.senderContact,
       'Transaction ID / Ref: ' + (state.userRef || '(not provided)'),
-      '',
-      '_Please verify this payment against our records and confirm receipt. A receipt has been auto-generated for the applicant._'
+      '', '_Please verify this payment against our records and confirm receipt. A receipt has been auto-generated for the applicant._'
     ];
     return lines.join('\n');
   }
 
-  /* ---------- Confirm payment ---------- */
-  function confirmPayment(){
+  async function confirmPayment(){
     if(state.paymentStatus === 'confirmed') return;
     if(!state.paymentMethod){ showToast('Please select a payment method first.', 'error'); return; }
 
@@ -2432,15 +2775,12 @@ const PAYMENT_METHODS = {
     const ref = refInput.value.trim();
     const agree = document.getElementById('apPayConfirmed');
 
-    if(!name){ document.getElementById('apPaySenderName').classList.add('err'); showToast('Please enter the name on the payment.', 'error'); return; }
-    document.getElementById('apPaySenderName').classList.remove('err');
-
-    if(!contact){ document.getElementById('apPaySenderContact').classList.add('err'); showToast('Please enter the phone or email used to pay.', 'error'); return; }
-    document.getElementById('apPaySenderContact').classList.remove('err');
-
-    if(!ref){ refInput.classList.add('err'); showToast('Please enter your transaction reference. This is required for verification.', 'error'); return; }
-    refInput.classList.remove('err');
-
+    clearAllInlineErrors();
+    let ok = true;
+    if(!name){ setInlineError('apPaySenderName', true); ok = false; }
+    if(!contact){ setInlineError('apPaySenderContact', true); ok = false; }
+    if(!ref){ setInlineError('apPayRef', true); ok = false; }
+    if(!ok){ showToast('Please complete the required fields highlighted above.', 'error'); return; }
     if(!agree.checked){ showToast('Please tick the confirmation checkbox.', 'error'); return; }
 
     state.paymentStatus = 'confirmed';
@@ -2448,35 +2788,51 @@ const PAYMENT_METHODS = {
     state.senderContact = contact;
     state.userRef = ref;
     state.paidAmount = getFeeAmount();
-    state.paymentRef = 'NOL-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    state.receiptDate = new Date().toLocaleString('en-GB', {
-      year:'numeric', month:'short', day:'2-digit', hour:'2-digit', minute:'2-digit'
-    });
+    try { state.paymentRef = await generateReceiptNumber(); }
+    catch(e) { state.paymentRef = 'NOL-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900000)+100000); }
+    const now = new Date();
+    try { state.applicantTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone || null; } catch(e){ state.applicantTimezone = null; }
+    state.receiptDate = now.toLocaleString('en-GB', { year:'numeric', month:'short', day:'2-digit', hour:'2-digit', minute:'2-digit' });
 
     document.getElementById('apPaymentRef').textContent = state.paymentRef;
-
-    // Populate receipt
     populateReceipt();
 
-    // Build WhatsApp URL
     const msg = buildWhatsappMessage();
     const waUrl = 'https://wa.me/' + ADMIN_WHATSAPP + '?text=' + encodeURIComponent(msg);
     state.whatsappUrl = waUrl;
     whatsappBtn.href = waUrl;
 
-    // Switch views
+    const fb = await firebaseReady;
+    if (fb) {
+      try {
+        await FB.setDoc(FB.doc(fbDb, 'receipts', state.paymentRef), {
+          receiptNo: state.paymentRef,
+          applicantName: document.getElementById('apFirstName').value.trim() + ' ' + document.getElementById('apLastName').value.trim(),
+          applicantEmail: document.getElementById('apEmail').value.trim(),
+          applicantPhone: document.getElementById('apPhone').value.trim(),
+          applicantCountry: document.getElementById('apCountry').value,
+          method: state.paymentMethod,
+          amount: state.paidAmount,
+          currency: getFeeCurrency(),
+          senderName: state.senderName,
+          senderContact: state.senderContact,
+          transactionRef: state.userRef,
+          status: 'pending',
+          applicantTimezone: state.applicantTimezone,
+          createdAt: FB.serverTimestamp()
+        }, { merge: true });
+      } catch(e) { console.warn('[Nolan] Could not save receipt to Firestore:', e); }
+    }
+
     payDetails.style.display = 'none';
     payConfirm.style.display = 'none';
     paySuccess.style.display = 'block';
-
-    document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => {
-      c.style.opacity = '0.55';
-      c.style.pointerEvents = 'none';
-    });
+    document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => { c.style.opacity = '0.55'; c.style.pointerEvents = 'none'; });
 
     showToast('Payment recorded. Receipt generated.', 'success');
+    trackEvent('payment_confirmed', { method: state.paymentMethod, amount: state.paidAmount });
+    saveDraft();
 
-    // Auto-open WhatsApp
     setTimeout(() => {
       try { window.open(waUrl, '_blank'); } catch(err) {}
       if(whatsappSent) whatsappSent.classList.add('show');
@@ -2484,11 +2840,8 @@ const PAYMENT_METHODS = {
     }, 350);
   }
   document.getElementById('apPaySubmit').addEventListener('click', confirmPayment);
-
-  // Remember when the applicant tapped the WhatsApp button
   whatsappBtn.addEventListener('click', function(){ if(whatsappSent) whatsappSent.classList.add('show'); });
 
-  /* ---------- Download receipt as PDF ---------- */
   async function downloadReceiptPDF(){
     const el = document.getElementById('apReceipt');
     const btn = document.getElementById('apDownloadReceiptBtn');
@@ -2501,12 +2854,7 @@ const PAYMENT_METHODS = {
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
     try {
-      const canvas = await html2canvas(el, {
-        scale: 2,
-        backgroundColor: '#ffffff',
-        useCORS: true,
-        logging: false
-      });
+      const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false });
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ unit:'mm', format:'a4', orientation:'portrait' });
@@ -2514,19 +2862,15 @@ const PAYMENT_METHODS = {
       const pdfH = pdf.internal.pageSize.getHeight();
       const margin = 10;
       const usableW = pdfW - margin * 2;
-      const imgW = canvas.width;
-      const imgH = canvas.height;
-      const ratio = imgH / imgW;
+      const ratio = canvas.height / canvas.width;
       let dispW = usableW;
       let dispH = dispW * ratio;
-      if(dispH > pdfH - margin * 2){
-        dispH = pdfH - margin * 2;
-        dispW = dispH / ratio;
-      }
+      if(dispH > pdfH - margin * 2){ dispH = pdfH - margin * 2; dispW = dispH / ratio; }
       const xOffset = (pdfW - dispW) / 2;
       pdf.addImage(imgData, 'PNG', xOffset, margin, dispW, dispH);
       pdf.save('Nolan-Receipt-' + (state.paymentRef || 'application') + '.pdf');
       showToast('Receipt downloaded as PDF.', 'success');
+      trackEvent('receipt_downloaded', { format: 'pdf' });
     } catch(err){
       console.error(err);
       showToast('Could not generate PDF. Please try the Print option instead.', 'error');
@@ -2537,17 +2881,16 @@ const PAYMENT_METHODS = {
   }
   document.getElementById('apDownloadReceiptBtn').addEventListener('click', downloadReceiptPDF);
 
-  /* ---------- Print receipt ---------- */
   function printReceipt(){
     document.body.classList.add('print-receipt-mode');
     setTimeout(() => {
       window.print();
       setTimeout(() => document.body.classList.remove('print-receipt-mode'), 200);
     }, 100);
+    trackEvent('receipt_downloaded', { format: 'print' });
   }
   document.getElementById('apPrintReceiptBtn').addEventListener('click', printReceipt);
 
-  /* ---------- Reset ---------- */
   document.getElementById('apPayReset').addEventListener('click', function(){
     state.paymentStatus = 'pending';
     state.paymentMethod = null;
@@ -2558,24 +2901,21 @@ const PAYMENT_METHODS = {
     state.senderContact = null;
     state.whatsappUrl = null;
     state.receiptDate = null;
-
     document.querySelectorAll('#apPayMethods .pay-method-card').forEach(c => {
-      c.classList.remove('selected'); c.style.opacity = ''; c.style.pointerEvents = '';
+      c.classList.remove('selected'); c.style.opacity = ''; c.style.pointerEvents = ''; c.setAttribute('aria-checked','false');
     });
     document.getElementById('apPaySenderName').value = '';
     document.getElementById('apPaySenderContact').value = '';
     document.getElementById('apPayRef').value = '';
     document.getElementById('apPayConfirmed').checked = false;
-
     if(whatsappSent) whatsappSent.classList.remove('show');
     paySuccess.style.display = 'none';
     payDetails.style.display = 'none';
     payConfirm.style.display = 'none';
-
+    clearAllInlineErrors();
     showToast('You can now choose a different payment method.', 'success');
   });
 
-  /* ---------- Country change ---------- */
   if(countrySelect){
     countrySelect.addEventListener('change', function(){
       payAmountEl.textContent = getFeeAmount();
@@ -2596,7 +2936,6 @@ const PAYMENT_METHODS = {
     });
   }
 
-  /* ---------- Step navigation ---------- */
   function updateUI(scroll){
     sections.forEach((s, i) => s.classList.toggle('active', i + 1 === current));
     document.querySelectorAll('.apply-step').forEach((s, i) => {
@@ -2616,37 +2955,34 @@ const PAYMENT_METHODS = {
       const applyTop = document.getElementById('apply').offsetTop - 20;
       window.scrollTo({ top: applyTop, behavior: 'smooth' });
     }
+    trackEvent('application_step_viewed', { step: current });
   }
 
-  /* ---------- Validation ---------- */
   function validate(n){
+    clearAllInlineErrors();
     if(n === 1){
       const req = ['apFirstName','apLastName','apEmail','apPhone','apDob','apCountry'];
+      let ok = true;
       for(const id of req){
         const el = document.getElementById(id);
-        if(!el.value.trim()){ el.classList.add('err'); showToast('Please complete all required personal information.', 'error'); return false; }
-        el.classList.remove('err');
+        if(!el.value.trim()){ setInlineError(id, true); ok = false; }
       }
+      if(!ok){ showToast('Please complete the fields highlighted above.', 'error'); return false; }
       const email = document.getElementById('apEmail').value.trim();
       if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
-        document.getElementById('apEmail').classList.add('err');
+        setInlineError('apEmail', true);
         showToast('Please enter a valid email address.', 'error');
         return false;
       }
     }
     if(n === 2){
-      if(state.paymentStatus !== 'confirmed'){
-        showToast('Please complete the application fee payment and confirm it via WhatsApp before continuing.', 'error');
-        return false;
-      }
+      if(state.paymentStatus !== 'confirmed'){ showToast('Please complete the application fee payment and confirm it via WhatsApp before continuing.', 'error'); return false; }
     }
     if(n === 3){
       const req = ['apSchool','apDegree','apYear'];
-      for(const id of req){
-        const el = document.getElementById(id);
-        if(!el.value.trim()){ el.classList.add('err'); showToast('Please complete the academic background section.', 'error'); return false; }
-        el.classList.remove('err');
-      }
+      let ok = true;
+      for(const id of req){ const el = document.getElementById(id); if(!el.value.trim()){ setInlineError(id, true); ok = false; } }
+      if(!ok){ showToast('Please complete the fields highlighted above.', 'error'); return false; }
     }
     if(n === 4){
       if(!state.scholarshipInterest){ showToast('Please indicate whether you\'d like scholarship consideration.', 'error'); return false; }
@@ -2656,21 +2992,22 @@ const PAYMENT_METHODS = {
     if(n === 5){
       const e1 = document.getElementById('apEssay1').value.trim();
       const e2 = document.getElementById('apEssay2').value.trim();
-      if(e1.split(/\s+/).filter(Boolean).length < 150){ document.getElementById('apEssay1').classList.add('err'); showToast('Essay 1 should be at least 150 words.', 'error'); return false; }
-      document.getElementById('apEssay1').classList.remove('err');
-      if(e2.split(/\s+/).filter(Boolean).length < 150){ document.getElementById('apEssay2').classList.add('err'); showToast('Essay 2 should be at least 150 words.', 'error'); return false; }
-      document.getElementById('apEssay2').classList.remove('err');
+      if(e1.split(/\s+/).filter(Boolean).length < 150){ setInlineError('apEssay1', true); showToast('Essay 1 should be at least 150 words.', 'error'); return false; }
+      if(e2.split(/\s+/).filter(Boolean).length < 150){ setInlineError('apEssay2', true); showToast('Essay 2 should be at least 150 words.', 'error'); return false; }
     }
     if(n === 6){
       const r = document.getElementById('apResume');
       const t = document.getElementById('apTranscript');
-      if(!r.files.length){ showToast('Please upload your CV.', 'error'); return false; }
-      if(!t.files.length){ showToast('Please upload your academic record.', 'error'); return false; }
+      // If Cloudinary configured, files must be attached. Otherwise, files optional (email path)
+      if(IS_CLOUDINARY_CONFIGURED){
+        if(!r.files.length){ showToast('Please upload your CV.', 'error'); return false; }
+        if(!t.files.length){ showToast('Please upload your academic record.', 'error'); return false; }
+      }
+      // If not configured, allow proceeding even without files — applicant will email
     }
     return true;
   }
 
-  /* ---------- Review render ---------- */
   function renderReview(){
     const fn = document.getElementById('apFirstName').value;
     const ln = document.getElementById('apLastName').value;
@@ -2683,7 +3020,6 @@ const PAYMENT_METHODS = {
 
     const leadershipLabel = { none:'None yet', some:'Led a team or project', strong:'Built a business, initiative or venture', exceptional:'Founded or co-founded a notable venture' }[state.leadership] || '—';
     const needLabel = { low:'I can pay full tuition (K120,000)', medium:'I need partial support', high:'Without scholarship, it would be difficult', critical:'Without near-full scholarship, I cannot attend' }[state.financialNeed] || '—';
-
     const resumeName = (document.getElementById('apResume').files[0] || {}).name || '—';
     const transName = (document.getElementById('apTranscript').files[0] || {}).name || '—';
 
@@ -2732,6 +3068,7 @@ const PAYMENT_METHODS = {
         <h4><i class="fas fa-paperclip"></i> Documents</h4>
         <div class="apply-review-item"><span class="arl">Resume / CV:</span><span class="arv">${resumeName}</span></div>
         <div class="apply-review-item"><span class="arl">Academic Record:</span><span class="arv">${transName}</span></div>
+        ${!IS_CLOUDINARY_CONFIGURED ? '<div class="apply-review-item"><span class="arl">Note:</span><span class="arv">Send your documents to admissions@nolaninstitute.org after submitting.</span></div>' : ''}
       </div>
       <div class="apply-review">
         <h4><i class="fas fa-percent"></i> Scholarship Assessment</h4>
@@ -2744,7 +3081,7 @@ const PAYMENT_METHODS = {
 
   nextBtn.addEventListener('click', function(){
     if(!validate(current)) return;
-    if(current < totalSections){ current++; updateUI(true); }
+    if(current < totalSections){ current++; updateUI(true); saveDraft(); }
   });
   prevBtn.addEventListener('click', function(){ if(current > 1){ current--; updateUI(true); } });
 
@@ -2756,12 +3093,27 @@ const PAYMENT_METHODS = {
         for(let i = current; i < target; i++){ if(!validate(i)) return; }
         current = target;
         updateUI(true);
+        saveDraft();
       }
     });
   });
 
-  document.getElementById('applyForm').addEventListener('submit', function(e){
-    e.preventDefault();
+  document.querySelectorAll('.apply-radio-grid').forEach(function(group){
+    group.querySelectorAll('.apply-radio').forEach(function(radio){
+      radio.addEventListener('click', function(){
+        group.querySelectorAll('.apply-radio').forEach(r => { r.classList.remove('selected'); r.setAttribute('aria-checked','false'); });
+        this.classList.add('selected'); this.setAttribute('aria-checked','true');
+        const groupId = group.id;
+        const value = this.dataset.value;
+        if(groupId === 'apScholarshipInterest') state.scholarshipInterest = value;
+        if(groupId === 'apFinancialNeed') state.financialNeed = value;
+        if(groupId === 'apLeadership') state.leadership = value;
+        saveDraft();
+      });
+    });
+  });
+
+  async function submitApplication(){
     if(state.paymentStatus !== 'confirmed'){
       showToast('Your application fee must be confirmed before submitting.', 'error');
       current = 2; updateUI(true);
@@ -2771,21 +3123,135 @@ const PAYMENT_METHODS = {
       showToast('Please agree to the terms before submitting.', 'error');
       return;
     }
+    if (IS_TURNSTILE_CONFIGURED && !window.__turnstileToken) {
+      showToast('Please complete the spam protection check above.', 'error');
+      return;
+    }
+
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-    setTimeout(function(){
-      showToast('Application submitted successfully. Check your email for confirmation.', 'success');
-      setTimeout(function(){ window.location.href = 'index.html'; }, 2500);
-    }, 1600);
-  });
 
-  /* Initial render */
+    const applicationId = 'APP-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*900000)+100000);
+    const files = [];
+    ['apResume','apTranscript','apScholarshipDoc'].forEach(function(id){
+      const f = document.getElementById(id).files[0];
+      if (f) files.push({ id: id, name: f.name, size: f.size, type: f.type, url: null });
+    });
+
+    const payload = {
+      applicationId: applicationId,
+      receiptNo: state.paymentRef,
+      submittedAt: new Date().toISOString(),
+      personal: {
+        firstName: document.getElementById('apFirstName').value.trim(),
+        lastName: document.getElementById('apLastName').value.trim(),
+        email: document.getElementById('apEmail').value.trim(),
+        phone: document.getElementById('apPhone').value.trim(),
+        dob: document.getElementById('apDob').value,
+        country: document.getElementById('apCountry').value,
+        address: document.getElementById('apAddress').value.trim()
+      },
+      payment: {
+        status: 'confirmed',
+        method: state.paymentMethod,
+        amount: state.paidAmount,
+        currency: getFeeCurrency(),
+        senderName: state.senderName,
+        senderContact: state.senderContact,
+        transactionRef: state.userRef,
+        receiptNo: state.paymentRef
+      },
+      academic: {
+        school: document.getElementById('apSchool').value.trim(),
+        degree: document.getElementById('apDegree').value,
+        field: document.getElementById('apField').value.trim(),
+        year: document.getElementById('apYear').value,
+        gpa: document.getElementById('apGpa').value.trim(),
+        coursework: document.getElementById('apCoursework').value.trim()
+      },
+      scholarship: {
+        interest: state.scholarshipInterest,
+        need: state.financialNeed,
+        leadership: state.leadership
+      },
+      essays: {
+        essay1: document.getElementById('apEssay1').value.trim(),
+        essay2: document.getElementById('apEssay2').value.trim()
+      },
+      files: files,
+      filesUploaded: false,
+      marketingOptIn: document.getElementById('apAgreeUpdates').checked
+    };
+
+    let savedToBackend = false;
+    const fb = await firebaseReady;
+    if (fb) {
+      try {
+        // Upload files to Cloudinary if configured
+        if (IS_CLOUDINARY_CONFIGURED && files.length) {
+          for (const f of files) {
+            const fileInput = document.getElementById(f.id);
+            const file = fileInput.files[0];
+            if (!file) continue;
+            try {
+              const url = await uploadToCloudinary(file, 'nolan-applications/' + applicationId);
+              if (url) f.url = url;
+            } catch(err) { console.warn('[Nolan] Cloudinary upload failed for ' + f.id + ':', err); }
+          }
+          payload.filesUploaded = files.every(f => f.url);
+        }
+        await FB.setDoc(FB.doc(fbDb, 'applications', applicationId), {
+          ...payload,
+          turnstileToken: window.__turnstileToken || null,
+          userAgent: navigator.userAgent
+        });
+        savedToBackend = true;
+      } catch(e) { console.warn('[Nolan] Firestore save failed:', e); }
+    }
+
+    if (IS_EMAILJS_CONFIGURED && typeof emailjs !== 'undefined') {
+      try {
+        await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, {
+          to_name: payload.personal.firstName + ' ' + payload.personal.lastName,
+          to_email: payload.personal.email,
+          application_id: applicationId,
+          receipt_no: state.paymentRef,
+          amount: state.paidAmount,
+          method: getMethodLabel(state.paymentMethod),
+          programme: 'Bachelor of Global Business & Technology'
+        });
+      } catch(e) { console.warn('[Nolan] Email send failed:', e); }
+    }
+
+    setTimeout(function(){
+      document.getElementById('applySuccessRef').textContent = applicationId;
+      // If Cloudinary not configured or files weren't uploaded, show reminder
+      if (!IS_CLOUDINARY_CONFIGURED || !payload.filesUploaded) {
+        const note = document.getElementById('applySuccessDocsNote');
+        if (note) note.style.display = 'block';
+      }
+      document.getElementById('applySuccess').classList.add('show');
+      document.getElementById('applyNav').style.display = 'none';
+      sections.forEach(s => s.classList.remove('active'));
+      clearDraft();
+      trackEvent('application_submitted', { saved_to_backend: savedToBackend, country: payload.personal.country, method: state.paymentMethod, files_uploaded: payload.filesUploaded });
+      showToast('Application submitted. Confirmation sent to your email.', 'success');
+      document.getElementById('applySuccess').scrollIntoView({ behavior:'smooth', block:'center' });
+    }, 600);
+  }
+  submitBtn.addEventListener('click', submitApplication);
+  document.getElementById('applyForm').addEventListener('submit', function(e){ e.preventDefault(); submitApplication(); });
+
   updateUI(false);
   payAmountEl.textContent = getFeeAmount();
   payContextEl.textContent = getFeeContext();
+  checkDraftOnLoad();
+  state.applicantTimezone = (function(){ try { return Intl.DateTimeFormat().resolvedOptions().timeZone || null; } catch(e){ return null; } })();
 })();
 
-/* HERO SLIDER */
+/* ============================================================
+   HERO SLIDER
+   ============================================================ */
 (function heroSlider(){
   const slides = document.querySelectorAll('#heroSlides .hero-slide');
   const dotsContainer = document.getElementById('heroSliderDots');
@@ -2817,7 +3283,7 @@ const PAYMENT_METHODS = {
   resetTimer();
 })();
 
-console.log('Nolan Institute — Bachelor of Global Business & Technology · Full flagship page loaded.');
+console.log('[Nolan] Flagship page loaded. Firebase (modular v12 + Firestore):', IS_FIREBASE_CONFIGURED ? 'configured' : 'NOT configured', '· Cloudinary:', IS_CLOUDINARY_CONFIGURED ? 'configured' : 'NOT configured (email path)', '· EmailJS:', IS_EMAILJS_CONFIGURED ? 'configured' : 'NOT configured', '· Turnstile:', IS_TURNSTILE_CONFIGURED ? 'configured' : 'NOT configured');
 </script>
 </body>
 </html>
